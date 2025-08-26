@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+/* Warna tema biru */
+:root {
+  --brand-blue: #597BF9;
+}
+
+html, body, #__nuxt {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* Mobile-first container sizing */
+.mobile-container {
+  max-width: 24rem; /* 384px */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Prevent horizontal scroll on mobile */
+body {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Custom scrollbar for mobile */
+.overflow-x-auto::-webkit-scrollbar {
+  height: 4px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: rgba(89, 123, 249, 0.3);
+  border-radius: 2px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+  background: rgba(89, 123, 249, 0.5);
+}
