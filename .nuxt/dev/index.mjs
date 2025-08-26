@@ -8,7 +8,7 @@ import { escapeHtml } from 'file:///var/www/Dispora/node_modules/@vue/shared/dis
 import { createRenderer, getRequestDependencies, getPreloadLinks, getPrefetchLinks } from 'file:///var/www/Dispora/node_modules/vue-bundle-renderer/dist/runtime.mjs';
 import { parseURL, withoutBase, joinURL, getQuery, withQuery, withTrailingSlash, decodePath, withLeadingSlash, withoutTrailingSlash, joinRelativeURL } from 'file:///var/www/Dispora/node_modules/ufo/dist/index.mjs';
 import destr, { destr as destr$1 } from 'file:///var/www/Dispora/node_modules/destr/dist/index.mjs';
-import { createHooks } from 'file:///var/www/Dispora/node_modules/hookable/dist/index.mjs';
+import { createDebugger, createHooks } from 'file:///var/www/Dispora/node_modules/hookable/dist/index.mjs';
 import { createFetch, Headers as Headers$1 } from 'file:///var/www/Dispora/node_modules/ofetch/dist/node.mjs';
 import { fetchNodeRequestHandler, callNodeRequestHandler } from 'file:///var/www/Dispora/node_modules/node-mock-http/dist/index.mjs';
 import { createStorage, prefixStorage } from 'file:///var/www/Dispora/node_modules/unstorage/dist/index.mjs';
@@ -634,6 +634,14 @@ const _inlineRuntimeConfig = {
       "/__nuxt_error": {
         "cache": false
       },
+      "/program-latihan/**": {
+        "prerender": false,
+        "ssr": true
+      },
+      "/program-latihan/*/target": {
+        "prerender": false,
+        "ssr": true
+      },
       "/_nuxt/builds/meta/**": {
         "headers": {
           "cache-control": "public, max-age=31536000, immutable"
@@ -1114,9 +1122,18 @@ function onConsoleLog(callback) {
   consola$1.wrapConsole();
 }
 
+function defineNitroPlugin(def) {
+  return def;
+}
+
+const _2MrWs9nmzXleIq_eCUvr7o9z5cdL135nZekBnTG40 = defineNitroPlugin((nitro) => {
+  createDebugger(nitro.hooks, { tag: "nitro-runtime" });
+});
+
 const plugins = [
   _EwrVEds7BDCQO2pnidww6W3GXNtMoAVwRzQoJgNyg,
-_0A070CpV6VNYCtTbUrmm75FJPRYQiXonzcOg7slScQ
+_0A070CpV6VNYCtTbUrmm75FJPRYQiXonzcOg7slScQ,
+_2MrWs9nmzXleIq_eCUvr7o9z5cdL135nZekBnTG40
 ];
 
 const assets = {};

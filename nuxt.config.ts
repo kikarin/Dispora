@@ -5,22 +5,41 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
   
+  // Debugging dan development
+  debug: process.env.NODE_ENV === 'development',
+  
   // Enable page transitions and routing
   experimental: {
     payloadExtraction: false
   },
   
-  // Ensure proper routing
+  // Ensure proper routing untuk Nuxt 4
   router: {
     options: {
-      strict: false
+      strict: false,
+      sensitive: false,
+      hashMode: false
     }
   },
+  
+  // SSR Configuration 
+  ssr: true,
   
   // Nitro configuration for better routing
   nitro: {
     experimental: {
       wasm: true
+    },
+    // Pastikan dynamic routes ter-handle dengan baik
+    routeRules: {
+      '/program-latihan/**': { 
+        prerender: false,
+        ssr: true 
+      },
+      '/program-latihan/*/target': { 
+        prerender: false,
+        ssr: true 
+      }
     }
   },
   
@@ -39,5 +58,5 @@ export default defineNuxtConfig({
     plugins: [
       tailwindcss(),
     ],
-  },
-});
+  }
+})

@@ -12,7 +12,6 @@
           </button>
           <h1 class="text-[24px] font-bold text-gray-900">Target Program ID: {{ programId }}</h1>
         </div>
-        <p class="text-sm text-gray-600">Program: {{ program.nama }}</p>
       </div>
 
       <!-- Tab Navigation -->
@@ -38,9 +37,38 @@
           {{ tabs.find((t: any) => t.id === activeTab)?.label }}
         </h3>
         
-        <div class="text-center py-8">
-          <p class="text-gray-600">Ini adalah halaman Target untuk Program ID: {{ programId }}</p>
-          <p class="text-sm text-gray-500 mt-2">Tab aktif: {{ activeTab }}</p>
+        <!-- Target Individu -->
+        <div v-if="activeTab === 'individu'" class="space-y-4">
+          <div v-for="target in targetData.targetIndividu" :key="target.id" 
+               class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+            <div class="flex items-start justify-between mb-2">
+              <h4 class="font-semibold text-gray-900">{{ target.nama }}</h4>
+              <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
+                {{ target.status }}
+              </span>
+            </div>
+            <p class="text-sm text-gray-600">{{ target.target }}</p>
+          </div>
+        </div>
+
+        <!-- Target Kelompok -->
+        <div v-else-if="activeTab === 'kelompok'" class="space-y-4">
+          <div v-for="target in targetData.targetKelompok" :key="target.id" 
+               class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+            <div class="flex items-start justify-between mb-2">
+              <h4 class="font-semibold text-gray-900">{{ target.nama }}</h4>
+              <span class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700">
+                {{ target.status }}
+              </span>
+            </div>
+            <p class="text-sm text-gray-600">{{ target.target }}</p>
+          </div>
+        </div>
+
+        <!-- Loading state -->
+        <div v-if="loading" class="text-center py-8">
+          <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#597BF9] mx-auto"></div>
+          <p class="text-gray-500 mt-2">Memuat data target...</p>
         </div>
       </div>
 
@@ -59,15 +87,28 @@ import { useRoute } from 'vue-router'
 import BottomNavigation from '~/components/BottomNavigation.vue'
 
 const route = useRoute()
-const programId = parseInt(route.params.id as string)
+
+// Validate and handle route params
+const programIdParam = route.params.id as string
+console.log('Target page - Raw route param:', programIdParam)
+
+// Simple validation without throwing error
+let programId = 1
+if (programIdParam && !isNaN(Number(programIdParam))) {
+  programId = parseInt(programIdParam)
+} else {
+  console.warn('Invalid program ID in target page, using default:', programIdParam)
+}
 
 // Tab Management
 const activeTab = ref('individu')
 const tabs = [
   { id: 'individu', label: 'Target Individu' },
   { id: 'kelompok', label: 'Target Kelompok' },
-  { id: 'latihan', label: 'Target Latihan' }
 ]
+
+// Loading state
+const loading = ref(true)
 
 // Program Data
 const program = ref({
@@ -75,8 +116,87 @@ const program = ref({
   nama: `Program Latihan ID ${programId}`
 })
 
+// Target Data Types
+interface TargetItem {
+  id: number
+  nama: string
+  target: string
+  status: string
+}
+
+interface TargetApiResponse {
+  id: number
+  programId: number
+  nama: string
+  targetIndividu: TargetItem[]
+  targetKelompok: TargetItem[]
+  success: boolean
+}
+
+// Target Data from API
+const targetData = ref<{
+  targetIndividu: TargetItem[]
+  targetKelompok: TargetItem[]
+  success: boolean
+}>({
+  targetIndividu: [],
+  targetKelompok: [],
+  success: false
+})
+
+// Fetch target data from API
+const fetchTargetData = async () => {
+  try {
+    loading.value = true
+    console.log('Fetching target data for program ID:', programId)
+    
+    const response = await $fetch<TargetApiResponse>(`/api/program-latihan/${programId}/target`)
+    
+    if (response && response.success) {
+      targetData.value = {
+        targetIndividu: response.targetIndividu,
+        targetKelompok: response.targetKelompok,
+        success: response.success
+      }
+      program.value.nama = response.nama || `Program Latihan ID ${programId}`
+      console.log('Target data loaded successfully:', response)
+    } else {
+      console.warn('Failed to load target data, using defaults')
+      // Use default data if API fails
+      targetData.value = {
+        targetIndividu: [
+          { id: 1, nama: "Peningkatan stamina", target: "30 menit lari", status: "pending" },
+          { id: 2, nama: "Kekuatan otot", target: "50 push-up", status: "pending" }
+        ],
+        targetKelompok: [
+          { id: 1, nama: "Kerjasama tim", target: "Latihan passing", status: "pending" },
+          { id: 2, nama: "Strategi bermain", target: "Taktik pertahanan", status: "pending" }
+        ],
+        success: false
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching target data:', error)
+    // Use default data on error
+    targetData.value = {
+      targetIndividu: [
+        { id: 1, nama: "Peningkatan stamina", target: "30 menit lari", status: "pending" },
+        { id: 2, nama: "Kekuatan otot", target: "50 push-up", status: "pending" }
+      ],
+      targetKelompok: [
+        { id: 1, nama: "Kerjasama tim", target: "Latihan passing", status: "pending" },
+        { id: 2, nama: "Strategi bermain", target: "Taktik pertahanan", status: "pending" }
+      ],
+      success: false
+    }
+  } finally {
+    loading.value = false
+  }
+}
+
 onMounted(() => {
   console.log('Target page loaded for Program ID:', programId)
   console.log('Route params:', route.params)
+  fetchTargetData()
 })
 </script>

@@ -98,6 +98,20 @@
           </div>
         </div>
   
+        <!-- Test Routing Link
+        <div class="mb-6">
+          <div class="rounded-2xl bg-yellow-100/80 p-4 shadow-sm backdrop-blur border border-yellow-200">
+            <h3 class="text-lg font-semibold text-yellow-800 mb-2">🧪 Test Routing System</h3>
+            <p class="text-sm text-yellow-700 mb-3">Verifikasi bahwa semua route berfungsi dengan baik</p>
+            <button 
+              @click="$router.push('/test-routing')"
+              class="bg-yellow-500 text-white py-2 px-4 rounded-xl text-sm font-medium hover:bg-yellow-600 transition-colors"
+            >
+              Buka Test Page
+            </button>
+          </div>
+        </div> -->
+
         <!-- Program Latihan Terbaru -->
         <div class="mb-8">
           <div class="mb-4 flex items-center justify-between">
