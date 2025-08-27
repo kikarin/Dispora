@@ -92,7 +92,7 @@
         "./imports"
       ],
       "#app-manifest": [
-        "./manifest/meta/dev"
+        "./manifest/meta/30e56715-570a-4a64-8b96-17fb03738550"
       ],
       "#components": [
         "./components"
@@ -164,7 +164,7 @@
     "../node_modules/dist/runtime/server",
     "../node_modules/*.*",
     "../node_modules/dist/*.*",
-    "dev",
+    "../.vercel/output",
     "../server"
   ]
 }

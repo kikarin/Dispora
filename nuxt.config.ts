@@ -10,7 +10,8 @@ export default defineNuxtConfig({
   
   // Enable page transitions and routing
   experimental: {
-    payloadExtraction: false
+    payloadExtraction: false,
+    clientNodeCompat: true
   },
   
   // Ensure proper routing untuk Nuxt 4
@@ -25,21 +26,25 @@ export default defineNuxtConfig({
   // SSR Configuration 
   ssr: true,
   
-  // Nitro configuration for better routing
+  // Nitro configuration optimized for Vercel
   nitro: {
+    preset: process.env.NODE_ENV === 'production' ? 'vercel' : 'node-server',
     experimental: {
-      wasm: true
+      wasm: false
     },
-    // Pastikan dynamic routes ter-handle dengan baik
+    // Disable ALL prerendering to avoid entities error
+    prerender: {
+      routes: []
+    },
+    // Dynamic routes configuration
     routeRules: {
       '/program-latihan/**': { 
-        prerender: false,
-        ssr: true 
-      },
-      '/program-latihan/*/target': { 
-        prerender: false,
-        ssr: true 
+        ssr: true,
+        headers: { 'cache-control': 's-maxage=60' }
       }
+    },
+    rollupConfig: {
+      external: ['detect-libc', 'entities']
     }
   },
   
@@ -58,13 +63,34 @@ export default defineNuxtConfig({
     plugins: [
       tailwindcss(),
     ],
+    build: {
+      rollupOptions: {
+        external: ['detect-libc', 'entities']
+      }
+    },
+    optimizeDeps: {
+      exclude: ['entities']
+    },
     resolve: {
       alias: {
         process: "process/browser"
       }
     },
     define: {
-      "process.env": {}
+      "process.env": {},
+      "global": "globalThis"
     }
-  }
+  },
+  
+  // Build optimizations for Vercel
+  build: {
+    transpile: process.env.NODE_ENV === 'production' ? ['vue', 'entities'] : ['entities']
+  },
+  
+  // Future compatibility
+  future: {
+    compatibilityVersion: 4
+  },
+  
+
 })
