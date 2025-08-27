@@ -188,7 +188,7 @@ const getTrendClass = (trend: string) => {
 const loadTargetInfo = () => {
   // Mock data based on targetId
   const targets = [
-    { id: 1, nama: "Peningkatan stamina", target: "30 menit lari", peserta: "Atlet" },
+    { id: 1, nama: "Peningkatan stamina", target: "12,5 detik", peserta: "Atlet" },
     { id: 2, nama: "Kekuatan otot", target: "50 push-up", peserta: "Atlet" },
     { id: 3, nama: "Analisis teknik", target: "Evaluasi video pertandingan", peserta: "Pelatih" },
     { id: 4, nama: "Persiapan alat", target: "Setup peralatan latihan", peserta: "Tenaga Pendukung" }
