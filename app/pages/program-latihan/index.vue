@@ -87,7 +87,7 @@
                 <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                <span class="text-gray-600">{{ program.periode }}</span>
+                <span class="text-gray-600">{{ formatPeriode(program.periode) }}</span>
               </div>
             </div>
 
@@ -102,12 +102,6 @@
               class="flex-1 bg-[#597BF9] text-white py-2 px-4 rounded-xl text-sm font-medium hover:bg-[#4c6ef5] transition-colors"
             >
               Lihat Detail
-            </button>
-            <button 
-              @click="viewTarget(program.id)"
-              class="flex-1 bg-white border border-[#597BF9] text-[#597BF9] py-2 px-4 rounded-xl text-sm font-medium hover:bg-[#597BF9]/5 transition-colors"
-            >
-              Target
             </button>
           </div>
         </div>
@@ -132,6 +126,50 @@ const router = useRouter()
 // Search & Filter
 const searchQuery = ref('')
 const selectedCabor = ref<string[]>([])
+
+// Helper function untuk format periode tanggal
+const formatPeriode = (periodeString: string) => {
+  try {
+    // Parse format "2025-08-01 s/d 2025-08-31"
+    const parts = periodeString.split(' s/d ')
+    if (parts.length !== 2) {
+      return periodeString // Fallback jika format tidak sesuai
+    }
+    
+    const [startDateStr = '', endDateStr = ''] = parts
+    const startDate = new Date(startDateStr)
+    const endDate = new Date(endDateStr)
+    
+    const monthNames = [
+      'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+      'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    ]
+    
+    const startDay = startDate.getDate()
+    const startMonth = startDate.getMonth()
+    const startYear = startDate.getFullYear()
+    
+    const endDay = endDate.getDate()
+    const endMonth = endDate.getMonth()
+    const endYear = endDate.getFullYear()
+    
+    // Jika tahun berbeda
+    if (startYear !== endYear) {
+      return `${startDay} ${monthNames[startMonth]} ${startYear} - ${endDay} ${monthNames[endMonth]} ${endYear}`
+    }
+    // Jika bulan berbeda
+    else if (startMonth !== endMonth) {
+      return `${startDay} ${monthNames[startMonth]} - ${endDay} ${monthNames[endMonth]} ${startYear}`
+    }
+    // Jika bulan sama
+    else {
+      return `${startDay}-${endDay} ${monthNames[startMonth]} ${startYear}`
+    }
+  } catch (error) {
+    // Fallback jika parsing gagal
+    return periodeString
+  }
+}
 
 // Cabor List
 const caborList = ['Sepak Bola', 'Basket', 'Badminton', 'Tenis', 'Renang', 'Atletik', 'Voli']
@@ -159,9 +197,7 @@ const viewDetail = (id: number) => {
   router.push(`/program-latihan/${id}`)
 }
 
-const viewTarget = (id: number) => {
-  router.push(`/program-latihan/${id}/target`)
-}
+
 
 // Filtered Programs
 const filteredPrograms = computed(() => {
@@ -193,7 +229,7 @@ const programLatihan = ref([
     nama: "Latihan Fisik Dasar",
     cabor: "Sepak Bola",
     kategori: "Putra",
-    periode: "2025-08-01 s/d 2025-08-31",
+    periode: "2025-08-01 s/d 2025-08-24",
     keterangan: "Fokus pada penguatan fisik dan stamina.",
     isSaved: false
   },
@@ -202,7 +238,7 @@ const programLatihan = ref([
     nama: "Program Teknik Dasar Basket",
     cabor: "Basket",
     kategori: "Putra/Putri",
-    periode: "2025-08-15 s/d 2025-09-15",
+    periode: "2025-08-25 s/d 2025-09-15",
     keterangan: "Pengembangan teknik dribbling, shooting, dan passing.",
     isSaved: false
   },
@@ -211,7 +247,7 @@ const programLatihan = ref([
     nama: "Latihan Kebugaran Badminton",
     cabor: "Badminton",
     kategori: "Putra",
-    periode: "2025-08-10 s/d 2025-09-10",
+    periode: "2025-12-03 s/d 2026-01-10",
     keterangan: "Peningkatan kebugaran dan ketahanan fisik.",
     isSaved: false
   },
