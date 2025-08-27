@@ -5,8 +5,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
   
-  // Debugging dan development - disable untuk production
-  debug: false,
+  // Debugging dan development
+  debug: process.env.NODE_ENV === 'development',
   
   // Enable page transitions and routing
   experimental: {
@@ -22,12 +22,26 @@ export default defineNuxtConfig({
     }
   },
   
-  // SSR Configuration untuk Vercel
+  // SSR Configuration 
   ssr: true,
   
-  // Nitro configuration for Vercel
+  // Nitro configuration for better routing
   nitro: {
-    preset: 'vercel'
+    preset: 'vercel',
+    experimental: {
+      wasm: true,
+    },
+    // Pastikan dynamic routes ter-handle dengan baik
+    routeRules: {
+      '/program-latihan/**': { 
+        prerender: false,
+        ssr: true 
+      },
+      '/program-latihan/*/target': { 
+        prerender: false,
+        ssr: true 
+      }
+    }
   },
   
   app: {
@@ -44,6 +58,14 @@ export default defineNuxtConfig({
   vite: {
     plugins: [
       tailwindcss(),
-    ]
+    ],
+    resolve: {
+      alias: {
+        process: "process/browser"
+      }
+    },
+    define: {
+      "process.env": {}
+    }
   }
 })

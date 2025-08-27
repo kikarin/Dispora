@@ -1,9 +1,6 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": ".output",
-  "build": {
-    "env": {
-      "NODE_VERSION": "22.x"
-    }
+    "buildCommand": "npm run build",
+    "outputDirectory": ".output/public",
+    "framework": "nuxt"
   }
-}
+  
