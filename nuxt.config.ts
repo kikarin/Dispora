@@ -31,6 +31,10 @@ export default defineNuxtConfig({
     experimental: {
       wasm: true,
     },
+    externals: {
+      inline: [],
+      external: ['detect-libc']
+    },
     // Pastikan dynamic routes ter-handle dengan baik
     routeRules: {
       '/program-latihan/**': { 
