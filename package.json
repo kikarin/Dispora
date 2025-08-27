@@ -7,7 +7,7 @@
     "build": "nuxt build",
     "start": "node .output/server/index.mjs",
     "generate": "nuxt generate",
-    "preview": "nuxt preview",
+    "preview": "nuxt preview"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.12",
