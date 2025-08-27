@@ -18,9 +18,10 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
-    "@nuxt/devtools": "^2.6.3"
+    "@nuxt/devtools": "^2.6.3",
+    "patch-package": "^8.0.0"
   },
   "engines": {
-    "node": "18.x"
+    "node": "22.x"
   }
 }
