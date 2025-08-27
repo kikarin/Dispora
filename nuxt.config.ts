@@ -22,24 +22,14 @@ export default defineNuxtConfig({
     }
   },
   
-  // SSR Configuration 
-  ssr: true,
+  // SSR Configuration - gunakan static generation untuk Vercel
+  ssr: false,
   
-  // Nitro configuration for better routing
+  // Nitro configuration for static generation
   nitro: {
-    experimental: {
-      wasm: true
-    },
-    // Pastikan dynamic routes ter-handle dengan baik
-    routeRules: {
-      '/program-latihan/**': { 
-        prerender: false,
-        ssr: true 
-      },
-      '/program-latihan/*/target': { 
-        prerender: false,
-        ssr: true 
-      }
+    preset: 'static',
+    prerender: {
+      routes: ['/']
     }
   },
   
