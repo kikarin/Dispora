@@ -57,19 +57,6 @@ export default defineNuxtConfig({
   vite: {
     plugins: [
       tailwindcss(),
-    ],
-    resolve: {
-      alias: {
-        process: "process/browser"
-      }
-    },
-    define: {
-      'process.env': {}
-      // Menghapus definisi process yang bermasalah
-    }
-  },
-
-  plugins: [
-    '~/plugins/process-polyfill.js'
-  ]
+    ]
+  }
 })
