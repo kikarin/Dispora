@@ -58,5 +58,13 @@ export default defineNuxtConfig({
     plugins: [
       tailwindcss(),
     ],
+    resolve: {
+      alias: {
+        process: "process/browser"
+      }
+    },
+    define: {
+      "process.env": {}
+    }
   }
 })
