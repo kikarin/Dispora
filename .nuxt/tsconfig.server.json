@@ -88,6 +88,9 @@
       ],
       "#unhead/composables": [
         "../node_modules/nuxt/dist/head/runtime/composables"
+      ],
+      "./process": [
+        "./process"
       ]
     },
     "lib": [
