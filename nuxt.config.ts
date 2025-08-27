@@ -64,8 +64,12 @@ export default defineNuxtConfig({
       }
     },
     define: {
-      'process.env': {},
-      'process': JSON.stringify(require('process/browser'))
+      'process.env': {}
+      // Menghapus definisi process yang bermasalah
     }
-  }
+  },
+
+  plugins: [
+    '~/plugins/process-polyfill.js'
+  ]
 })

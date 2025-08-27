@@ -4,5 +4,5 @@
       "NODE_VERSION": "20.x"
     }
   },
-  "buildCommand": "npm install && npm run build -- --skip-lib-check"
+  "buildCommand": "npm install --legacy-peer-deps && npm run build"
 }
