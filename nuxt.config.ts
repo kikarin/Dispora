@@ -22,18 +22,12 @@ export default defineNuxtConfig({
     }
   },
   
-  // SSR Configuration - gunakan static generation untuk Vercel
-  ssr: false,
+  // SSR Configuration untuk Vercel
+  ssr: true,
   
   // Nitro configuration for Vercel
   nitro: {
-    preset: 'vercel-edge',
-    experimental: {
-      wasm: false
-    },
-    externals: {
-      inline: ['detect-libc']
-    }
+    preset: 'vercel'
   },
   
   app: {

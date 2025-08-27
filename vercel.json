@@ -1,12 +1,9 @@
 {
+  "buildCommand": "npm run build",
+  "outputDirectory": ".output",
   "build": {
     "env": {
-      "NODE_VERSION": "22.x",
-      "NPM_CONFIG_FUND": "false",
-      "NPM_CONFIG_AUDIT": "false",
-      "DETECT_LIBC_BYPASS": "1",
-      "NODE_OPTIONS": "--no-warnings"
+      "NODE_VERSION": "22.x"
     }
-  },
-  "buildCommand": "npm install --ignore-optional && npm run generate"
+  }
 }
