@@ -64,7 +64,8 @@ export default defineNuxtConfig({
       }
     },
     define: {
-      "process.env": {}
+      'process.env': {},
+      'process': JSON.stringify(require('process/browser'))
     }
   }
 })
