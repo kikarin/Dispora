@@ -28,7 +28,7 @@ export default defineNuxtConfig({
   
   // Nitro configuration optimized for Vercel
   nitro: {
-    preset: process.env.NODE_ENV === 'production' ? 'vercel' : 'node-server',
+    preset: 'vercel',
     experimental: {
       wasm: false
     },
