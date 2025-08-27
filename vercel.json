@@ -3,8 +3,10 @@
     "env": {
       "NODE_VERSION": "22.x",
       "NPM_CONFIG_FUND": "false",
-      "NPM_CONFIG_AUDIT": "false"
+      "NPM_CONFIG_AUDIT": "false",
+      "DETECT_LIBC_BYPASS": "1",
+      "NODE_OPTIONS": "--no-warnings"
     }
   },
-  "buildCommand": "npm install && npm run generate"
+  "buildCommand": "npm install --ignore-optional && npm run generate"
 }

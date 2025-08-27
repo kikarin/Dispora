@@ -5,8 +5,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
   
-  // Debugging dan development
-  debug: process.env.NODE_ENV === 'development',
+  // Debugging dan development - disable untuk production
+  debug: false,
   
   // Enable page transitions and routing
   experimental: {
@@ -25,11 +25,14 @@ export default defineNuxtConfig({
   // SSR Configuration - gunakan static generation untuk Vercel
   ssr: false,
   
-  // Nitro configuration for static generation
+  // Nitro configuration for Vercel
   nitro: {
-    preset: 'static',
-    prerender: {
-      routes: ['/']
+    preset: 'vercel-edge',
+    experimental: {
+      wasm: false
+    },
+    externals: {
+      inline: ['detect-libc']
     }
   },
   
