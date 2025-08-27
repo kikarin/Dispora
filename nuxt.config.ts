@@ -35,6 +35,9 @@ export default defineNuxtConfig({
       inline: [],
       external: ['detect-libc']
     },
+    alias: {
+      './process': 'process'
+    },
     // Pastikan dynamic routes ter-handle dengan baik
     routeRules: {
       '/program-latihan/**': { 
