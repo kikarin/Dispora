@@ -5,9 +5,15 @@
   --brand-blue: #597BF9;
 }
 
+/* Font Family - Noto Sans Symbols */
+* {
+  font-family: 'Noto Sans Symbols', sans-serif;
+}
+
 html, body, #__nuxt {
   height: 100%;
   overflow-x: hidden;
+  font-family: 'Noto Sans Symbols', sans-serif;
 }
 
 /* Mobile-first container sizing */

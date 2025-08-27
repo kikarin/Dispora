@@ -1,6 +1,6 @@
 <template>
   <transition name="fade" appear>
-    <div v-if="show" class="fixed inset-0 z-[9999] overflow-hidden bg-[#597BF9] max-w-[410px] mx-auto">
+    <div v-if="show" class="fixed inset-0 z-[9999] overflow-hidden bg-[#597BF9] max-w-[425px] mx-auto">
       <!-- Animated soft blobs background -->
       <div class="pointer-events-none absolute inset-0">
         <div class="absolute -top-24 -left-24 h-64 w-64 rounded-full bg-white/10 blur-3xl animate-float-slow"></div>
