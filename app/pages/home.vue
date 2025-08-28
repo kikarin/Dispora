@@ -1,10 +1,10 @@
 <template>
   <div class="min-h-screen">
     <div class="mx-auto flex min-h-screen w-full max-w-[410px] flex-col px-4 py-4"
-      style="background: linear-gradient(180deg,rgb(238, 241, 255) 0%, rgba(248, 250, 251, 1) 75%, rgba(248, 250, 251, 1) 100%);">
+      style="background: linear-gradient(180deg,rgb(238, 241, 255) 0%, rgb(236, 245, 249) 75%, rgb(245, 252, 255) 100%);">
 
       <!-- Header + Search -->
-      <div class="mb-10">
+      <div class="mb-6">
         <!-- Header with Profile -->
         <div class="mb-6 text-left ml-1">
           <div class="flex items-center justify-between">
@@ -143,7 +143,7 @@
       </div>
 
       <!-- Enhanced Navigation Cards with hover effects -->
-      <div class="mb-8">
+      <div class="mb-6">
         <div class="rounded-2xl bg-white/70 backdrop-blur-md p-5 border border-white/40">
           <!-- Top row with enhanced icons and animations -->
           <div class="flex justify-between">
@@ -195,16 +195,21 @@
 
       <!-- Enhanced Program Cards Sections -->
       <!-- Program Latihan Terbaru -->
-      <div class="mb-8">
+      <div class="mb-6">
         <div class="mb-4 flex items-center justify-between">
-          <h2 class="text-lg font-bold text-gray-700">Program Latihan Terbaru</h2>
+          <h2 class="text-md font-bold text-gray-700">Program Latihan Terbaru</h2>
           <button
-            class="text-[#597BF9] text-sm font-semibold hover:text-[#4c6ef5] transition-colors duration-200 hover:underline">Lihat
-            Semua</button>
+            class="flex items-center gap-1 text-[#597BF9] text-sm font-semibold hover:text-[#4c6ef5] transition-colors duration-200 hover:underline">
+            Lihat Semua
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+              stroke-width="2" stroke="currentColor" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
         <div class="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
           <div v-for="program in programLatihan" :key="program.id"
-            class="flex-shrink-0 w-64 rounded-2xl bg-white/80 backdrop-blur-sm p-5 border border-white/40 hover:bg-gray-100 transition-all duration-300">
+            class="flex-shrink-0 w-64 rounded-2xl bg-white/80 backdrop-blur-sm p-5 border border-white/40  hover:bg-blue-50 transition-all duration-300">
             <!-- Image -->
             <!-- <div class="mb-4 h-32 rounded-2xl bg-gradient-to-br from-[#597BF9]/20 to-[#4c6ef5]/30 flex items-center justify-center relative overflow-hidden">
               <div class="absolute inset-0 opacity-20">
@@ -220,11 +225,6 @@
             <div class="mb-3">
               <span
                 class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-[#597BF9]/10 to-[#4c6ef5]/20 text-[#597BF9] border border-[#597BF9]/30">
-                <svg class="w-3 h-3 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clip-rule="evenodd" />
-                </svg>
                 {{ program.cabor }}
               </span>
             </div>
@@ -242,16 +242,21 @@
       </div>
 
       <!-- Pemeriksaan -->
-      <div class="mb-8">
+      <div class="mb-6">
         <div class="mb-4 flex items-center justify-between">
-          <h2 class="text-lg font-bold text-gray-700">Pemeriksaan Terbaru</h2>
+          <h2 class="text-md font-bold text-gray-700">Pemeriksaan Terbaru</h2>
           <button
-            class="text-[#597BF9] text-sm font-semibold hover:text-[#4c6ef5] transition-colors duration-200 hover:underline">Lihat
-            Semua</button>
+            class="flex items-center gap-1 text-[#597BF9] text-sm font-semibold hover:text-[#4c6ef5] transition-colors duration-200 hover:underline">
+            Lihat Semua
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+              stroke-width="2" stroke="currentColor" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
         <div class="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
           <div v-for="pemeriksaan in dataPemeriksaan" :key="pemeriksaan.id"
-            class="flex-shrink-0 w-64 rounded-2xl bg-white/80 backdrop-blur-sm p-5 border border-white/40 hover:bg-gray-100 transition-all duration-300">
+            class="flex-shrink-0 w-64 rounded-2xl bg-white/80 backdrop-blur-sm p-5 border border-white/40 hover:bg-green-50 transition-all duration-300">
             <!-- Image -->
             <!-- <div class="mb-4 h-32 rounded-2xl bg-gradient-to-br from-green-100 to-emerald-200 flex items-center justify-center relative overflow-hidden">
               <div class="absolute inset-0 opacity-20">
@@ -266,11 +271,6 @@
             <div class="mb-3">
               <span
                 class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-200 text-green-700 border border-green-300">
-                <svg class="w-3 h-3 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clip-rule="evenodd" />
-                </svg>
                 {{ pemeriksaan.cabor }}
               </span>
             </div>
@@ -290,14 +290,19 @@
       <!-- Turnamen -->
       <div class="mb-8">
         <div class="mb-4 flex items-center justify-between">
-          <h2 class="text-lg font-bold text-gray-700">Turnamen Terbaru</h2>
+          <h2 class="text-md font-bold text-gray-700">Turnamen Terbaru</h2>
           <button
-            class="text-[#597BF9] text-sm font-semibold hover:text-[#4c6ef5] transition-colors duration-200 hover:underline">Lihat
-            Semua</button>
+            class="flex items-center gap-1 text-[#597BF9] text-sm font-semibold hover:text-[#4c6ef5] transition-colors duration-200 hover:underline">
+            Lihat Semua
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+              stroke-width="2" stroke="currentColor" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
         <div class="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
           <div v-for="turnamen in dataTurnamen" :key="turnamen.id"
-            class="flex-shrink-0 w-64 rounded-2xl bg-white/80 backdrop-blur-sm p-5 border border-white/40 hover:bg-gray-100 transition-all duration-300">
+            class="flex-shrink-0 w-64 rounded-2xl bg-white/80 backdrop-blur-sm p-5 border border-white/40 hover:bg-red-50 transition-all duration-300">
             <!-- Image -->
             <!-- <div class="mb-4 h-32 rounded-2xl bg-gradient-to-br from-orange-100 to-red-200 flex items-center justify-center relative overflow-hidden">
               <div class="absolute inset-0 opacity-20">
@@ -312,11 +317,6 @@
             <div class="mb-3">
               <span
                 class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-orange-100 to-red-200 text-orange-700 border border-orange-300">
-                <svg class="w-3 h-3 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clip-rule="evenodd" />
-                </svg>
                 {{ turnamen.cabor }}
               </span>
             </div>

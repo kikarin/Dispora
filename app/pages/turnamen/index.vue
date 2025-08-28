@@ -109,7 +109,7 @@
                 <h3 class="text-lg font-semibold text-gray-800 group-hover:text-[#597BF9] transition-colors">
                   {{ turnamen.nama }}
                 </h3>
-                <span class="inline-flex items-center mt-1 px-2 py-0.5 text-xs font-medium rounded-full bg-[#597BF9]/10 text-[#597BF9]">
+                <span class="inline-flex items-center mt-1 py-0.5 text-xs font-medium rounded-full text-[#597BF9]">
                   {{ turnamen.cabor }} - {{ turnamen.kategori }}
                 </span>
               </div>

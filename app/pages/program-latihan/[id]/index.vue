@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen">
-    <div class="mx-auto flex min-h-screen w-full max-w-[410px] flex-col px-4 py-8" style="background: linear-gradient(180deg,rgba(216, 224, 255, 1) 0%, rgba(248, 250, 251, 1) 50%, rgba(226, 224, 255, 1) 100%);">
+    <div class="mx-auto flex min-h-screen w-full max-w-[410px] flex-col px-4 py-4" style="background: linear-gradient(180deg,rgba(216, 224, 255, 1) 0%, rgba(248, 250, 251, 1) 50%, rgba(226, 224, 255, 1) 100%);">
       
       <!-- Header -->
       <div class="mb-6">
@@ -10,7 +10,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h1 class="text-[24px] font-bold text-gray-700">Rencana Latihan</h1>
+          <h1 class="text-xl font-bold text-gray-700">Rencana Latihan</h1>
         </div>
         
         <!-- Search and Calendar -->
@@ -86,11 +86,11 @@
         
         <div class="space-y-4">
           <div v-for="rencana in filteredRencanaLatihan" :key="rencana.id" 
-               class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+               class="p-4 bg-gray-50 rounded-xl ">
             <div class="flex items-start justify-between mb-3">
               <div class="flex-1">
                 <div class="flex items-center gap-2 mb-2">
-                  <svg class="w-4 h-4 text-[#597BF9]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
                   <span class="text-sm font-medium text-gray-700">{{ formatTanggalBulan(rencana.tanggal) }}</span>

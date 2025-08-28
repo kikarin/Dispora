@@ -36,7 +36,7 @@
           <!-- Peserta Atlet -->
           <div v-if="activeTab === 'atlet'" class="space-y-3">
             <div v-for="peserta in pesertaData.atlet" :key="peserta.id" 
-                 class="bg-white/90 rounded-2xl p-4 shadow-sm backdrop-blur">
+                 class="bg-white/90 rounded-2xl p-4 backdrop-blur">
               <div class="flex items-start gap-4">
                 <!-- Foto Peserta -->
                 <div class="flex-shrink-0 mt-1">
@@ -88,7 +88,7 @@
           <!-- Peserta Pelatih -->
           <div v-else-if="activeTab === 'pelatih'" class="space-y-3">
             <div v-for="peserta in pesertaData.pelatih" :key="peserta.id" 
-                 class="bg-white/90 rounded-2xl p-4 shadow-sm backdrop-blur">
+                 class="bg-white/90 rounded-2xl p-4 backdrop-blur">
               <div class="flex items-start gap-4">
                 <!-- Foto Peserta -->
                 <div class="flex-shrink-0 mt-1">
@@ -140,7 +140,7 @@
           <!-- Peserta Tenaga Pendukung -->
           <div v-else-if="activeTab === 'tenaga-pendukung'" class="space-y-3">
             <div v-for="peserta in pesertaData.tenagaPendukung" :key="peserta.id" 
-                 class="bg-white/90 rounded-2xl p-4 shadow-sm backdrop-blur">
+                 class="bg-white/90 rounded-2xl p-4 backdrop-blur">
               <div class="flex items-start gap-4">
                 <!-- Foto Peserta -->
                 <div class="flex-shrink-0 mt-1">

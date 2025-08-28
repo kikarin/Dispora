@@ -1,6 +1,6 @@
 <template>
   <div class="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 w-full max-w-[410px]">
-    <div class="mx-4 mb-3 rounded-2xl bg-white/95 p-1 backdrop-blur-xl shadow-sm border border-gray-100">
+    <div class="mx-4 mb-3 rounded-2xl bg-white/95 p-1 backdrop-blur-xl border border-gray-200">
       <div class="flex items-center justify-around">
         <!-- Home -->
         <button @click="navigateTo('/home')"

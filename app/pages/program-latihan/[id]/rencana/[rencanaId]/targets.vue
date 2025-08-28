@@ -1,17 +1,15 @@
 <template>
   <div class="min-h-screen">
-    <div class="mx-auto flex min-h-screen w-full max-w-[410px] flex-col px-4 py-8" style="background: linear-gradient(180deg,rgba(216, 224, 255, 1) 0%, rgba(248, 250, 251, 1) 50%, rgba(226, 224, 255, 1) 100%);">
+    <div class="mx-auto flex min-h-screen w-full max-w-[410px] flex-col px-4 py-4" style="background: linear-gradient(180deg,rgba(216, 224, 255, 1) 0%, rgba(248, 250, 251, 1) 50%, rgba(226, 224, 255, 1) 100%);">
       
       <!-- Header -->
-      <div class="mb-6">
-        <div class="flex items-center gap-3 mb-4">
-          <button @click="$router.back()" class="p-2 rounded-full bg-white/80 text-gray-600 hover:bg-white">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <h1 class="text-[24px] font-bold text-gray-700">Target Latihan</h1>
-        </div>
+      <div class="flex items-center gap-3 mb-4">
+        <button @click="$router.back()" class="p-2 rounded-full bg-white/80 text-gray-600 hover:bg-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <h1 class="text-xl font-bold text-gray-700">Target Latihan</h1>
       </div>
 
       <!-- Tab Navigation -->
@@ -38,7 +36,7 @@
         <!-- Target Individu -->
         <div v-if="activeTab === 'individu'" class="space-y-4">
           <div v-for="target in targetData.targetIndividu" :key="target.id" 
-               class="p-4 bg-gray-50 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors"
+               class="p-4 bg-white rounded-xl cursor-pointer hover:bg-gray-100 transition-colors"
                @click="navigateToTargetDetail(target.id)">
             <div class="flex items-start justify-between mb-2">
               <div class="flex-1">
@@ -60,7 +58,7 @@
         <!-- Target Kelompok -->
         <div v-else-if="activeTab === 'kelompok'" class="space-y-4">
           <div v-for="target in targetData.targetKelompok" :key="target.id" 
-               class="p-4 bg-gray-50 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors"
+               class="p-4 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors"
                @click="openTargetKelompokModal(target)">
             <div class="flex items-start justify-between mb-2">
               <h4 class="font-semibold text-gray-700">{{ target.nama }}</h4>

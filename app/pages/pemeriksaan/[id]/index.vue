@@ -18,7 +18,7 @@
       <div class="space-y-4">
         <!-- Parameter List -->
         <div v-for="parameter in parameterData" :key="parameter.id" 
-             class="p-4 bg-gray-50 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors"
+             class="p-4 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors"
              @click="navigateToParameterDetail(parameter.id)">
           <div class="flex items-start justify-between mb-2">
             <div class="flex-1">

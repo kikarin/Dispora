@@ -1,17 +1,15 @@
 <template>
   <div class="min-h-screen">
-    <div class="mx-auto flex min-h-screen w-full max-w-[410px] flex-col px-4 py-8" style="background: linear-gradient(180deg,rgba(216, 224, 255, 1) 0%, rgba(248, 250, 251, 1) 50%, rgba(226, 224, 255, 1) 100%);">
+    <div class="mx-auto flex min-h-screen w-full max-w-[410px] flex-col px-4 py-4" style="background: linear-gradient(180deg,rgba(216, 224, 255, 1) 0%, rgba(248, 250, 251, 1) 50%, rgba(226, 224, 255, 1) 100%);">
       
       <!-- Header -->
-      <div class="mb-6">
-        <div class="flex items-center gap-3 mb-4">
-          <button @click="$router.back()" class="p-2 rounded-full bg-white/80 text-gray-600 hover:bg-white">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <h1 class="text-[24px] font-bold text-gray-700">Peserta Rencana Latihan</h1>
-        </div>
+      <div class="flex items-center gap-3 mb-4">
+        <button @click="$router.back()" class="p-2 rounded-full bg-white/80 text-gray-600 hover:bg-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <h1 class="text-xl font-bold text-gray-700">Peserta Rencana Latihan</h1>
       </div>
 
       <!-- Tab Navigation -->
@@ -21,7 +19,7 @@
             v-for="tab in tabs"
             :key="tab.id"
             @click="activeTab = tab.id"
-            class="flex-1 py-2 px-4 rounded-xl text-sm font-medium transition-all duration-200"
+            class="flex-1 py-3 px-2 rounded-xl text-sm font-medium transition-all duration-200"
             :class="activeTab === tab.id 
               ? 'bg-[#597BF9] text-white shadow-sm' 
               : 'text-gray-600 hover:text-gray-700'"
@@ -36,7 +34,7 @@
         <!-- Peserta Atlet -->
         <div v-if="activeTab === 'atlet'" class="space-y-3">
           <div v-for="peserta in pesertaData.atlet" :key="peserta.id" 
-               class="bg-white/90 rounded-2xl p-4 shadow-sm backdrop-blur">
+               class="bg-white/90 rounded-2xl p-4 backdrop-blur">
             <div class="flex items-start gap-4">
               <!-- Foto Peserta -->
               <div class="flex-shrink-0 mt-1">
@@ -88,7 +86,7 @@
         <!-- Peserta Pelatih -->
         <div v-else-if="activeTab === 'pelatih'" class="space-y-3">
           <div v-for="peserta in pesertaData.pelatih" :key="peserta.id" 
-               class="bg-white/90 rounded-2xl p-4 shadow-sm backdrop-blur">
+               class="bg-white/90 rounded-2xl p-4 backdrop-blur">
             <div class="flex items-start gap-4">
               <!-- Foto Peserta -->
               <div class="flex-shrink-0 mt-1">
@@ -140,7 +138,7 @@
         <!-- Peserta Tenaga Pendukung -->
         <div v-else-if="activeTab === 'tenaga-pendukung'" class="space-y-3">
           <div v-for="peserta in pesertaData.tenagaPendukung" :key="peserta.id" 
-               class="bg-white/90 rounded-2xl p-4 shadow-sm backdrop-blur">
+               class="bg-white/90 rounded-2xl p-4 backdrop-blur">
             <div class="flex items-start gap-4">
               <!-- Foto Peserta -->
               <div class="flex-shrink-0 mt-1">
@@ -236,7 +234,7 @@ const activeTab = ref('atlet')
 const tabs = computed(() => [
   { id: 'atlet', label: `Atlet (${pesertaData.value.atlet.length})` },
   { id: 'pelatih', label: `Pelatih (${pesertaData.value.pelatih.length})` },
-  { id: 'tenaga-pendukung', label: `T. Pendukung (${pesertaData.value.tenagaPendukung.length})` },
+  { id: 'tenaga-pendukung', label: `Pendukung (${pesertaData.value.tenagaPendukung.length})` },
 ])
 
 // Loading state

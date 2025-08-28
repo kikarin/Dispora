@@ -1,105 +1,97 @@
 <template>
   <div class="min-h-screen">
-    <div class="mx-auto flex min-h-screen w-full max-w-[410px] flex-col px-4 py-8" style="background: linear-gradient(180deg,rgba(216, 224, 255, 1) 0%, rgba(248, 250, 251, 1) 50%, rgba(226, 224, 255, 1) 100%);">
-      
+    <div class="mx-auto flex min-h-screen w-full max-w-[410px] flex-col px-4 py-4"
+      style="background: linear-gradient(180deg,rgba(216, 224, 255, 1) 0%, rgba(248, 250, 251, 1) 50%, rgba(226, 224, 255, 1) 100%);">
+
       <!-- Header -->
-      <div class="mb-6">
-        <div class="flex items-center gap-3 mb-4">
-          <button @click="$router.back()" class="p-2 rounded-full bg-white/80 text-gray-600 hover:bg-white">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <h1 class="text-[24px] font-bold text-gray-700">Detail Target</h1>
-        </div>
+      <div class="flex items-center gap-3 mb-4">
+        <button @click="$router.back()" class="p-2 rounded-full bg-white/80 text-gray-600 hover:bg-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <h1 class="text-xl font-bold text-gray-700">Detail Target</h1>
       </div>
 
       <!-- Target Info Card -->
-      <div class="rounded-2xl bg-white/90 p-6 shadow-sm backdrop-blur mb-6">
-        <div class="flex items-start justify-between mb-4">
+      <div class="rounded-2xl bg-white/90 p-6 backdrop-blur mb-6">
+        <div class="flex items-start justify-between mb-2">
           <div class="flex-1">
-            <h2 class="text-xl font-bold text-gray-700 mb-2">{{ targetInfo.nama }}</h2>
-            <span v-if="targetInfo.peserta" 
-                  class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
-                  :class="getPesertaBadgeClass(targetInfo.peserta)">
-              {{ targetInfo.peserta }}
-            </span>
+            <h2 class="text-xl font-bold text-gray-700">{{ targetInfo.nama }}</h2>
           </div>
         </div>
-        
-        <div class="mb-4">
-          <p class="text-sm text-gray-600">{{ targetInfo.target }}</p>
+        <div class="mb-1">
+          <p class="text-sm text-gray-600">Peruntukan: {{ targetInfo.peserta }}</p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-600">Target: {{ targetInfo.target }}</p>
         </div>
       </div>
 
       <!-- Peserta yang Sudah Melakukan Target -->
-      <div>        
+      <div>
         <div class="space-y-4">
-  <div v-for="peserta in pesertaTargetData" :key="peserta.id" 
-       class="relative bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-       
-    <!-- Trend Badge (pojok kanan atas) -->
-    <div class="absolute top-2 right-3">
-      <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium" 
-            :class="getTrendClass(peserta.trend)">
-        {{ peserta.trend }}
-      </span>
-    </div>
+          <div v-for="peserta in pesertaTargetData" :key="peserta.id" class="relative bg-white rounded-xl p-5 ">
 
-    <div class="flex items-start gap-4">
-      <!-- Foto Peserta -->
-      <div class="flex-shrink-0 mt-3">
-        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[#597BF9]/20 to-[#4c6ef5]/30 
+            <!-- Trend Badge (pojok kanan atas) -->
+            <div class="absolute top-2 right-3">
+              <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
+                :class="getTrendClass(peserta.trend)">
+                {{ peserta.trend }}
+              </span>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <!-- Foto Peserta -->
+              <div class="flex-shrink-0 mt-3">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[#597BF9]/20 to-[#4c6ef5]/30 
                     flex items-center justify-center overflow-hidden">
-          <svg class="w-8 h-8 text-[#597BF9]" fill="none" stroke="currentColor" stroke-width="2" 
-               viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" 
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
-        </div>
-      </div>
+                  <svg class="w-8 h-8 text-[#597BF9]" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+              </div>
 
-      <!-- Info Peserta -->
-      <div class="flex-1 min-w-0 mt-3">
-        <h4 class="font-semibold text-gray-700 text-md leading-snug truncate">
-          {{ peserta.nama }}
-        </h4>
+              <!-- Info Peserta -->
+              <div class="flex-1 min-w-0 mt-3">
+                <h4 class="font-semibold text-gray-700 text-md leading-snug truncate">
+                  {{ peserta.nama }}
+                </h4>
 
-        <div class="flex flex-wrap items-center gap-2 text-sm text-gray-600 mt-1">
-          <span class="flex items-center gap-1">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" 
-                 viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" 
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-            {{ peserta.jenisKelamin }}
-          </span>
-          <span>{{ peserta.usia }} tahun</span>
-        </div>
-        
-        <!-- Badge Posisi -->
-        <div class="mt-2 mb-3">
-          <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-            {{ peserta.posisi }}
-          </span>
-        </div>
+                <div class="flex flex-wrap items-center gap-2 text-sm text-gray-600 mt-1">
+                  <span class="flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    {{ peserta.jenisKelamin }}
+                  </span>
+                  <span>{{ peserta.usia }} tahun</span>
+                </div>
 
-        <!-- Target dan Nilai -->
-        <div class="mt-3 flex items-center justify-between">
-          <p class="text-sm text-gray-500">
-            Target: <span class="font-medium text-gray-700">{{ peserta.target }}</span>
-          </p>
-          <div class="text-right">
-            <p class="text-xs text-gray-500">Nilai</p>
-            <p class="font-bold text-md text-[#597BF9] leading-none">
-              {{ peserta.nilai }}
-            </p>
+                <!-- Badge Posisi -->
+                <div class="mt-2 mb-3">
+                  <span
+                    class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    {{ peserta.posisi }}
+                  </span>
+                </div>
+
+                <!-- Target dan Nilai -->
+                <div class="mt-3 flex items-center justify-between">
+                  <p class="text-sm text-gray-500">
+                    Target: <span class="font-medium text-gray-700">{{ peserta.target }}</span>
+                  </p>
+                  <p class="text-sm text-gray-500">
+                    Nilai: <span class="font-medium text-gray-700">{{ peserta.nilai }}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
 
         <!-- Loading state -->
         <div v-if="loading" class="text-center py-8">
@@ -182,7 +174,7 @@ const pesertaTargetData = ref([
   },
   {
     id: 2,
-    nama: "Andi Wijaya", 
+    nama: "Andi Wijaya",
     jenisKelamin: "Laki-laki",
     usia: 23,
     posisi: "Point Guard",
@@ -193,7 +185,7 @@ const pesertaTargetData = ref([
   {
     id: 3,
     nama: "Rizky Pratama",
-    jenisKelamin: "Laki-laki", 
+    jenisKelamin: "Laki-laki",
     usia: 21,
     posisi: "Bek Tengah",
     nilai: 12.5,
@@ -262,7 +254,7 @@ const updatePesertaData = (targetId: number) => {
       ]
     }
   }
-  
+
   const selectedTarget = targetData[targetId as keyof typeof targetData]
   if (selectedTarget) {
     pesertaTargetData.value = selectedTarget.peserta
@@ -278,12 +270,12 @@ const formatTanggalBulan = (tanggalString: string) => {
     const day = date.getDate()
     const month = date.getMonth()
     const year = date.getFullYear()
-    
+
     const monthNames = [
       'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
       'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
     ]
-    
+
     return `${day} ${monthNames[month]} ${year}`
   } catch (error) {
     return tanggalString
@@ -328,12 +320,12 @@ const loadTargetInfo = () => {
     { id: 5, nama: "Koordinasi tim", target: "Latihan passing", peserta: "Atlet" },
     { id: 6, nama: "Strategi pertahanan", target: "Formasi 4-4-2", peserta: "Pelatih" }
   ]
-  
+
   const target = targets.find(t => t.id === targetId)
   if (target) {
     targetInfo.value = target
   }
-  
+
   // Update peserta data berdasarkan target yang dipilih
   updatePesertaData(targetId)
 }

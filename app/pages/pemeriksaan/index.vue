@@ -97,7 +97,7 @@
                 <h3 class="text-lg font-semibold text-gray-800 group-hover:text-[#597BF9] transition-colors">
                   {{ pemeriksaan.nama }}
                 </h3>
-                <span class="inline-flex items-center mt-1 px-2 py-0.5 text-xs font-medium rounded-full bg-[#597BF9]/10 text-[#597BF9]">
+                <span class="inline-flex items-center mt-1 py-0.5 text-xs font-medium rounded-full text-[#597BF9]">
                   {{ pemeriksaan.cabor }} - {{ pemeriksaan.kategori }}
                 </span>
               </div>
@@ -117,7 +117,7 @@
                 <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-                <span class="font-medium">Tenaga Pendukung:</span>
+                <span>Pemeriksa:</span>
                 <span>{{ pemeriksaan.tenagaPendukung }}</span>
               </div>
             </div>

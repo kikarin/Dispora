@@ -15,7 +15,7 @@
         </div>
   
         <!-- Parameter Info Card -->
-        <div class="rounded-2xl bg-white/90 p-6 shadow-sm backdrop-blur mb-6">
+        <div class="rounded-2xl bg-white/90 p-6 backdrop-blur mb-6">
           <div class="flex items-start justify-between mb-4">
             <div class="flex-1">
               <h2 class="text-xl font-bold text-gray-700 mb-2">{{ parameterInfo.nama }}</h2>
@@ -41,7 +41,7 @@
         <div>        
           <div class="space-y-4">
             <div v-for="peserta in pesertaParameterData" :key="peserta.id" 
-                 class="relative bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+                 class="relative bg-white rounded-xl p-5 ">
              
               <!-- Status Badge (pojok kanan atas) -->
               <div class="absolute top-2 right-3">
