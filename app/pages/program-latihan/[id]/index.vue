@@ -10,16 +10,82 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h1 class="text-[24px] font-bold text-gray-900">Rencana Latihan</h1>
+          <h1 class="text-[24px] font-bold text-gray-700">Rencana Latihan</h1>
         </div>
+        
+        <!-- Search and Calendar -->
+        <div class="relative">
+          <div class="flex items-center gap-2 rounded-2xl bg-white/80 p-3 shadow-sm backdrop-blur">
+            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input
+              v-model="searchQuery"
+              type="text"
+              placeholder="Cari rencana latihan..."
+              class="flex-1 text-[15px] bg-transparent outline-none placeholder:text-gray-400"
+            />
+            <!-- Calendar Button -->
+            <button 
+              @click="toggleCalendar"
+              class="p-2 rounded-xl bg-[#597BF9]/10 text-[#597BF9] hover:bg-[#597BF9]/20 transition-colors"
+            >
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </button>
+          </div>
+          
+          <!-- Calendar Dropdown -->
+          <div v-if="showCalendar" class="absolute top-full left-0 right-0 mt-2 z-50">
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-4">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-sm font-semibold text-gray-700">Filter Tanggal</h3>
+                <button @click="toggleCalendar" class="text-gray-400 hover:text-gray-600">
+                  <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              <!-- Date Input -->
+              <div>
+                <label class="block text-xs font-medium text-gray-700 mb-1">Tanggal</label>
+                <input 
+                  v-model="selectedDate" 
+                  type="date" 
+                  class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#597BF9] focus:border-transparent"
+                />
+              </div>
+              
+              <!-- Action Buttons -->
+              <div class="flex gap-2 mt-4">
+                <button 
+                  @click="applyDateFilter"
+                  class="flex-1 bg-[#597BF9] text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-[#4c6ef5] transition-colors"
+                >
+                  Terapkan
+                </button>
+                <button 
+                  @click="clearDateFilter"
+                  class="flex-1 bg-gray-100 text-gray-700 py-2 px-4 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
       </div>
 
       <!-- Rencana Latihan -->
-      <div class="rounded-2xl bg-white/90 p-6 shadow-sm backdrop-blur mb-6">
+      <div >
 
         
         <div class="space-y-4">
-          <div v-for="rencana in rencanaLatihan" :key="rencana.id" 
+          <div v-for="rencana in filteredRencanaLatihan" :key="rencana.id" 
                class="p-4 bg-gray-50 rounded-xl border border-gray-200">
             <div class="flex items-start justify-between mb-3">
               <div class="flex-1">
@@ -27,9 +93,9 @@
                   <svg class="w-4 h-4 text-[#597BF9]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  <span class="text-sm font-medium text-gray-900">{{ formatTanggalBulan(rencana.tanggal) }}</span>
+                  <span class="text-sm font-medium text-gray-700">{{ formatTanggalBulan(rencana.tanggal) }}</span>
                 </div>
-                <h4 class="font-semibold text-gray-900 mb-2">{{ rencana.materi }}</h4>
+                <h4 class="font-semibold text-gray-700 mb-2">{{ rencana.materi }}</h4>
               </div>
             </div>
             
@@ -54,6 +120,14 @@
                   <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                 </svg>
                 <span class="text-gray-600">{{ rencana.targetLatihan }}</span>
+              </div>
+              
+              <!-- Info Jumlah Peserta -->
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span class="text-gray-600">Peserta: {{ getTotalPeserta(rencana) }}</span>
               </div>
             </div>
 
@@ -82,6 +156,13 @@
 
     <!-- Bottom Navigation -->
     <BottomNavigation />
+    
+    <!-- Click outside handler for calendar -->
+    <div 
+      v-if="showCalendar" 
+      @click="showCalendar = false"
+      class="fixed inset-0 z-40"
+    ></div>
   </div>
 </template>
 
@@ -92,6 +173,11 @@ import BottomNavigation from '~/components/BottomNavigation.vue'
 
 const route = useRoute()
 const router = useRouter()
+
+// Search and Calendar
+const searchQuery = ref('')
+const showCalendar = ref(false)
+const selectedDate = ref('')
 
 // Helper function untuk format periode tanggal
 const formatPeriode = (periodeString: string) => {
@@ -216,6 +302,73 @@ const rencanaLatihan = ref([
     tenagaPendukung: ["Slamet Raharjo"]
   }
 ])
+
+// Calendar Functions
+const toggleCalendar = () => {
+  showCalendar.value = !showCalendar.value
+}
+
+const applyDateFilter = () => {
+  showCalendar.value = false
+}
+
+const clearDateFilter = () => {
+  selectedDate.value = ''
+  showCalendar.value = false
+}
+
+// Helper function untuk menghitung total peserta per rencana
+const getTotalPeserta = (rencana: any) => {
+  return rencana.atlet.length + rencana.pelatih.length + rencana.tenagaPendukung.length
+}
+
+// Computed Properties for filtering and counting
+const filteredRencanaLatihan = computed(() => {
+  let filtered = rencanaLatihan.value
+
+  // Filter by search query
+  if (searchQuery.value) {
+    filtered = filtered.filter(rencana => 
+      rencana.materi.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      rencana.lokasi.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      rencana.catatan.toLowerCase().includes(searchQuery.value.toLowerCase())
+    )
+  }
+
+  // Filter by selected date
+  if (selectedDate.value) {
+    filtered = filtered.filter(rencana => 
+      rencana.tanggal === selectedDate.value
+    )
+  }
+
+  return filtered
+})
+
+// Count total participants
+const totalAtlet = computed(() => {
+  const uniqueAtlet = new Set()
+  rencanaLatihan.value.forEach(rencana => {
+    rencana.atlet.forEach(atlet => uniqueAtlet.add(atlet))
+  })
+  return uniqueAtlet.size
+})
+
+const totalPelatih = computed(() => {
+  const uniquePelatih = new Set()
+  rencanaLatihan.value.forEach(rencana => {
+    rencana.pelatih.forEach(pelatih => uniquePelatih.add(pelatih))
+  })
+  return uniquePelatih.size
+})
+
+const totalTenagaPendukung = computed(() => {
+  const uniqueTenagaPendukung = new Set()
+  rencanaLatihan.value.forEach(rencana => {
+    rencana.tenagaPendukung.forEach(tenaga => uniqueTenagaPendukung.add(tenaga))
+  })
+  return uniqueTenagaPendukung.size
+})
 
 // Navigation Functions
 const viewTarget = () => {

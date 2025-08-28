@@ -9,7 +9,7 @@
             Dispora
           </h1>
           <p class="mt-1 text-[14px] text-gray-500">
-            Log in to continue your journey
+            Silahkan masukkan email dan password Anda untuk melanjutkan
           </p>
   
           <!-- Email -->

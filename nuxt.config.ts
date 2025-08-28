@@ -52,6 +52,15 @@ export default defineNuxtConfig({
   },
   
   app: {
+    // Page transitions configuration
+    pageTransition: {
+      name: 'page',
+      mode: 'out-in'
+    },
+    layoutTransition: {
+      name: 'layout',
+      mode: 'out-in'
+    },
     head: {
       viewport: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no',
       link: [

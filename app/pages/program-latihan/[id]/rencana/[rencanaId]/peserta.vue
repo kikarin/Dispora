@@ -10,7 +10,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h1 class="text-[24px] font-bold text-gray-900">Peserta Rencana Latihan</h1>
+          <h1 class="text-[24px] font-bold text-gray-700">Peserta Rencana Latihan</h1>
         </div>
       </div>
 
@@ -24,7 +24,7 @@
             class="flex-1 py-2 px-4 rounded-xl text-sm font-medium transition-all duration-200"
             :class="activeTab === tab.id 
               ? 'bg-[#597BF9] text-white shadow-sm' 
-              : 'text-gray-600 hover:text-gray-900'"
+              : 'text-gray-600 hover:text-gray-700'"
           >
             {{ tab.label }}
           </button>
@@ -39,8 +39,8 @@
                class="bg-white/90 rounded-2xl p-4 shadow-sm backdrop-blur">
             <div class="flex items-start gap-4">
               <!-- Foto Peserta -->
-              <div class="flex-shrink-0">
-                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#597BF9]/20 to-[#4c6ef5]/30 flex items-center justify-center overflow-hidden">
+              <div class="flex-shrink-0 mt-1">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[#597BF9]/20 to-[#4c6ef5]/30 flex items-center justify-center overflow-hidden">
                   <img v-if="peserta.foto" :src="peserta.foto" :alt="peserta.nama" class="w-full h-full object-cover" />
                   <svg v-else class="w-8 h-8 text-[#597BF9]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -50,8 +50,8 @@
               
               <!-- Info Peserta -->
               <div class="flex-1 min-w-0">
-                <h4 class="font-semibold text-gray-900 text-lg mb-1 truncate">{{ peserta.nama }}</h4>
-                <div class="flex items-center gap-3 text-sm text-gray-600 mb-2">
+                <h4 class="font-semibold text-gray-700 text-md mb-1 truncate">{{ peserta.nama }}</h4>
+                <div class="flex items-center gap-2 text-sm text-gray-600 mb-2">
                   <span class="flex items-center gap-1">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -85,8 +85,8 @@
                class="bg-white/90 rounded-2xl p-4 shadow-sm backdrop-blur">
             <div class="flex items-start gap-4">
               <!-- Foto Peserta -->
-              <div class="flex-shrink-0">
-                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-green-100 to-emerald-200 flex items-center justify-center overflow-hidden">
+              <div class="flex-shrink-0 mt-1">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-green-100 to-emerald-200 flex items-center justify-center overflow-hidden">
                   <img v-if="peserta.foto" :src="peserta.foto" :alt="peserta.nama" class="w-full h-full object-cover" />
                   <svg v-else class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -96,8 +96,8 @@
               
               <!-- Info Peserta -->
               <div class="flex-1 min-w-0">
-                <h4 class="font-semibold text-gray-900 text-lg mb-1 truncate">{{ peserta.nama }}</h4>
-                <div class="flex items-center gap-3 text-sm text-gray-600 mb-2">
+                <h4 class="font-semibold text-gray-700 text-md mb-1 truncate">{{ peserta.nama }}</h4>
+                <div class="flex items-center gap-2 text-sm text-gray-600 mb-2">
                   <span class="flex items-center gap-1">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -131,8 +131,8 @@
                class="bg-white/90 rounded-2xl p-4 shadow-sm backdrop-blur">
             <div class="flex items-start gap-4">
               <!-- Foto Peserta -->
-              <div class="flex-shrink-0">
-                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-orange-100 to-red-200 flex items-center justify-center overflow-hidden">
+              <div class="flex-shrink-0 mt-1">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-orange-100 to-red-200 flex items-center justify-center overflow-hidden">
                   <img v-if="peserta.foto" :src="peserta.foto" :alt="peserta.nama" class="w-full h-full object-cover" />
                   <svg v-else class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -142,8 +142,8 @@
               
               <!-- Info Peserta -->
               <div class="flex-1 min-w-0">
-                <h4 class="font-semibold text-gray-900 text-lg mb-1 truncate">{{ peserta.nama }}</h4>
-                <div class="flex items-center gap-3 text-sm text-gray-600 mb-2">
+                <h4 class="font-semibold text-gray-700 text-md mb-1 truncate">{{ peserta.nama }}</h4>
+                <div class="flex items-center gap-2 text-sm text-gray-600 mb-2">
                   <span class="flex items-center gap-1">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -188,7 +188,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import BottomNavigation from '~/components/BottomNavigation.vue'
 
@@ -215,11 +215,11 @@ if (rencanaIdParam && !isNaN(Number(rencanaIdParam))) {
 
 // Tab Management
 const activeTab = ref('atlet')
-const tabs = [
-  { id: 'atlet', label: 'Atlet' },
-  { id: 'pelatih', label: 'Pelatih' },
-  { id: 'tenaga-pendukung', label: 'Tenaga Pendukung' },
-]
+const tabs = computed(() => [
+  { id: 'atlet', label: `Atlet (${pesertaData.value.atlet.length})` },
+  { id: 'pelatih', label: `Pelatih (${pesertaData.value.pelatih.length})` },
+  { id: 'tenaga-pendukung', label: `T. Pendukung (${pesertaData.value.tenagaPendukung.length})` },
+])
 
 // Loading state
 const loading = ref(false)

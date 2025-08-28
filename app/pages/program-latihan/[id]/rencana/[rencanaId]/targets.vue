@@ -10,7 +10,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h1 class="text-[24px] font-bold text-gray-900">Target Latihan</h1>
+          <h1 class="text-[24px] font-bold text-gray-700">Target Latihan</h1>
         </div>
       </div>
 
@@ -24,7 +24,7 @@
             class="flex-1 py-2 px-4 rounded-xl text-sm font-medium transition-all duration-200"
             :class="activeTab === tab.id 
               ? 'bg-[#597BF9] text-white shadow-sm' 
-              : 'text-gray-600 hover:text-gray-900'"
+              : 'text-gray-600 hover:text-gray-700'"
           >
             {{ tab.label }}
           </button>
@@ -32,10 +32,8 @@
       </div>
 
       <!-- Content based on active tab -->
-      <div class="rounded-2xl bg-white/90 p-6 shadow-sm backdrop-blur">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">
-          {{ tabs.find((t: any) => t.id === activeTab)?.label }}
-        </h3>
+      <div>
+
         
         <!-- Target Individu -->
         <div v-if="activeTab === 'individu'" class="space-y-4">
@@ -44,7 +42,7 @@
                @click="navigateToTargetDetail(target.id)">
             <div class="flex items-start justify-between mb-2">
               <div class="flex-1">
-                <h4 class="font-semibold text-gray-900 mb-2">{{ target.nama }}</h4>
+                <h4 class="font-semibold text-gray-700 mb-2">{{ target.nama }}</h4>
                 <span v-if="target.peserta" 
                       class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
                       :class="getPesertaBadgeClass(target.peserta)">
@@ -65,7 +63,7 @@
                class="p-4 bg-gray-50 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors"
                @click="openTargetKelompokModal(target)">
             <div class="flex items-start justify-between mb-2">
-              <h4 class="font-semibold text-gray-900">{{ target.nama }}</h4>
+              <h4 class="font-semibold text-gray-700">{{ target.nama }}</h4>
               <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
               </svg>
@@ -86,7 +84,7 @@
         <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" @click="closeTargetKelompokModal"></div>
         <div class="relative bg-white rounded-2xl p-6 w-full max-w-md mx-4 shadow-2xl">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold text-gray-900">{{ selectedTargetKelompok.nama }}</h3>
+            <h3 class="text-lg font-semibold text-gray-700">{{ selectedTargetKelompok.nama }}</h3>
             <button @click="closeTargetKelompokModal" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
               <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />

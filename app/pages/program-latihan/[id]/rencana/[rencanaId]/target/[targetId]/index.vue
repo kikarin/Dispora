@@ -10,7 +10,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h1 class="text-[24px] font-bold text-gray-900">Detail Target</h1>
+          <h1 class="text-[24px] font-bold text-gray-700">Detail Target</h1>
         </div>
       </div>
 
@@ -18,7 +18,7 @@
       <div class="rounded-2xl bg-white/90 p-6 shadow-sm backdrop-blur mb-6">
         <div class="flex items-start justify-between mb-4">
           <div class="flex-1">
-            <h2 class="text-xl font-bold text-gray-900 mb-2">{{ targetInfo.nama }}</h2>
+            <h2 class="text-xl font-bold text-gray-700 mb-2">{{ targetInfo.nama }}</h2>
             <span v-if="targetInfo.peserta" 
                   class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
                   :class="getPesertaBadgeClass(targetInfo.peserta)">
@@ -33,27 +33,23 @@
       </div>
 
       <!-- Peserta yang Sudah Melakukan Target -->
-      <div class="rounded-2xl bg-white/90 p-6 shadow-sm backdrop-blur">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">
-          Peserta yang Sudah Melakukan Target
-        </h3>
-        
+      <div>        
         <div class="space-y-4">
   <div v-for="peserta in pesertaTargetData" :key="peserta.id" 
        class="relative bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
        
     <!-- Trend Badge (pojok kanan atas) -->
-    <div class="absolute top-3 right-3">
+    <div class="absolute top-2 right-3">
       <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium" 
             :class="getTrendClass(peserta.trend)">
         {{ peserta.trend }}
       </span>
     </div>
 
-    <div class="flex items-center gap-4">
+    <div class="flex items-start gap-4">
       <!-- Foto Peserta -->
-      <div class="flex-shrink-0">
-        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#597BF9]/20 to-[#4c6ef5]/30 
+      <div class="flex-shrink-0 mt-3">
+        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[#597BF9]/20 to-[#4c6ef5]/30 
                     flex items-center justify-center overflow-hidden">
           <svg class="w-8 h-8 text-[#597BF9]" fill="none" stroke="currentColor" stroke-width="2" 
                viewBox="0 0 24 24">
@@ -64,8 +60,8 @@
       </div>
 
       <!-- Info Peserta -->
-      <div class="flex-1 min-w-0">
-        <h4 class="font-semibold text-gray-900 text-lg leading-snug truncate">
+      <div class="flex-1 min-w-0 mt-3">
+        <h4 class="font-semibold text-gray-700 text-md leading-snug truncate">
           {{ peserta.nama }}
         </h4>
 
@@ -91,7 +87,7 @@
           </p>
           <div class="text-right">
             <p class="text-xs text-gray-500">Nilai</p>
-            <p class="font-bold text-2xl text-[#597BF9] leading-none">
+            <p class="font-bold text-md text-[#597BF9] leading-none">
               {{ peserta.nilai }}
             </p>
           </div>
