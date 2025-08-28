@@ -1,99 +1,88 @@
 <template>
   <div class="min-h-screen">
-    <div class="mx-auto flex min-h-screen w-full max-w-[410px] flex-col px-4 py-4" style="background: linear-gradient(180deg,rgba(216, 224, 255, 1) 0%, rgba(248, 250, 251, 1) 50%, rgba(226, 224, 255, 1) 100%);">
+    <div class="mx-auto flex min-h-screen w-full max-w-[410px] flex-col px-4 py-4"
+      style="background: linear-gradient(180deg,rgb(238, 241, 255) 0%, rgba(248, 250, 251, 1) 75%, rgba(248, 250, 251, 1) 100%);">
 
       <!-- Header + Search -->
       <div class="mb-10">
         <!-- Header with Profile -->
         <div class="mb-6 text-left ml-1">
           <div class="flex items-center justify-between">
-          <div class="flex items-center gap-4">
-            <!-- Profile Icon -->
-            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[#597BF9]/20 to-[#4c6ef5]/30 flex items-center justify-center">
-              <svg class="w-8 h-8 text-[#597BF9]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-            </div>
-            
-            <!-- Profile Info -->
-            <div class="flex-1">
-              <h1 class="text-xl items-start font-bold text-gray-900">
-                Budi Santoso
-              </h1>
-              <div class="mt-1">
-                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200">
-                  Atlet
-                </span>
+            <div class="flex items-center gap-4">
+              <!-- Profile Icon -->
+              <div
+                class="w-12 h-12 rounded-full bg-gradient-to-br from-[#597BF9]/20 to-[#4c6ef5]/30 flex items-center justify-center">
+                <svg class="w-8 h-8 text-[#597BF9]" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+
+              <!-- Profile Info -->
+              <div class="flex-1">
+                <h1 class="text-xl items-start font-bold text-gray-900">
+                  Budi Santoso
+                </h1>
+                <div class="mt-1">
+                  <span
+                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200">
+                    Atlet
+                  </span>
+                </div>
               </div>
             </div>
-            </div>
 
-<!-- Notification Icon -->
-<button @click="navigateTo('/notifications')" 
-        class="relative p-2 rounded-full bg-white/80 text-gray-600 hover:bg-white transition-colors duration-200">
-  
-  <!-- Bell Icon -->
-  <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-    <path stroke-linecap="round" stroke-linejoin="round" 
-          d="M15 17h5l-5 5v-5z" class="hidden"/> <!-- placeholder biar ga error -->
+            <!-- Notification Icon -->
+            <button @click="navigateTo('/notifications')"
+              class="relative p-2 rounded-full bg-white/80 text-gray-600 hover:bg-white transition-colors duration-200">
 
-    <path stroke-linecap="round" stroke-linejoin="round" 
-          d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h16z" />
-    <path stroke-linecap="round" stroke-linejoin="round" d="M9 21h6" />
-  </svg>
+              <!-- Bell Icon -->
+              <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-5 5v-5z" class="hidden" />
+                <!-- placeholder biar ga error -->
 
-  <!-- Red Dot (Notification Badge) -->
-  <span class="absolute top-1.5 right-1.5 block w-2.5 h-2.5 bg-red-500 rounded-full ring-2 ring-white"></span>
-</button>
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h16z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 21h6" />
+              </svg>
+
+              <!-- Red Dot (Notification Badge) -->
+              <span
+                class="absolute top-1.5 right-1.5 block w-2.5 h-2.5 bg-red-500 rounded-full ring-2 ring-white"></span>
+            </button>
 
           </div>
         </div>
 
         <!-- Enhanced Search Bar with glassmorphism -->
         <div class="relative">
-          <div class="flex flex-col gap-3 rounded-2xl bg-white/60 p-4 backdrop-blur-md border border-white/30 sm:flex-row sm:items-center">
+          <div
+            class="flex flex-col gap-3 rounded-2xl bg-white/60 p-4 backdrop-blur-md border border-white/30 sm:flex-row sm:items-center">
             <!-- Search Icon + Input with focus effects -->
             <div class="flex flex-1 items-center gap-3 group">
-              <div class="p-2 rounded-xl bg-gradient-to-br from-[#597BF9]/10 to-[#4c6ef5]/10 group-focus-within:from-[#597BF9]/20 group-focus-within:to-[#4c6ef5]/20 transition-all duration-200">
-                <svg
-                  class="h-5 w-5 text-[#597BF9] group-focus-within:scale-110 transition-transform duration-200"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
+              <div
+                class="p-2 rounded-xl bg-gradient-to-br from-[#597BF9]/10 to-[#4c6ef5]/10 group-focus-within:from-[#597BF9]/20 group-focus-within:to-[#4c6ef5]/20 transition-all duration-200">
+                <svg class="h-5 w-5 text-[#597BF9] group-focus-within:scale-110 transition-transform duration-200"
+                  fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div>
-              <input
-                type="text"
-                placeholder="Cari..."
-                class="w-full bg-transparent text-[15px] placeholder:text-gray-500 outline-none font-medium focus:placeholder:text-gray-400 transition-colors duration-200"
-              />
+              <input type="text" placeholder="Cari..."
+                class="w-full bg-transparent text-[15px] placeholder:text-gray-500 outline-none font-medium focus:placeholder:text-gray-400 transition-colors duration-200" />
             </div>
 
             <!-- Enhanced Custom Select Dropdown -->
             <div class="relative" style="position: relative; z-index: 9999;">
-              <div 
-                @click="toggleDropdown"
-                data-dropdown-trigger="program"
-                class="relative cursor-pointer rounded-xl bg-gradient-to-r from-[#EBEFFE] to-[#E0E7FF] px-4 py-3 pr-10 text-xs font-semibold text-[#597BF9] border-2 border-transparent hover:border-[#597BF9]/30 focus:border-[#597BF9] transition-all duration-200 hover:shadow-md transform hover:scale-[1.02] active:scale-[0.98]"
-              >
+              <div @click="toggleDropdown" data-dropdown-trigger="program"
+                class="relative cursor-pointer rounded-xl bg-gradient-to-r from-[#EBEFFE] to-[#E0E7FF] px-4 py-3 pr-10 text-xs font-semibold text-[#597BF9] border-2 border-transparent hover:border-[#597BF9]/30 focus:border-[#597BF9] transition-all duration-200 hover:shadow-md transform hover:scale-[1.02] active:scale-[0.98]">
                 <span>{{ selectedOption.label }}</span>
                 <!-- Animated arrow icon -->
                 <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-                  <svg
-                    class="h-4 w-4 text-[#597BF9] transition-transform duration-200"
-                    :class="{ 'rotate-180': isDropdownOpen }"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                  >
+                  <svg class="h-4 w-4 text-[#597BF9] transition-transform duration-200"
+                    :class="{ 'rotate-180': isDropdownOpen }" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
                 </div>
@@ -101,53 +90,47 @@
 
               <!-- Enhanced Dropdown Menu with animations -->
               <Teleport to="body">
-                <transition
-                  enter-active-class="transition duration-200 ease-out"
-                  enter-from-class="transform scale-95 opacity-0"
-                  enter-to-class="transform scale-100 opacity-100"
+                <transition enter-active-class="transition duration-200 ease-out"
+                  enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
                   leave-active-class="transition duration-150 ease-in"
-                  leave-from-class="transform scale-100 opacity-100"
-                  leave-to-class="transform scale-95 opacity-0"
-                >
-                  <div
-                    v-if="isDropdownOpen"
+                  leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
+                  <div v-if="isDropdownOpen"
                     class="fixed rounded-xl bg-white/95 backdrop-blur-md  border border-white/50 ring-1 ring-black/5 z-[99999] w-48"
-                    :style="getDropdownPosition()"
-                  >
+                    :style="getDropdownPosition()">
                     <div class="p-1">
-                      <div
-                        v-for="(option, index) in dropdownOptions"
-                        :key="option.value"
-                        @click="selectOption(option)"
+                      <div v-for="(option, index) in dropdownOptions" :key="option.value" @click="selectOption(option)"
                         class="group flex items-center w-full px-3 py-2.5 text-sm font-medium text-gray-700 rounded-lg hover:bg-gradient-to-r hover:from-[#597BF9]/10 hover:to-[#4c6ef5]/10 hover:text-[#597BF9] cursor-pointer transition-all duration-200 transform hover:scale-[1.02]"
                         :class="{
                           'bg-gradient-to-r from-[#597BF9]/20 to-[#4c6ef5]/20 text-[#597BF9]': selectedOption.value === option.value
-                        }"
-                      >
+                        }">
                         <!-- Icon for each option -->
                         <div class="mr-3 flex-shrink-0">
-                          <svg v-if="option.value === 'program-latihan'" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                          <svg v-if="option.value === 'program-latihan'" class="h-4 w-4" fill="none"
+                            stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                           </svg>
-                          <svg v-else-if="option.value === 'pemeriksaan'" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          <svg v-else-if="option.value === 'pemeriksaan'" class="h-4 w-4" fill="none"
+                            stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
-                          <svg v-else-if="option.value === 'turnamen'" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                          <svg v-else-if="option.value === 'turnamen'" class="h-4 w-4" fill="none" stroke="currentColor"
+                            stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                           </svg>
-                          <svg v-else class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                          <svg v-else class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                           </svg>
                         </div>
                         <span>{{ option.label }}</span>
                         <!-- Check mark for selected option -->
-                        <svg 
-                          v-if="selectedOption.value === option.value"
-                          class="ml-auto h-4 w-4 text-[#597BF9]" 
-                          fill="currentColor" 
-                          viewBox="0 0 20 20"
-                        >
-                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        <svg v-if="selectedOption.value === option.value" class="ml-auto h-4 w-4 text-[#597BF9]"
+                          fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clip-rule="evenodd" />
                         </svg>
                       </div>
                     </div>
@@ -163,32 +146,47 @@
       <div class="mb-8">
         <div class="rounded-2xl bg-white/70 backdrop-blur-md p-5 border border-white/40">
           <!-- Top row with enhanced icons and animations -->
-          <div class="grid grid-cols-3 gap-4 mb-5">
+          <div class="flex justify-between">
             <div @click="navigateTo('/program-latihan')" class="flex flex-col items-center gap-2 group cursor-pointer">
-              <div class="rounded-2xl bg-gradient-to-br from-[#597BF9]/10 to-[#4c6ef5]/20 p-4 group-hover:from-[#597BF9]/20 group-hover:to-[#4c6ef5]/30 transition-all duration-300 group-hover:shadow-lg group-hover:scale-110 flex-shrink-0">
-                <svg class="h-6 w-6 text-[#597BF9] group-hover:scale-110 transition-transform duration-200 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <div
+                class="rounded-2xl bg-gradient-to-br from-[#597BF9]/10 to-[#4c6ef5]/20 p-4 group-hover:from-[#597BF9]/20 group-hover:to-[#4c6ef5]/30 transition-all duration-300 group-hover:shadow-lg group-hover:scale-110 flex-shrink-0">
+                <svg
+                  class="h-6 w-6 text-[#597BF9] group-hover:scale-110 transition-transform duration-200 flex-shrink-0"
+                  fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <span class="text-xs font-semibold text-gray-700 text-center group-hover:text-[#597BF9] transition-colors duration-200 whitespace-nowrap">P. Latihan</span>
+              <span
+                class="text-xs font-semibold text-gray-700 text-center group-hover:text-[#597BF9] transition-colors duration-200 whitespace-nowrap">P.
+                Latihan</span>
             </div>
-            
+
             <div @click="navigateTo('/pemeriksaan')" class="flex flex-col items-center gap-2 group cursor-pointer">
-              <div class="rounded-2xl bg-gradient-to-br from-emerald-100 to-green-200 p-4 group-hover:from-emerald-200 group-hover:to-green-300 transition-all duration-300 group-hover:shadow-lg group-hover:scale-110 flex-shrink-0">
-                <svg class="h-6 w-6 text-green-600 group-hover:scale-110 transition-transform duration-200 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <div
+                class="rounded-2xl bg-gradient-to-br from-emerald-100 to-green-200 p-4 group-hover:from-emerald-200 group-hover:to-green-300 transition-all duration-300 group-hover:shadow-lg group-hover:scale-110 flex-shrink-0">
+                <svg
+                  class="h-6 w-6 text-green-600 group-hover:scale-110 transition-transform duration-200 flex-shrink-0"
+                  fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <span class="text-xs font-semibold text-gray-700 text-center group-hover:text-green-600 transition-colors duration-200 whitespace-nowrap">Pemeriksaan</span>
+              <span
+                class="text-xs font-semibold text-gray-700 text-center group-hover:text-green-600 transition-colors duration-200 whitespace-nowrap">Pemeriksaan</span>
             </div>
-            
+
             <div @click="navigateTo('/turnamen')" class="flex flex-col items-center gap-2 group cursor-pointer">
-              <div class="rounded-2xl bg-gradient-to-br from-orange-100 to-red-200 p-4 group-hover:from-orange-200 group-hover:to-red-300 transition-all duration-300 group-hover:shadow-lg group-hover:scale-110 flex-shrink-0">
-                <svg class="h-6 w-6 text-orange-600 group-hover:scale-110 transition-transform duration-200 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              <div
+                class="rounded-2xl bg-gradient-to-br from-orange-100 to-red-200 p-4 group-hover:from-orange-200 group-hover:to-red-300 transition-all duration-300 group-hover:shadow-lg group-hover:scale-110 flex-shrink-0">
+                <svg
+                  class="h-6 w-6 text-orange-600 group-hover:scale-110 transition-transform duration-200 flex-shrink-0"
+                  fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                 </svg>
               </div>
-              <span class="text-xs font-semibold text-gray-700 text-center group-hover:text-orange-600 transition-colors duration-200 whitespace-nowrap">Turnamen</span>
+              <span
+                class="text-xs font-semibold text-gray-700 text-center group-hover:text-orange-600 transition-colors duration-200 whitespace-nowrap">Turnamen</span>
             </div>
           </div>
 
@@ -200,10 +198,13 @@
       <div class="mb-8">
         <div class="mb-4 flex items-center justify-between">
           <h2 class="text-lg font-bold text-gray-700">Program Latihan Terbaru</h2>
-          <button class="text-[#597BF9] text-sm font-semibold hover:text-[#4c6ef5] transition-colors duration-200 hover:underline">Lihat Semua</button>
+          <button
+            class="text-[#597BF9] text-sm font-semibold hover:text-[#4c6ef5] transition-colors duration-200 hover:underline">Lihat
+            Semua</button>
         </div>
         <div class="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-          <div v-for="program in programLatihan" :key="program.id" class="flex-shrink-0 w-64 rounded-2xl bg-white/80 backdrop-blur-sm p-5 border border-white/40 hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+          <div v-for="program in programLatihan" :key="program.id"
+            class="flex-shrink-0 w-64 rounded-2xl bg-white/80 backdrop-blur-sm p-5 border border-white/40 hover:bg-gray-100 transition-all duration-300">
             <!-- Image -->
             <!-- <div class="mb-4 h-32 rounded-2xl bg-gradient-to-br from-[#597BF9]/20 to-[#4c6ef5]/30 flex items-center justify-center relative overflow-hidden">
               <div class="absolute inset-0 opacity-20">
@@ -214,21 +215,25 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div> -->
-            
+
             <!-- Enhanced Badge -->
             <div class="mb-3">
-              <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-[#597BF9]/10 to-[#4c6ef5]/20 text-[#597BF9] border border-[#597BF9]/30">
+              <span
+                class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-[#597BF9]/10 to-[#4c6ef5]/20 text-[#597BF9] border border-[#597BF9]/30">
                 <svg class="w-3 h-3 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  <path fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clip-rule="evenodd" />
                 </svg>
                 {{ program.cabor }}
               </span>
             </div>
-            
+
             <h3 class="mb-4 text-sm font-bold text-gray-700 line-clamp-2">{{ program.nama }}</h3>
             <div class="mt-3 flex items-center gap-2 text-xs text-gray-600">
               <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               <span class="font-medium">{{ formatPeriode(program.periode) }}</span>
             </div>
@@ -240,10 +245,13 @@
       <div class="mb-8">
         <div class="mb-4 flex items-center justify-between">
           <h2 class="text-lg font-bold text-gray-700">Pemeriksaan Terbaru</h2>
-          <button class="text-[#597BF9] text-sm font-semibold hover:text-[#4c6ef5] transition-colors duration-200 hover:underline">Lihat Semua</button>
+          <button
+            class="text-[#597BF9] text-sm font-semibold hover:text-[#4c6ef5] transition-colors duration-200 hover:underline">Lihat
+            Semua</button>
         </div>
         <div class="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-          <div v-for="pemeriksaan in dataPemeriksaan" :key="pemeriksaan.id" class="flex-shrink-0 w-64 rounded-2xl bg-white/80 backdrop-blur-sm p-5 border border-white/40 hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+          <div v-for="pemeriksaan in dataPemeriksaan" :key="pemeriksaan.id"
+            class="flex-shrink-0 w-64 rounded-2xl bg-white/80 backdrop-blur-sm p-5 border border-white/40 hover:bg-gray-100 transition-all duration-300">
             <!-- Image -->
             <!-- <div class="mb-4 h-32 rounded-2xl bg-gradient-to-br from-green-100 to-emerald-200 flex items-center justify-center relative overflow-hidden">
               <div class="absolute inset-0 opacity-20">
@@ -254,20 +262,24 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div> -->
-            
+
             <div class="mb-3">
-              <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-200 text-green-700 border border-green-300">
+              <span
+                class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-200 text-green-700 border border-green-300">
                 <svg class="w-3 h-3 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  <path fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clip-rule="evenodd" />
                 </svg>
                 {{ pemeriksaan.cabor }}
               </span>
             </div>
-            
+
             <h3 class="mb-4 text-sm font-bold text-gray-700 line-clamp-2">{{ pemeriksaan.nama }}</h3>
             <div class="mt-3 flex items-center gap-2 text-xs text-gray-600">
               <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               <span class="font-medium">{{ formatTanggal(pemeriksaan.tanggal) }}</span>
             </div>
@@ -279,10 +291,13 @@
       <div class="mb-8">
         <div class="mb-4 flex items-center justify-between">
           <h2 class="text-lg font-bold text-gray-700">Turnamen Terbaru</h2>
-          <button class="text-[#597BF9] text-sm font-semibold hover:text-[#4c6ef5] transition-colors duration-200 hover:underline">Lihat Semua</button>
+          <button
+            class="text-[#597BF9] text-sm font-semibold hover:text-[#4c6ef5] transition-colors duration-200 hover:underline">Lihat
+            Semua</button>
         </div>
         <div class="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-          <div v-for="turnamen in dataTurnamen" :key="turnamen.id" class="flex-shrink-0 w-64 rounded-2xl bg-white/80 backdrop-blur-sm p-5 border border-white/40 hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+          <div v-for="turnamen in dataTurnamen" :key="turnamen.id"
+            class="flex-shrink-0 w-64 rounded-2xl bg-white/80 backdrop-blur-sm p-5 border border-white/40 hover:bg-gray-100 transition-all duration-300">
             <!-- Image -->
             <!-- <div class="mb-4 h-32 rounded-2xl bg-gradient-to-br from-orange-100 to-red-200 flex items-center justify-center relative overflow-hidden">
               <div class="absolute inset-0 opacity-20">
@@ -293,20 +308,24 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
               </svg>
             </div> -->
-            
+
             <div class="mb-3">
-              <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-orange-100 to-red-200 text-orange-700 border border-orange-300">
+              <span
+                class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-orange-100 to-red-200 text-orange-700 border border-orange-300">
                 <svg class="w-3 h-3 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  <path fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clip-rule="evenodd" />
                 </svg>
                 {{ turnamen.cabor }}
               </span>
             </div>
-            
+
             <h3 class="mb-4 text-sm font-bold text-gray-700 line-clamp-2">{{ turnamen.nama }}</h3>
             <div class="mt-3 flex items-center gap-2 text-xs text-gray-600">
               <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               <span class="font-medium">{{ formatPeriode(turnamen.periode) }}</span>
             </div>
@@ -322,11 +341,7 @@
     <BottomNavigation />
 
     <!-- Click outside handler for dropdowns -->
-    <div 
-      v-if="isDropdownOpen || isCategoryDropdownOpen" 
-      @click="closeAllDropdowns"
-      class="fixed inset-0 z-30"
-    ></div>
+    <div v-if="isDropdownOpen || isCategoryDropdownOpen" @click="closeAllDropdowns" class="fixed inset-0 z-30"></div>
   </div>
 </template>
 
@@ -436,24 +451,24 @@ const formatPeriode = (periodeString: string) => {
     if (parts.length !== 2) {
       return periodeString // Fallback jika format tidak sesuai
     }
-    
+
     const [startDateStr = '', endDateStr = ''] = parts
     const startDate = new Date(startDateStr)
     const endDate = new Date(endDateStr)
-    
+
     const monthNames = [
       'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
       'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
     ]
-    
+
     const startDay = startDate.getDate()
     const startMonth = startDate.getMonth()
     const startYear = startDate.getFullYear()
-    
+
     const endDay = endDate.getDate()
     const endMonth = endDate.getMonth()
     const endYear = endDate.getFullYear()
-    
+
     // Jika tahun berbeda
     if (startYear !== endYear) {
       return `${startDay} ${monthNames[startMonth]} ${startYear} - ${endDay} ${monthNames[endMonth]} ${endYear}`
@@ -479,12 +494,12 @@ const formatTanggal = (tanggalString: string) => {
     const day = date.getDate()
     const month = date.getMonth()
     const year = date.getFullYear()
-    
+
     const monthNames = [
       'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
       'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
     ]
-    
+
     return `${day} ${monthNames[month]} ${year}`
   } catch (error) {
     return tanggalString
@@ -517,8 +532,8 @@ onUnmounted(() => {
 // Function to toggle save state
 const toggleSave = (category: string, id: number) => {
   let targetArray: any[]
-  
-  switch(category) {
+
+  switch (category) {
     case 'program-latihan':
       targetArray = programLatihan.value
       break
@@ -531,7 +546,7 @@ const toggleSave = (category: string, id: number) => {
     default:
       return
   }
-  
+
   const item = targetArray.find(item => item.id === id)
   if (item) {
     item.isSaved = !item.isSaved
@@ -727,12 +742,15 @@ button:active {
 
 /* Hidden scrollbar for horizontal scroll */
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* Internet Explorer 10+ */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none;  /* Safari and Chrome */
+  display: none;
+  /* Safari and Chrome */
 }
 
 /* Smooth scrolling for drag scroll */

@@ -88,7 +88,7 @@
         <div
           v-for="pemeriksaan in filteredPemeriksaan"
           :key="pemeriksaan.id"
-          class="group rounded-2xl bg-white/90 p-5 shadow-sm backdrop-blur transition-all duration-300 hover:-translate-y-1"
+          class="group rounded-2xl bg-white/90 p-5 backdrop-blur transition-all duration-300 hover:-translate-y-1"
         >
           <!-- Pemeriksaan Header -->
           <div class="mb-6">

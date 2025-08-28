@@ -100,7 +100,7 @@
   <div
     v-for="program in filteredPrograms"
     :key="program.id"
-    class="group rounded-2xl bg-white/90 p-5 shadow-sm backdrop-blur transition-all duration-300  hover:-translate-y-1"
+    class="group rounded-2xl bg-white/90 p-5 backdrop-blur transition-all duration-300  hover:-translate-y-1"
   >
     <!-- Program Header -->
     <div class="mb-6">

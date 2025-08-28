@@ -12,7 +12,7 @@
       <!-- Profile Menu List -->
       <div class="space-y-2">
         <!-- Informasi Pribadi -->
-        <div class="bg-white/90 rounded-2xl shadow-sm backdrop-blur">
+        <div class="bg-white/90 rounded-2xl backdrop-blur">
           <button 
             @click="navigateTo('/profile/informasi-pribadi')"
             class="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition-colors rounded-2xl"
@@ -32,7 +32,7 @@
         </div>
 
         <!-- Pengaturan -->
-        <div class="bg-white/90 rounded-2xl shadow-sm backdrop-blur">
+        <div class="bg-white/90 rounded-2xl backdrop-blur">
           <button 
             @click="navigateTo('/profile/pengaturan')"
             class="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition-colors rounded-2xl"
@@ -53,7 +53,7 @@
         </div>
 
         <!-- Keluar -->
-        <div class="bg-white/90 rounded-2xl shadow-sm backdrop-blur">
+        <div class="bg-white/90 rounded-2xl backdrop-blur">
           <button 
             @click="handleLogout"
             class="w-full flex items-center justify-between p-4 text-left hover:bg-red-50 transition-colors rounded-2xl"
