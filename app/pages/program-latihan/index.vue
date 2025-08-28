@@ -2,17 +2,6 @@
   <div class="min-h-screen">
     <div class="mx-auto flex min-h-screen w-full max-w-[410px] flex-col px-4 py-8" style="background: linear-gradient(180deg,rgba(216, 224, 255, 1) 0%, rgba(248, 250, 251, 1) 50%, rgba(226, 224, 255, 1) 100%);">
       
-      <!-- Header -->
-      <div class="mb-6">
-        <div class="flex items-center gap-3 mb-4">
-          <button @click="$router.push('/home')" class="p-2 rounded-full bg-white/80 text-gray-600 hover:bg-white">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <h1 class="text-[24px] font-bold text-gray-900">Program Latihan</h1>
-        </div>
-      </div>
 
       <!-- Search & Filter Section -->
       <div class="mb-6 space-y-4">
@@ -103,12 +92,6 @@
           </svg>
           <span>{{ formatPeriode(program.periode) }}</span>
         </div>
-        <div class="flex items-center gap-2">
-          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-          </svg>
-          <span>{{ program.jumlahPeserta }} peserta</span>
-        </div>
       </div>
 
     </div>
@@ -116,10 +99,10 @@
     <!-- Action Buttons -->
     <div class="flex gap-3">
       <button 
-        @click="viewDetail(program.id)"
+        @click="viewRencana(program.id)"
         class="flex-1 bg-[#597BF9] text-white py-2 px-4 rounded-xl text-sm font-medium hover:bg-[#4c6ef5] transition-colors"
       >
-        Lihat Detail
+        Rencana Latihan
       </button>
     </div>
   </div>
@@ -212,9 +195,10 @@ const toggleSave = (id: number) => {
 }
 
 // Navigation Functions
-const viewDetail = (id: number) => {
+const viewRencana = (id: number) => {
   router.push(`/program-latihan/${id}`)
 }
+
 
 
 
@@ -250,7 +234,6 @@ const programLatihan = ref([
     kategori: "Putra",
     periode: "2025-08-01 s/d 2025-08-24",
     keterangan: "Fokus pada penguatan fisik dan stamina.",
-    jumlahPeserta: 15,
     isSaved: false
   },
   {
@@ -260,7 +243,6 @@ const programLatihan = ref([
     kategori: "Putra/Putri",
     periode: "2025-08-25 s/d 2025-09-15",
     keterangan: "Pengembangan teknik dribbling, shooting, dan passing.",
-    jumlahPeserta: 20,
     isSaved: false
   },
   {
@@ -270,7 +252,6 @@ const programLatihan = ref([
     kategori: "Putra",
     periode: "2025-12-03 s/d 2026-01-10",
     keterangan: "Peningkatan kebugaran dan ketahanan fisik.",
-    jumlahPeserta: 12,
     isSaved: false
   },
   {
@@ -280,7 +261,6 @@ const programLatihan = ref([
     kategori: "Putra/Putri",
     periode: "2025-08-20 s/d 2025-09-20",
     keterangan: "Pelatihan teknik dasar tenis untuk pemula.",
-    jumlahPeserta: 18,
     isSaved: false
   },
   {
@@ -290,7 +270,6 @@ const programLatihan = ref([
     kategori: "Putra",
     periode: "2025-08-05 s/d 2025-09-05",
     keterangan: "Pengembangan teknik renang dan kecepatan.",
-    jumlahPeserta: 25,
     isSaved: false
   }
 ])

@@ -10,121 +10,30 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h1 class="text-[24px] font-bold text-gray-900">Detail Program</h1>
-        </div>
-      </div>
-
-      <!-- Program Info Card -->
-      <div class="rounded-2xl bg-white/90 p-6 shadow-sm backdrop-blur mb-6">
-        <div class="flex items-start justify-between mb-4">
-          <h2 class="text-xl font-bold text-gray-900">{{ program.nama }}</h2>
-          <button 
-            @click="toggleSave"
-            class="rounded-full p-2 transition-all duration-200 hover:scale-110"
-            :class="program.isSaved ? 'bg-[#597BF9] text-white' : 'bg-gray-100 text-gray-400 hover:bg-gray-200'"
-          >
-            <svg v-if="program.isSaved" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-4-7 4V5z" />
-            </svg>
-            <svg v-else class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-4-7 4V5z" />
-            </svg>
-          </button>
-        </div>
-
-        <!-- Cabor Badge -->
-        <div class="mb-4">
-          <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-[#597BF9]/10 text-[#597BF9] border border-[#597BF9]/20">
-            {{ program.cabor }}
-          </span>
-        </div>
-
-        <!-- Program Details -->
-        <div class="space-y-3 mb-6">
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-[#597BF9]/10 flex items-center justify-center">
-              <svg class="w-4 h-4 text-[#597BF9]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-              </svg>
-            </div>
-            <div>
-              <p class="text-xs text-gray-500">Kategori</p>
-              <p class="text-sm font-medium text-gray-900">{{ program.kategori }}</p>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-[#597BF9]/10 flex items-center justify-center">
-              <svg class="w-4 h-4 text-[#597BF9]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <div>
-              <p class="text-xs text-gray-500">Periode</p>
-              <p class="text-sm font-medium text-gray-900">{{ formatPeriode(program.periode) }}</p>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-[#597BF9]/10 flex items-center justify-center">
-              <svg class="w-4 h-4 text-[#597BF9]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-            </div>
-            <div>
-              <p class="text-xs text-gray-500">Jumlah Peserta</p>
-              <p class="text-sm font-medium text-gray-900">{{ program.jumlahPeserta }} orang</p>
-            </div>
-          </div>
-
-          <div class="flex items-start gap-3">
-            <div class="w-8 h-8 rounded-full bg-[#597BF9]/10 flex items-center justify-center mt-1">
-              <svg class="w-4 h-4 text-[#597BF9]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-            <div>
-              <p class="text-xs text-gray-500">Keterangan</p>
-              <p class="text-sm text-gray-900">{{ program.keterangan }}</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="flex gap-3">
-          <button 
-            @click="viewTarget"
-            class="flex-1 bg-[#597BF9] text-white py-3 px-4 rounded-xl text-sm font-medium hover:bg-[#4c6ef5] transition-colors"
-          >
-            Lihat Target
-          </button>
+          <h1 class="text-[24px] font-bold text-gray-900">Rencana Latihan</h1>
         </div>
       </div>
 
       <!-- Rencana Latihan -->
       <div class="rounded-2xl bg-white/90 p-6 shadow-sm backdrop-blur mb-6">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Rencana Latihan</h3>
+
         
         <div class="space-y-4">
           <div v-for="rencana in rencanaLatihan" :key="rencana.id" 
-               class="p-4 bg-gray-50 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors"
-               @click="viewPesertaRencana(rencana.id)">
+               class="p-4 bg-gray-50 rounded-xl border border-gray-200">
             <div class="flex items-start justify-between mb-3">
               <div class="flex-1">
                 <div class="flex items-center gap-2 mb-2">
                   <svg class="w-4 h-4 text-[#597BF9]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  <span class="text-sm font-medium text-gray-900">{{ formatTanggal(rencana.tanggal) }}</span>
+                  <span class="text-sm font-medium text-gray-900">{{ formatTanggalBulan(rencana.tanggal) }}</span>
                 </div>
                 <h4 class="font-semibold text-gray-900 mb-2">{{ rencana.materi }}</h4>
               </div>
-              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
             </div>
             
-            <div class="space-y-2 text-sm">
+            <div class="space-y-2 text-sm mb-4">
               <div class="flex items-center gap-2">
                 <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -146,6 +55,22 @@
                 </svg>
                 <span class="text-gray-600">{{ rencana.targetLatihan }}</span>
               </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-3">
+              <button 
+                @click="viewPesertaRencana(rencana.id)"
+                class="flex-1 bg-[#597BF9] text-white py-2 px-4 rounded-xl text-sm font-medium hover:bg-[#4c6ef5] transition-colors"
+              >
+                Lihat Peserta
+              </button>
+              <button 
+                @click="viewTargetRencana(rencana.id)"
+                class="flex-1 bg-green-500 text-white py-2 px-4 rounded-xl text-sm font-medium hover:bg-green-600 transition-colors"
+              >
+                Lihat Target
+              </button>
             </div>
           </div>
         </div>
@@ -212,6 +137,25 @@ const formatPeriode = (periodeString: string) => {
   }
 }
 
+// Helper function untuk format tanggal rencana (contoh: "12 Agustus 2025")
+const formatTanggalBulan = (tanggalString: string) => {
+  try {
+    const date = new Date(tanggalString)
+    const day = date.getDate()
+    const month = date.getMonth()
+    const year = date.getFullYear()
+    
+    const monthNames = [
+      'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+      'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    ]
+    
+    return `${day} ${monthNames[month]} ${year}`
+  } catch (error) {
+    return tanggalString
+  }
+}
+
 // Validate and handle route params
 const programIdParam = route.params.id as string
 console.log('Detail page - Raw route param:', programIdParam)
@@ -259,26 +203,19 @@ const rencanaLatihan = ref([
     atlet: ["Andi Wijaya", "Rizky Pratama"],
     pelatih: ["Agus Salim"],
     tenagaPendukung: ["Slamet Raharjo"]
+  },
+  {
+    id: 3,
+    tanggal: "2025-08-18",
+    materi: "Latihan taktik dan formasi",
+    lokasi: "Lapangan Indoor",
+    catatan: "Latihan formasi 4-4-2 dan 3-5-2",
+    targetLatihan: "Pemahaman Taktik, Koordinasi Tim, Komunikasi",
+    atlet: ["Budi Santoso", "Andi Wijaya", "Rizky Pratama"],
+    pelatih: ["Agus Salim", "Sri Rahayu"],
+    tenagaPendukung: ["Slamet Raharjo"]
   }
 ])
-
-// Helper function untuk format tanggal rencana
-const formatTanggal = (tanggalString: string) => {
-  try {
-    const date = new Date(tanggalString)
-    const day = date.getDate()
-    const month = date.getMonth() + 1
-    const year = date.getFullYear()
-    return `${day}/${month}/${year}`
-  } catch (error) {
-    return tanggalString
-  }
-}
-
-// Toggle Save
-const toggleSave = () => {
-  program.value.isSaved = !program.value.isSaved
-}
 
 // Navigation Functions
 const viewTarget = () => {
@@ -293,6 +230,11 @@ const viewRencana = () => {
 const viewPesertaRencana = (rencanaId: number) => {
   console.log('Navigating to peserta rencana for:', rencanaId)
   router.push(`/program-latihan/${programId}/rencana/${rencanaId}/peserta`)
+}
+
+const viewTargetRencana = (rencanaId: number) => {
+  console.log('Navigating to target for rencana:', rencanaId)
+  router.push(`/program-latihan/${programId}/rencana/${rencanaId}/targets`)
 }
 
 onMounted(() => {

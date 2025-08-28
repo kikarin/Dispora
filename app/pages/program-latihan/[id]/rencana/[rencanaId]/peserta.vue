@@ -32,102 +32,140 @@
       </div>
 
       <!-- Content based on active tab -->
-      <div class="rounded-2xl bg-white/90 p-6 shadow-sm backdrop-blur">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">
-          {{ tabs.find((t: any) => t.id === activeTab)?.label }}
-        </h3>
-        
+      <div class="space-y-4">
         <!-- Peserta Atlet -->
-        <div v-if="activeTab === 'atlet'" class="space-y-4">
+        <div v-if="activeTab === 'atlet'" class="space-y-3">
           <div v-for="peserta in pesertaData.atlet" :key="peserta.id" 
-               class="p-4 bg-gray-50 rounded-xl border border-gray-200">
-            <div class="flex items-start justify-between mb-3">
-              <div class="flex-1">
-                <h4 class="font-semibold text-gray-900 mb-1">{{ peserta.nama }}</h4>
-                <div class="flex items-center gap-4 text-sm text-gray-600">
-                  <span>{{ peserta.jenisKelamin }}</span>
-                  <span>{{ peserta.usia }} tahun</span>
-                  <span>{{ peserta.posisi }}</span>
+               class="bg-white/90 rounded-2xl p-4 shadow-sm backdrop-blur">
+            <div class="flex items-start gap-4">
+              <!-- Foto Peserta -->
+              <div class="flex-shrink-0">
+                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#597BF9]/20 to-[#4c6ef5]/30 flex items-center justify-center overflow-hidden">
+                  <img v-if="peserta.foto" :src="peserta.foto" :alt="peserta.nama" class="w-full h-full object-cover" />
+                  <svg v-else class="w-8 h-8 text-[#597BF9]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
                 </div>
               </div>
-              <div class="text-right">
-                <p class="text-xs text-gray-500 mb-1">Tempat Lahir</p>
-                <p class="text-sm font-medium">{{ peserta.tempatLahir }}</p>
-              </div>
-            </div>
-            
-            <div class="flex items-center justify-between text-sm">
-              <div>
-                <p class="text-gray-500">Tanggal Lahir</p>
-                <p class="font-medium">{{ formatTanggal(peserta.tanggalLahir) }}</p>
-              </div>
-              <div class="text-right">
-                <p class="text-gray-500">No HP</p>
-                <p class="font-medium">{{ peserta.noHp }}</p>
+              
+              <!-- Info Peserta -->
+              <div class="flex-1 min-w-0">
+                <h4 class="font-semibold text-gray-900 text-lg mb-1 truncate">{{ peserta.nama }}</h4>
+                <div class="flex items-center gap-3 text-sm text-gray-600 mb-2">
+                  <span class="flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    {{ peserta.jenisKelamin }}
+                  </span>
+                  <span>{{ peserta.usia }} tahun</span>
+                  <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">{{ peserta.posisi }}</span>
+                </div>
+                
+                <!-- Status Kehadiran -->
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-gray-500">Kehadiran:</span>
+                  <span v-if="peserta.kehadiran" 
+                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
+                        :class="getKehadiranBadgeClass(peserta.kehadiran)">
+                    {{ peserta.kehadiran }}
+                  </span>
+                  <span v-else class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                    -
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Peserta Pelatih -->
-        <div v-else-if="activeTab === 'pelatih'" class="space-y-4">
+        <div v-else-if="activeTab === 'pelatih'" class="space-y-3">
           <div v-for="peserta in pesertaData.pelatih" :key="peserta.id" 
-               class="p-4 bg-gray-50 rounded-xl border border-gray-200">
-            <div class="flex items-start justify-between mb-3">
-              <div class="flex-1">
-                <h4 class="font-semibold text-gray-900 mb-1">{{ peserta.nama }}</h4>
-                <div class="flex items-center gap-4 text-sm text-gray-600">
-                  <span>{{ peserta.jenisKelamin }}</span>
-                  <span>{{ peserta.usia }} tahun</span>
-                  <span>{{ peserta.jenisPelatih }}</span>
+               class="bg-white/90 rounded-2xl p-4 shadow-sm backdrop-blur">
+            <div class="flex items-start gap-4">
+              <!-- Foto Peserta -->
+              <div class="flex-shrink-0">
+                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-green-100 to-emerald-200 flex items-center justify-center overflow-hidden">
+                  <img v-if="peserta.foto" :src="peserta.foto" :alt="peserta.nama" class="w-full h-full object-cover" />
+                  <svg v-else class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
                 </div>
               </div>
-              <div class="text-right">
-                <p class="text-xs text-gray-500 mb-1">Tempat Lahir</p>
-                <p class="text-sm font-medium">{{ peserta.tempatLahir }}</p>
-              </div>
-            </div>
-            
-            <div class="flex items-center justify-between text-sm">
-              <div>
-                <p class="text-gray-500">Tanggal Lahir</p>
-                <p class="font-medium">{{ formatTanggal(peserta.tanggalLahir) }}</p>
-              </div>
-              <div class="text-right">
-                <p class="text-gray-500">No HP</p>
-                <p class="font-medium">{{ peserta.noHp }}</p>
+              
+              <!-- Info Peserta -->
+              <div class="flex-1 min-w-0">
+                <h4 class="font-semibold text-gray-900 text-lg mb-1 truncate">{{ peserta.nama }}</h4>
+                <div class="flex items-center gap-3 text-sm text-gray-600 mb-2">
+                  <span class="flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    {{ peserta.jenisKelamin }}
+                  </span>
+                  <span>{{ peserta.usia }} tahun</span>
+                  <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">{{ peserta.jenisPelatih }}</span>
+                </div>
+                
+                <!-- Status Kehadiran -->
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-gray-500">Kehadiran:</span>
+                  <span v-if="peserta.kehadiran" 
+                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
+                        :class="getKehadiranBadgeClass(peserta.kehadiran)">
+                    {{ peserta.kehadiran }}
+                  </span>
+                  <span v-else class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                   -
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Peserta Tenaga Pendukung -->
-        <div v-else-if="activeTab === 'tenaga-pendukung'" class="space-y-4">
+        <div v-else-if="activeTab === 'tenaga-pendukung'" class="space-y-3">
           <div v-for="peserta in pesertaData.tenagaPendukung" :key="peserta.id" 
-               class="p-4 bg-gray-50 rounded-xl border border-gray-200">
-            <div class="flex items-start justify-between mb-3">
-              <div class="flex-1">
-                <h4 class="font-semibold text-gray-900 mb-1">{{ peserta.nama }}</h4>
-                <div class="flex items-center gap-4 text-sm text-gray-600">
-                  <span>{{ peserta.jenisKelamin }}</span>
-                  <span>{{ peserta.usia }} tahun</span>
-                  <span>{{ peserta.jenisTenagaPendukung }}</span>
+               class="bg-white/90 rounded-2xl p-4 shadow-sm backdrop-blur">
+            <div class="flex items-start gap-4">
+              <!-- Foto Peserta -->
+              <div class="flex-shrink-0">
+                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-orange-100 to-red-200 flex items-center justify-center overflow-hidden">
+                  <img v-if="peserta.foto" :src="peserta.foto" :alt="peserta.nama" class="w-full h-full object-cover" />
+                  <svg v-else class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
                 </div>
               </div>
-              <div class="text-right">
-                <p class="text-xs text-gray-500 mb-1">Tempat Lahir</p>
-                <p class="text-sm font-medium">{{ peserta.tempatLahir }}</p>
-              </div>
-            </div>
-            
-            <div class="flex items-center justify-between text-sm">
-              <div>
-                <p class="text-gray-500">Tanggal Lahir</p>
-                <p class="font-medium">{{ formatTanggal(peserta.tanggalLahir) }}</p>
-              </div>
-              <div class="text-right">
-                <p class="text-gray-500">No HP</p>
-                <p class="font-medium">{{ peserta.noHp }}</p>
+              
+              <!-- Info Peserta -->
+              <div class="flex-1 min-w-0">
+                <h4 class="font-semibold text-gray-900 text-lg mb-1 truncate">{{ peserta.nama }}</h4>
+                <div class="flex items-center gap-3 text-sm text-gray-600 mb-2">
+                  <span class="flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    {{ peserta.jenisKelamin }}
+                  </span>
+                  <span>{{ peserta.usia }} tahun</span>
+                  <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs font-medium">{{ peserta.jenisTenagaPendukung }}</span>
+                </div>
+                
+                <!-- Status Kehadiran -->
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-gray-500">Kehadiran:</span>
+                  <span v-if="peserta.kehadiran" 
+                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
+                        :class="getKehadiranBadgeClass(peserta.kehadiran)">
+                    {{ peserta.kehadiran }}
+                  </span>
+                  <span v-else class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                    -
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -186,90 +224,97 @@ const tabs = [
 // Loading state
 const loading = ref(false)
 
-// Helper function untuk format tanggal
-const formatTanggal = (tanggalString: string) => {
-  try {
-    const date = new Date(tanggalString)
-    const day = date.getDate()
-    const month = date.getMonth() + 1
-    const year = date.getFullYear()
-    return `${day}/${month}/${year}`
-  } catch (error) {
-    return tanggalString
+// Helper function untuk mendapatkan class badge berdasarkan kehadiran
+const getKehadiranBadgeClass = (kehadiran: string) => {
+  switch (kehadiran) {
+    case 'Hadir':
+      return 'bg-green-100 text-green-800'
+    case 'Tidak Hadir':
+      return 'bg-red-100 text-red-800'
+    case 'Izin':
+      return 'bg-yellow-100 text-yellow-800'
+    case 'Sakit':
+      return 'bg-purple-100 text-purple-800'
+    default:
+      return 'bg-gray-100 text-gray-600'
   }
 }
 
 // Peserta Data berdasarkan gambar yang diberikan
 const pesertaData = ref({
-  atlet: [
-    {
-      id: 1,
-      nama: "Budi Santoso",
-      jenisKelamin: "Laki-laki",
-      usia: 25,
-      posisi: "Small Forward",
-      tempatLahir: "Jakarta",
-      tanggalLahir: "2000-01-01",
-      noHp: "081234567890"
-    },
-    {
-      id: 2,
-      nama: "Andi Wijaya",
-      jenisKelamin: "Laki-laki", 
-      usia: 23,
-      posisi: "Point Guard",
-      tempatLahir: "Surabaya",
-      tanggalLahir: "2002-03-03",
-      noHp: "081234567892"
-    },
-    {
-      id: 3,
-      nama: "Rizky Pratama",
-      jenisKelamin: "Laki-laki",
-      usia: 21,
-      posisi: "Bek Tengah", 
-      tempatLahir: "Yogyakarta",
-      tanggalLahir: "2004-05-05",
-      noHp: "081234567894"
-    }
-  ],
-  pelatih: [
-    {
-      id: 1,
-      nama: "Agus Salim",
-      jenisKelamin: "Laki-laki",
-      usia: 45,
-      jenisPelatih: "Pelatih Fisik",
-      tempatLahir: "Medan",
-      tanggalLahir: "1980-01-01",
-      noHp: "081298765432"
-    },
-    {
-      id: 2,
-      nama: "Sri Rahayu",
-      jenisKelamin: "Perempuan",
-      usia: 42,
-      jenisPelatih: "Pelatih Fisik",
-      tempatLahir: "Padang", 
-      tanggalLahir: "1982-02-02",
-      noHp: "081298765433"
-    }
-  ],
-  tenagaPendukung: [
-    {
-      id: 1,
-      nama: "Siti Nurhaliza",
-      jenisKelamin: "Perempuan",
-      usia: 30,
-      jenisTenagaPendukung: "Tenaga Pendukung Administrasi",
-      tempatLahir: "Semarang",
-      tanggalLahir: "1995-04-04", 
-      noHp: "084444444444"
-    }
-  ]
+        atlet: [
+        {
+          id: 1,
+          nama: "Budi Santoso",
+          jenisKelamin: "Laki-laki",
+          usia: 25,
+          posisi: "Small Forward",
+          foto: null,
+          kehadiran: "Hadir",
+        },
+        {
+          id: 2,
+          nama: "Andi Wijaya",
+          jenisKelamin: "Laki-laki", 
+          usia: 23,
+          posisi: "Point Guard",
+          foto: null,
+          kehadiran: "Sakit",
+        },
+        {
+          id: 3,
+          nama: "Rizky Pratama",
+          jenisKelamin: "Laki-laki",
+          usia: 21,
+          posisi: "Bek Tengah", 
+          foto: null,
+          kehadiran: "Izin",
+        },
+        {
+          id: 4,
+          nama: "Siti Aminah",
+          jenisKelamin: "Perempuan",
+          usia: 22,
+          posisi: "Shooting Guard",
+          foto: null,
+          kehadiran: null, // Belum di-set
+        }
+      ],
+        pelatih: [
+        {
+          id: 1,
+          nama: "Agus Salim",
+          jenisKelamin: "Laki-laki",
+          usia: 45,
+          jenisPelatih: "Pelatih Fisik",
+          foto: null,
+          kehadiran: "Hadir",
+        },
+        {
+          id: 2,
+          nama: "Sri Rahayu",
+          jenisKelamin: "Perempuan",
+          usia: 42,
+          jenisPelatih: "Pelatih Fisik",
+          foto: null,
+          kehadiran: null, // Belum di-set
+        }
+      ],
+        tenagaPendukung: [
+        {
+          id: 1,
+          nama: "Siti Nurhaliza",
+          jenisKelamin: "Perempuan",
+          usia: 30,
+          jenisTenagaPendukung: "Administrasi",
+          foto: null,
+          kehadiran: "Sakit",
+        }
+      ]
 })
 
 onMounted(() => {
   console.log('Peserta page loaded for Program ID:', programId, 'Rencana ID:', rencanaId)
 })
 </script>
+

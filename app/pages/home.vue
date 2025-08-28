@@ -1,11 +1,11 @@
 <template>
   <div class="min-h-screen">
-    <div class="mx-auto flex min-h-screen w-full max-w-[410px] flex-col px-4 py-8" style="background: linear-gradient(180deg,rgba(216, 224, 255, 1) 0%, rgba(248, 250, 251, 1) 50%, rgba(226, 224, 255, 1) 100%);">
+    <div class="mx-auto flex min-h-screen w-full max-w-[410px] flex-col px-4 py-4" style="background: linear-gradient(180deg,rgba(216, 224, 255, 1) 0%, rgba(248, 250, 251, 1) 50%, rgba(226, 224, 255, 1) 100%);">
 
       <!-- Header + Search -->
       <div class="mb-10">
         <!-- Header with animated gradient text -->
-        <div class="mb-6 text-center sm:text-left">
+        <div class="mb-6 text-center sm:text-left ml-1">
           <h1 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-[#597BF9] via-[#4c6ef5] to-[#845ef7] bg-clip-text text-transparent">
             Dispora
           </h1>
