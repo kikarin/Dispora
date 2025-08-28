@@ -59,8 +59,14 @@
                       {{ peserta.jenisKelamin }}
                     </span>
                     <span>{{ peserta.usia }} tahun</span>
-                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">{{ peserta.posisi }}</span>
-                </div>
+                  </div>
+                  
+                  <!-- Badge Posisi/Jenis Pelatih/Tenaga Pendukung -->
+                  <div class="mb-2">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      {{ peserta.posisi }}
+                    </span>
+                  </div>
                   
                   <!-- Status Pemeriksaan -->
                   <div class="flex items-center gap-2">
@@ -105,7 +111,13 @@
                       {{ peserta.jenisKelamin }}
                     </span>
                     <span>{{ peserta.usia }} tahun</span>
-                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">{{ peserta.jenisPelatih }}</span>
+                  </div>
+                  
+                  <!-- Badge Posisi/Jenis Pelatih/Tenaga Pendukung -->
+                  <div class="mb-2">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      {{ peserta.jenisPelatih }}
+                    </span>
                   </div>
                   
                   <!-- Status Pemeriksaan -->
@@ -151,7 +163,13 @@
                       {{ peserta.jenisKelamin }}
                     </span>
                     <span>{{ peserta.usia }} tahun</span>
-                    <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs font-medium">{{ peserta.jenisTenagaPendukung }}</span>
+                  </div>
+                  
+                  <!-- Badge Posisi/Jenis Pelatih/Tenaga Pendukung -->
+                  <div class="mb-2">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                      {{ peserta.jenisTenagaPendukung }}
+                    </span>
                   </div>
                   
                   <!-- Status Pemeriksaan -->

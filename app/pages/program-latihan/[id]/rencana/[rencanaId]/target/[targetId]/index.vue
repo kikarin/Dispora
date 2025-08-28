@@ -75,7 +75,11 @@
             {{ peserta.jenisKelamin }}
           </span>
           <span>{{ peserta.usia }} tahun</span>
-          <span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs font-medium">
+        </div>
+        
+        <!-- Badge Posisi -->
+        <div class="mt-2 mb-3">
+          <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
             {{ peserta.posisi }}
           </span>
         </div>

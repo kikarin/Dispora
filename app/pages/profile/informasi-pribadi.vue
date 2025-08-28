@@ -174,84 +174,95 @@
           </div>
         </div>
 
-        <!-- Sertifikat Section -->
+        <!-- Sertifikat Section - Card Layout for Mobile -->
         <div class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur">
           <h2 class="text-lg font-bold text-gray-800 mb-4">Informasi Semua Sertifikat</h2>
-          <div class="overflow-x-auto">
-            <table class="w-full text-sm">
-              <thead>
-                <tr class="border-b border-gray-200">
-                  <th class="text-left py-2 text-gray-600 font-medium">#</th>
-                  <th class="text-left py-2 text-gray-600 font-medium">Nama Sertifikat</th>
-                  <th class="text-left py-2 text-gray-600 font-medium">Penyelenggara</th>
-                  <th class="text-left py-2 text-gray-600 font-medium">Tanggal Terbit</th>
-                  <th class="text-left py-2 text-gray-600 font-medium">File</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(sertifikat, index) in profileData.sertifikat" :key="sertifikat.id" class="border-b border-gray-100">
-                  <td class="py-2 text-gray-800">{{ index + 1 }}</td>
-                  <td class="py-2 text-gray-800">{{ sertifikat.nama }}</td>
-                  <td class="py-2 text-gray-800">{{ sertifikat.penyelenggara }}</td>
-                  <td class="py-2 text-gray-800">{{ sertifikat.tanggalTerbit }}</td>
-                  <td class="py-2 text-gray-800">{{ sertifikat.file || '-' }}</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="space-y-4">
+            <div v-for="(sertifikat, index) in profileData.sertifikat" :key="sertifikat.id" 
+                 class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                  <span class="text-sm font-bold text-blue-600">{{ index + 1 }}</span>
+                </div>
+                <h3 class="font-semibold text-gray-800 text-sm">{{ sertifikat.nama }}</h3>
+              </div>
+              <div class="space-y-2">
+                <div class="flex justify-between items-start">
+                  <span class="text-xs text-gray-500">Penyelenggara</span>
+                  <span class="text-sm text-gray-800 font-medium">{{ sertifikat.penyelenggara }}</span>
+                </div>
+                <div class="flex justify-between items-start">
+                  <span class="text-xs text-gray-500">Tanggal Terbit</span>
+                  <span class="text-sm text-gray-800">{{ sertifikat.tanggalTerbit }}</span>
+                </div>
+                <div class="flex justify-between items-start">
+                  <span class="text-xs text-gray-500">File</span>
+                  <span class="text-sm text-gray-800">{{ sertifikat.file || '-' }}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Prestasi Section -->
+        <!-- Prestasi Section - Card Layout for Mobile -->
         <div class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur">
           <h2 class="text-lg font-bold text-gray-800 mb-4">Informasi Semua Prestasi</h2>
-          <div class="overflow-x-auto">
-            <table class="w-full text-sm">
-              <thead>
-                <tr class="border-b border-gray-200">
-                  <th class="text-left py-2 text-gray-600 font-medium">#</th>
-                  <th class="text-left py-2 text-gray-600 font-medium">Nama Event</th>
-                  <th class="text-left py-2 text-gray-600 font-medium">Tingkat</th>
-                  <th class="text-left py-2 text-gray-600 font-medium">Tanggal</th>
-                  <th class="text-left py-2 text-gray-600 font-medium">Peringkat</th>
-                  <th class="text-left py-2 text-gray-600 font-medium">Keterangan</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(prestasi, index) in profileData.prestasi" :key="prestasi.id" class="border-b border-gray-100">
-                  <td class="py-2 text-gray-800">{{ index + 1 }}</td>
-                  <td class="py-2 text-gray-800">{{ prestasi.namaEvent }}</td>
-                  <td class="py-2 text-gray-800">{{ prestasi.tingkat }}</td>
-                  <td class="py-2 text-gray-800">{{ prestasi.tanggal }}</td>
-                  <td class="py-2 text-gray-800">{{ prestasi.peringkat }}</td>
-                  <td class="py-2 text-gray-800">{{ prestasi.keterangan }}</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="space-y-4">
+            <div v-for="(prestasi, index) in profileData.prestasi" :key="prestasi.id" 
+                 class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                  <span class="text-sm font-bold text-yellow-600">{{ index + 1 }}</span>
+                </div>
+                <div class="flex-1">
+                  <h3 class="font-semibold text-gray-800 text-sm">{{ prestasi.namaEvent }}</h3>
+                  <div class="flex items-center gap-2 mt-1">
+                    <span class="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full">{{ prestasi.tingkat }}</span>
+                    <span class="px-2 py-0.5 bg-orange-100 text-orange-700 text-xs rounded-full font-semibold">
+                      Peringkat {{ prestasi.peringkat }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="space-y-2">
+                <div class="flex justify-between items-start">
+                  <span class="text-xs text-gray-500">Tanggal</span>
+                  <span class="text-sm text-gray-800">{{ prestasi.tanggal }}</span>
+                </div>
+                <div class="flex justify-between items-start">
+                  <span class="text-xs text-gray-500">Keterangan</span>
+                  <span class="text-sm text-gray-800 text-right">{{ prestasi.keterangan }}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Dokumen Section -->
+        <!-- Dokumen Section - Card Layout for Mobile -->
         <div class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur">
           <h2 class="text-lg font-bold text-gray-800 mb-4">Informasi Semua Dokumen</h2>
-          <div class="overflow-x-auto">
-            <table class="w-full text-sm">
-              <thead>
-                <tr class="border-b border-gray-200">
-                  <th class="text-left py-2 text-gray-600 font-medium">#</th>
-                  <th class="text-left py-2 text-gray-600 font-medium">Jenis Dokumen</th>
-                  <th class="text-left py-2 text-gray-600 font-medium">Nomor</th>
-                  <th class="text-left py-2 text-gray-600 font-medium">File</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(dokumen, index) in profileData.dokumen" :key="dokumen.id" class="border-b border-gray-100">
-                  <td class="py-2 text-gray-800">{{ index + 1 }}</td>
-                  <td class="py-2 text-gray-800">{{ dokumen.jenis }}</td>
-                  <td class="py-2 text-gray-800">{{ dokumen.nomor }}</td>
-                  <td class="py-2 text-gray-800">{{ dokumen.file || '-' }}</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="space-y-4">
+            <div v-for="(dokumen, index) in profileData.dokumen" :key="dokumen.id" 
+                 class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span class="text-sm font-bold text-green-600">{{ index + 1 }}</span>
+                </div>
+                <div class="flex-1">
+                  <h3 class="font-semibold text-gray-800 text-sm mb-2">{{ dokumen.jenis }}</h3>
+                  <div class="space-y-2">
+                    <div class="flex justify-between items-start">
+                      <span class="text-xs text-gray-500">Nomor Dokumen</span>
+                      <span class="text-sm text-gray-800 font-medium">{{ dokumen.nomor }}</span>
+                    </div>
+                    <div class="flex justify-between items-start">
+                      <span class="text-xs text-gray-500">File</span>
+                      <span class="text-sm text-gray-800">{{ dokumen.file || '-' }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

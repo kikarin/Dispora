@@ -80,6 +80,10 @@
                       {{ peserta.jenisKelamin }}
                     </span>
                     <span>{{ peserta.usia }} tahun</span>
+                  </div>
+                  
+                  <!-- Badge Jenis Peserta -->
+                  <div class="mt-2 mb-3">
                     <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
                           :class="getPesertaBadgeClass(peserta.jenisPeserta)">
                       {{ peserta.jenisPeserta }}
