@@ -21,12 +21,12 @@
 
               <!-- Profile Info -->
               <div class="flex-1">
-                <h1 class="text-xl items-start font-bold text-gray-900">
+                <h1 class="text-md items-start font-medium text-gray-700">
                   Budi Santoso
                 </h1>
-                <div class="mt-1">
+                <div>
                   <span
-                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200">
+                    class="inline-flex items-center rounded-full text-xs font-medium text-blue-800">
                     Atlet
                   </span>
                 </div>

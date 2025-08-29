@@ -13,10 +13,10 @@
       </div>
 
       <!-- Search & Filter Section -->
-      <div class="mb-6 space-y-4">
+      <div class="mb-3 space-y-4">
         <!-- Search Bar with Calendar -->
         <div class="relative">
-          <div class="flex items-center gap-2 rounded-2xl bg-white/80 p-3 shadow-sm backdrop-blur">
+          <div class="flex items-center gap-2 rounded-2xl bg-white/80 px-3 py-2  backdrop-blur">
             <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
@@ -74,7 +74,7 @@
         </div>
 
         <!-- Filter Cabor -->
-        <div class="flex gap-2 overflow-x-auto pb-2">
+        <div class="flex gap-2 overflow-x-auto pb-5">
           <button v-for="cabor in caborList" :key="cabor" @click="toggleCaborFilter(cabor)"
             class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200" :class="selectedCabor.includes(cabor)
               ? 'bg-[#597BF9] text-white shadow-lg'
