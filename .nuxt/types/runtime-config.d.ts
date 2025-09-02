@@ -13,9 +13,137 @@ import { RuntimeConfig as UserRuntimeConfig, PublicRuntimeConfig as UserPublicRu
    nitro: {
       envPrefix: string,
    },
+
+   sanctum: {
+      baseUrl: string,
+
+      mode: string,
+
+      userStateKey: string,
+
+      redirectIfAuthenticated: boolean,
+
+      redirectIfUnauthenticated: boolean,
+
+      endpoints: {
+         csrf: string,
+
+         login: string,
+
+         logout: string,
+
+         user: string,
+      },
+
+      csrf: {
+         cookie: string,
+
+         header: string,
+      },
+
+      client: {
+         retry: boolean,
+
+         initialRequest: boolean,
+      },
+
+      redirect: {
+         keepRequestedRoute: boolean,
+
+         onLogin: string,
+
+         onLogout: string,
+
+         onAuthOnly: string,
+
+         onGuestOnly: string,
+      },
+
+      globalMiddleware: {
+         enabled: boolean,
+
+         prepend: boolean,
+
+         allow404WithoutAuth: boolean,
+      },
+
+      logLevel: number,
+
+      appendPlugin: boolean,
+
+      serverProxy: {
+         enabled: boolean,
+
+         route: string,
+
+         baseUrl: string,
+      },
+
+      origin: string,
+   },
   }
   interface SharedPublicRuntimeConfig {
+   apiBase: string,
 
+   sanctum: {
+      baseUrl: string,
+
+      mode: string,
+
+      userStateKey: string,
+
+      redirectIfAuthenticated: boolean,
+
+      redirectIfUnauthenticated: boolean,
+
+      endpoints: {
+         csrf: string,
+
+         login: string,
+
+         logout: string,
+
+         user: string,
+      },
+
+      csrf: {
+         cookie: string,
+
+         header: string,
+      },
+
+      client: {
+         retry: boolean,
+
+         initialRequest: boolean,
+      },
+
+      redirect: {
+         keepRequestedRoute: boolean,
+
+         onLogin: string,
+
+         onLogout: string,
+
+         onAuthOnly: string,
+
+         onGuestOnly: string,
+      },
+
+      globalMiddleware: {
+         enabled: boolean,
+
+         prepend: boolean,
+
+         allow404WithoutAuth: boolean,
+      },
+
+      logLevel: number,
+
+      appendPlugin: boolean,
+
+      origin: string,
+   },
   }
 declare module '@nuxt/schema' {
   interface RuntimeConfig extends UserRuntimeConfig {}

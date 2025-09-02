@@ -1,130 +1,273 @@
 <template>
-  <div class="min-h-screen">
-    <div class="mx-auto flex min-h-screen w-full max-w-[410px] flex-col px-4 py-4" style="background: linear-gradient(180deg,rgba(216, 224, 255, 1) 0%, rgba(248, 250, 251, 1) 50%, rgba(226, 224, 255, 1) 100%);">
-      
-      <!-- Header -->
-      <div class="flex items-center gap-3 mb-4">
-        <button @click="$router.back()" class="p-2 rounded-full bg-white/80 text-gray-600 hover:bg-white">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-        <h1 class="text-xl font-bold text-gray-700">Target Latihan</h1>
-      </div>
+  <PageLayout>
+    <!-- Header -->
+    <div class="flex items-center gap-3 mb-4">
+      <button
+        @click="$router.back()"
+        class="p-2 rounded-full bg-white/80 text-gray-600 hover:bg-white"
+      >
+        <svg
+          class="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+      </button>
+      <h1 class="text-xl font-bold text-gray-700">Target Latihan</h1>
+    </div>
 
-      <!-- Tab Navigation -->
-      <div class="mb-6">
-        <div class="flex bg-white/80 rounded-2xl p-1 backdrop-blur">
-          <button
-            v-for="tab in tabs"
-            :key="tab.id"
-            @click="activeTab = tab.id"
-            class="flex-1 py-2 px-4 rounded-xl text-sm font-medium transition-all duration-200"
-            :class="activeTab === tab.id 
-              ? 'bg-[#597BF9] text-white shadow-sm' 
-              : 'text-gray-600 hover:text-gray-700'"
+    <!-- Tab Navigation -->
+    <div class="mb-6">
+      <div class="flex bg-white/80 rounded-2xl p-1 backdrop-blur">
+        <button
+          v-for="tab in tabs"
+          :key="tab.id"
+          @click="activeTab = tab.id"
+          class="flex-1 py-2 px-4 rounded-xl text-sm font-medium transition-all duration-200"
+          :class="
+            activeTab === tab.id
+              ? 'bg-[#597BF9] text-white shadow-sm'
+              : 'text-gray-600 hover:text-gray-700'
+          "
+        >
+          {{ tab.label }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Content based on active tab -->
+    <div>
+      <!-- Error State -->
+      <div
+        v-if="error"
+        class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4"
+      >
+        <div class="flex items-start gap-3">
+          <svg
+            class="w-5 h-5 text-red-400 mt-0.5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
           >
-            {{ tab.label }}
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <div class="flex-1">
+            <p class="text-red-600 text-sm font-medium">{{ error }}</p>
+          </div>
+        </div>
+        <div class="mt-3">
+          <button
+            @click="fetchTargetList(rencanaId)"
+            class="px-3 py-1 text-red-700 underline text-sm hover:text-red-800"
+          >
+            Coba lagi
           </button>
         </div>
       </div>
 
-      <!-- Content based on active tab -->
-      <div>
-
-        
-        <!-- Target Individu -->
-        <div v-if="activeTab === 'individu'" class="space-y-4">
-          <div v-for="target in targetData.targetIndividu" :key="target.id" 
-               class="p-4 bg-white rounded-xl cursor-pointer hover:bg-gray-100 transition-colors"
-               @click="navigateToTargetDetail(target.id)">
-            <div class="flex items-start justify-between mb-2">
-              <div class="flex-1">
-                <h4 class="font-semibold text-gray-700 mb-2">{{ target.nama }}</h4>
-                <span v-if="target.peserta" 
-                      class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
-                      :class="getPesertaBadgeClass(target.peserta)">
-                  {{ target.peserta }}
-                </span>
-              </div>
-              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-            <p class="text-sm text-gray-600">{{ target.target }}</p>
-          </div>
+      <!-- Empty State -->
+      <div
+        v-else-if="
+          !loading &&
+          (!targetList ||
+            (targetList.targetIndividu.length === 0 &&
+              targetList.targetKelompok.length === 0))
+        "
+        class="text-center py-12"
+      >
+        <div class="text-gray-400 mb-4">
+          <svg
+            class="mx-auto h-12 w-12"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            />
+          </svg>
         </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">
+          Tidak ada target latihan
+        </h3>
+        <p class="text-gray-500">
+          Belum ada target latihan yang tersedia untuk rencana ini.
+        </p>
+      </div>
 
-        <!-- Target Kelompok -->
-        <div v-else-if="activeTab === 'kelompok'" class="space-y-4">
-          <div v-for="target in targetData.targetKelompok" :key="target.id" 
-               class="p-4 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors"
-               @click="openTargetKelompokModal(target)">
-            <div class="flex items-start justify-between mb-2">
-              <h4 class="font-semibold text-gray-700">{{ target.nama }}</h4>
-              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
+      <!-- Target Individu -->
+      <div
+        v-else-if="
+          activeTab === 'individu' && targetList?.targetIndividu?.length > 0
+        "
+        class="space-y-4"
+      >
+        <div
+          v-for="target in targetList.targetIndividu"
+          :key="target.id"
+          class="p-4 bg-white rounded-xl cursor-pointer hover:bg-gray-100 transition-colors"
+          @click="navigateToTargetDetail(target.id)"
+        >
+          <div class="flex items-start justify-between mb-2">
+            <div class="flex-1">
+              <h4 class="font-semibold text-gray-700 mb-2">
+                {{ target.nama }}
+              </h4>
+              <span
+                v-if="target.peserta"
+                class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
+                :class="getPesertaBadgeClass(target.peserta)"
+              >
+                {{ target.peserta }}
+              </span>
             </div>
-            <p class="text-sm text-gray-600">{{ target.target }}</p>
+            <svg
+              class="w-5 h-5 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
           </div>
-        </div>
-
-        <!-- Loading state -->
-        <div v-if="loading" class="text-center py-8">
-          <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#597BF9] mx-auto"></div>
-          <p class="text-gray-500 mt-2">Memuat data target...</p>
+          <p class="text-sm text-gray-600">{{ target.target }}</p>
         </div>
       </div>
 
-      <!-- Modal Target Kelompok -->
-      <div v-if="showTargetKelompokModal" class="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" @click="closeTargetKelompokModal"></div>
-        <div class="relative bg-white rounded-2xl p-6 w-full max-w-md mx-4 shadow-2xl">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold text-gray-700">{{ selectedTargetKelompok.nama }}</h3>
-            <button @click="closeTargetKelompokModal" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
-              <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+      <!-- Target Kelompok -->
+      <div
+        v-else-if="
+          activeTab === 'kelompok' && targetList?.targetKelompok?.length > 0
+        "
+        class="space-y-4"
+      >
+        <div
+          v-for="target in targetList.targetKelompok"
+          :key="target.id"
+          class="p-4 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors"
+          @click="openTargetKelompokModal(target)"
+        >
+          <div class="flex items-start justify-between mb-2">
+            <h4 class="font-semibold text-gray-700">{{ target.nama }}</h4>
+            <svg
+              class="w-5 h-5 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
           </div>
-          
-          <div v-if="selectedTargetKelompok" class="space-y-4">
-            <div>
-              <p class="text-sm text-gray-600">{{ selectedTargetKelompok.target }}</p>
-            </div>
-            
-            <div class="grid grid-cols-2 gap-4">
-              <div class="text-center p-3 bg-gray-50 rounded-xl">
-                <p class="text-xs text-gray-500 mb-1">Nilai</p>
-                <p class="text-2xl font-bold text-[#597BF9]">{{ selectedTargetKelompok.nilai || 'N/A' }}</p>
-              </div>
-              <div class="text-center p-3 bg-gray-50 rounded-xl">
-                <p class="text-xs text-gray-500 mb-1">Status</p>
-                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
-                      :class="getTrendClass(selectedTargetKelompok.trend)">
-                  {{ selectedTargetKelompok.trend || 'Belum di-set' }}
-                </span>
-              </div>
-            </div>
-          </div>
+          <p class="text-sm text-gray-600">{{ target.target }}</p>
         </div>
       </div>
 
-      <!-- Spacer for bottom navigation -->
-      <div class="h-20"></div>
+      <!-- Loading state -->
+      <div v-if="loading" class="text-center py-8">
+        <div
+          class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#597BF9] mx-auto"
+        ></div>
+        <p class="text-gray-500 mt-2">Memuat data target...</p>
+      </div>
     </div>
 
-    <!-- Bottom Navigation -->
-    <BottomNavigation />
-  </div>
+    <!-- Modal Target Kelompok -->
+    <div
+      v-if="showTargetKelompokModal"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4"
+    >
+      <div
+        class="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        @click="closeTargetKelompokModal"
+      ></div>
+      <div
+        class="relative bg-white rounded-2xl p-6 w-full max-w-md mx-4 shadow-2xl"
+      >
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold text-gray-700">
+            {{ selectedTargetKelompok.nama }}
+          </h3>
+          <button
+            @click="closeTargetKelompokModal"
+            class="p-2 rounded-full hover:bg-gray-100 transition-colors"
+          >
+            <svg
+              class="w-5 h-5 text-gray-500"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div v-if="selectedTargetKelompok" class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-600">
+              {{ selectedTargetKelompok.target }}
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="text-center p-3 bg-gray-50 rounded-xl">
+              <p class="text-xs text-gray-500 mb-1">Nilai</p>
+              <p class="text-2xl font-bold text-[#597BF9]">
+                {{ selectedTargetKelompok.nilai || 'N/A' }}
+              </p>
+            </div>
+            <div class="text-center p-3 bg-gray-50 rounded-xl">
+              <p class="text-xs text-gray-500 mb-1">Status</p>
+              <span
+                class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
+                :class="getTrendClass(selectedTargetKelompok.trend)"
+              >
+                {{ selectedTargetKelompok.trend || 'Belum di-set' }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spacer for bottom navigation -->
+    <div class="h-20"></div>
+  </PageLayout>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import BottomNavigation from '~/components/BottomNavigation.vue'
+import PageLayout from '~/components/PageLayout.vue'
+import { useTargetLatihan } from '../../../../../../composables/useTargetLatihan'
 
 const route = useRoute()
 const router = useRouter()
@@ -148,121 +291,25 @@ if (rencanaIdParam && !isNaN(Number(rencanaIdParam))) {
   rencanaId = parseInt(rencanaIdParam)
 }
 
+// Use composable
+const { targetList, loading, error, fetchTargetList } = useTargetLatihan()
+
 // Tab Management
 const activeTab = ref('individu')
-const tabs = [
-  { id: 'individu', label: 'Target Individu' },
-  { id: 'kelompok', label: 'Target Kelompok' },
-]
-
-// Loading state
-const loading = ref(false)
-
-// Rencana Info
-const rencanaInfo = ref({
-  id: rencanaId,
-  materi: "Latihan strategi dan simulasi pertandingan",
-  tanggal: "2025-08-12"
-})
-
-// Target Data Types
-interface TargetItem {
-  id: number
-  nama: string
-  target: string
-  peserta?: string // Badge peserta: Atlet, Pelatih, Tenaga Pendukung
-  nilai?: number | null
-  trend?: string | null
-}
-
-interface TargetApiResponse {
-  id: number
-  rencanaId: number
-  nama: string
-  targetIndividu: TargetItem[]
-  targetKelompok: TargetItem[]
-  success: boolean
-}
-
-// Target Data from API
-const targetData = ref<{
-  targetIndividu: TargetItem[]
-  targetKelompok: TargetItem[]
-  success: boolean
-}>({
-  targetIndividu: [],
-  targetKelompok: [],
-  success: false
-})
+const tabs = computed(() => [
+  {
+    id: 'individu',
+    label: `Target Individu (${targetList.value?.targetIndividu?.length || 0})`,
+  },
+  {
+    id: 'kelompok',
+    label: `Target Kelompok (${targetList.value?.targetKelompok?.length || 0})`,
+  },
+])
 
 // Modal State
 const showTargetKelompokModal = ref(false)
-const selectedTargetKelompok = ref<TargetItem | null>(null)
-
-// Helper function untuk format tanggal rencana (contoh: "12 Agustus 2025")
-const formatTanggalBulan = (tanggalString: string) => {
-  try {
-    const date = new Date(tanggalString)
-    const day = date.getDate()
-    const month = date.getMonth()
-    const year = date.getFullYear()
-    
-    const monthNames = [
-      'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-      'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-    ]
-    
-    return `${day} ${monthNames[month]} ${year}`
-  } catch (error) {
-    return tanggalString
-  }
-}
-
-// Fetch target data from API
-const fetchTargetData = async () => {
-  try {
-    loading.value = true
-    console.log('Fetching target data for rencana ID:', rencanaId)
-    
-    // For now, use mock data since we don't have API endpoint for rencana targets
-    // In real implementation, you would call: const response = await $fetch<TargetApiResponse>(`/api/program-latihan/${programId}/rencana/${rencanaId}/targets`)
-    
-    // Mock data for demonstration
-    targetData.value = {
-      targetIndividu: [
-        { id: 1, nama: "Peningkatan stamina", target: "12,5 Detik", peserta: "Atlet" },
-        { id: 2, nama: "Kekuatan otot", target: "50 push-up", peserta: "Atlet" },
-        { id: 3, nama: "Analisis teknik", target: "Evaluasi video pertandingan", peserta: "Pelatih" },
-        { id: 4, nama: "Persiapan alat", target: "Setup peralatan latihan", peserta: "Tenaga Pendukung" }
-      ],
-              targetKelompok: [
-          { id: 1, nama: "Kerjasama tim", target: "Latihan passing", nilai: 85, trend: "Naik" },
-          { id: 2, nama: "Strategi bermain", target: "Taktik pertahanan", nilai: 78, trend: "Turun" }
-        ],
-      success: true
-    }
-    
-    console.log('Target data loaded successfully for rencana:', rencanaId)
-  } catch (error) {
-    console.error('Error fetching target data:', error)
-    // Use default data on error
-    targetData.value = {
-      targetIndividu: [
-        { id: 1, nama: "Peningkatan stamina", target: "12,5 Detik", peserta: "Atlet" },
-        { id: 2, nama: "Kekuatan otot", target: "50 push-up", peserta: "Atlet" },
-        { id: 3, nama: "Analisis teknik", target: "Evaluasi video pertandingan", peserta: "Pelatih" },
-        { id: 4, nama: "Persiapan alat", target: "Setup peralatan latihan", peserta: "Tenaga Pendukung" }
-      ],
-              targetKelompok: [
-          { id: 1, nama: "Kerjasama tim", target: "Latihan passing", nilai: 85, trend: "Naik" },
-          { id: 2, nama: "Strategi bermain", target: "Taktik pertahanan", nilai: 78, trend: "Turun" }
-        ],
-      success: false
-    }
-  } finally {
-    loading.value = false
-  }
-}
+const selectedTargetKelompok = ref<any>(null)
 
 // Functions
 const getPesertaBadgeClass = (peserta: string) => {
@@ -280,10 +327,12 @@ const getPesertaBadgeClass = (peserta: string) => {
 
 const navigateToTargetDetail = (targetId: number) => {
   console.log('Navigating to target detail for:', targetId)
-  router.push(`/program-latihan/${programId}/rencana/${rencanaId}/target/${targetId}`)
+  router.push(
+    `/program-latihan/${programId}/rencana/${rencanaId}/target/${targetId}`
+  )
 }
 
-const openTargetKelompokModal = (target: TargetItem) => {
+const openTargetKelompokModal = (target: any) => {
   selectedTargetKelompok.value = target
   showTargetKelompokModal.value = true
 }
@@ -304,8 +353,13 @@ const getTrendClass = (trend: string | null) => {
 }
 
 onMounted(() => {
-  console.log('Target rencana page loaded for Program ID:', programId, 'Rencana ID:', rencanaId)
+  console.log(
+    'Target rencana page loaded for Program ID:',
+    programId,
+    'Rencana ID:',
+    rencanaId
+  )
   console.log('Route params:', route.params)
-  fetchTargetData()
+  fetchTargetList(rencanaId)
 })
 </script>

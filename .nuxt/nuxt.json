@@ -1,7 +1,7 @@
 {
-  "_hash": "mVuiLnfyZdv7JVXJ2HwNu6wWw3M8QrMuFNkY1iuRf6Y",
+  "_hash": "Ts-q2JsDzoei4f-IY8vtti64zlT-hvrywJ1OAbGd0Xw",
   "project": {
-    "rootDir": "/Users/muhamadfajarpuji/Documents/Vue/nuxt/Dispora"
+    "rootDir": "/var/www/Dispora"
   },
   "versions": {
     "nuxt": "4.0.3"

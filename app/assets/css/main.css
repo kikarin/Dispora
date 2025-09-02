@@ -1,8 +1,8 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Warna tema biru */
 :root {
-  --brand-blue: #597BF9;
+  --brand-blue: #597bf9;
 }
 
 /* Font Family - Noto Sans Symbols */
@@ -10,7 +10,9 @@
   font-family: 'Noto Sans Symbols', sans-serif;
 }
 
-html, body, #__nuxt {
+html,
+body,
+#__nuxt {
   height: 100%;
   overflow-x: hidden;
   font-family: 'Noto Sans Symbols', sans-serif;

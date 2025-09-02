@@ -1,118 +1,265 @@
 <template>
-  <div class="min-h-screen">
-    <div class="mx-auto flex min-h-screen w-full max-w-[410px] flex-col px-4 py-4"
-      style="background: linear-gradient(180deg,rgba(216, 224, 255, 1) 0%, rgba(248, 250, 251, 1) 50%, rgba(226, 224, 255, 1) 100%);">
-
-      <!-- Header -->
-      <div class="flex items-center gap-3 mb-4">
-        <button @click="$router.back()" class="p-2 rounded-full bg-white/80 text-gray-600 hover:bg-white">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-        <h1 class="text-xl font-bold text-gray-700">Detail Target</h1>
-      </div>
-
-      <!-- Target Info Card -->
-      <div class="rounded-2xl bg-white/90 p-6 backdrop-blur mb-6">
-        <div class="flex items-start justify-between mb-2">
-          <div class="flex-1">
-            <h2 class="text-xl font-bold text-gray-700">{{ targetInfo.nama }}</h2>
-          </div>
-        </div>
-        <div class="mb-1">
-          <p class="text-sm text-gray-600">Peruntukan: {{ targetInfo.peserta }}</p>
-        </div>
-        <div>
-          <p class="text-sm text-gray-600">Target: {{ targetInfo.target }}</p>
-        </div>
-      </div>
-
-      <!-- Peserta yang Sudah Melakukan Target -->
-      <div>
-        <div class="space-y-4">
-          <div v-for="peserta in pesertaTargetData" :key="peserta.id" class="relative bg-white rounded-xl p-5 ">
-
-            <!-- Trend Badge (pojok kanan atas) -->
-            <div class="absolute top-2 right-3">
-              <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
-                :class="getTrendClass(peserta.trend)">
-                {{ peserta.trend }}
-              </span>
-            </div>
-
-            <div class="flex items-start gap-4">
-              <!-- Foto Peserta -->
-              <div class="flex-shrink-0 mt-3">
-                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[#597BF9]/20 to-[#4c6ef5]/30 
-                    flex items-center justify-center overflow-hidden">
-                  <svg class="w-8 h-8 text-[#597BF9]" fill="none" stroke="currentColor" stroke-width="2"
-                    viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </div>
-              </div>
-
-              <!-- Info Peserta -->
-              <div class="flex-1 min-w-0 mt-3">
-                <h4 class="font-semibold text-gray-700 text-md leading-snug truncate">
-                  {{ peserta.nama }}
-                </h4>
-
-                <div class="flex flex-wrap items-center gap-2 text-sm text-gray-600 mt-1">
-                  <span class="flex items-center gap-1">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                    {{ peserta.jenisKelamin }}
-                  </span>
-                  <span>{{ peserta.usia }} tahun</span>
-                </div>
-
-                <!-- Badge Posisi -->
-                <div class="mt-2 mb-3">
-                  <span
-                    class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                    {{ peserta.posisi }}
-                  </span>
-                </div>
-
-                <!-- Target dan Nilai -->
-                <div class="mt-3 flex items-center justify-between">
-                  <p class="text-sm text-gray-500">
-                    Target: <span class="font-medium text-gray-700">{{ peserta.target }}</span>
-                  </p>
-                  <p class="text-sm text-gray-500">
-                    Nilai: <span class="font-medium text-gray-700">{{ peserta.nilai }}</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Loading state -->
-        <div v-if="loading" class="text-center py-8">
-          <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#597BF9] mx-auto"></div>
-          <p class="text-gray-500 mt-2">Memuat data peserta...</p>
-        </div>
-      </div>
-
-      <!-- Spacer for bottom navigation -->
-      <div class="h-20"></div>
+  <PageLayout>
+    <!-- Header -->
+    <div class="flex items-center gap-3 mb-4">
+      <button
+        @click="$router.back()"
+        class="p-2 rounded-full bg-white/80 text-gray-600 hover:bg-white"
+      >
+        <svg
+          class="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+      </button>
+      <h1 class="text-xl font-bold text-gray-700">Detail Target</h1>
     </div>
 
-    <!-- Bottom Navigation -->
-    <BottomNavigation />
-  </div>
+    <!-- Target Info Card -->
+    <div class="rounded-2xl bg-white/90 p-6 backdrop-blur mb-6">
+      <div class="flex items-start justify-between mb-2">
+        <div class="flex-1">
+          <h2 class="text-xl font-bold text-gray-700">
+            {{ targetInfo.nama }}
+          </h2>
+        </div>
+      </div>
+      <div class="mb-1">
+        <p class="text-sm text-gray-600">
+          Peruntukan: {{ targetInfo.peserta }}
+        </p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-600">Target: {{ targetInfo.target }}</p>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div
+      v-if="showError"
+      class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4"
+    >
+      <div class="flex items-start gap-3">
+        <svg
+          class="w-5 h-5 text-red-400 mt-0.5"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <div class="flex-1">
+          <p class="text-red-600 text-sm font-medium">{{ error }}</p>
+        </div>
+      </div>
+      <div class="mt-3">
+        <button
+          @click="fetchTargetDetail(rencanaId, targetId)"
+          class="px-3 py-1 text-red-700 underline text-sm hover:text-red-800"
+        >
+          Coba lagi
+        </button>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div
+      v-else-if="!loading && pesertaTargetData.length === 0"
+      class="text-center py-12"
+    >
+      <div class="text-gray-400 mb-4">
+        <svg
+          class="mx-auto h-12 w-12"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+          />
+        </svg>
+      </div>
+      <h3 class="text-lg font-medium text-gray-900 mb-2">Tidak ada peserta</h3>
+      <p class="text-gray-500">Belum ada peserta yang melakukan target ini.</p>
+    </div>
+
+    <!-- Peserta yang Sudah Melakukan Target -->
+    <div v-else>
+      <div class="space-y-4">
+        <div
+          v-for="peserta in pesertaTargetData"
+          :key="peserta.id"
+          class="relative bg-white rounded-xl p-5"
+        >
+          <!-- Trend Badge (pojok kanan atas) -->
+          <div class="absolute top-2 right-3">
+            <span
+              class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
+              :class="getTrendClass(peserta.trend)"
+            >
+              {{ peserta.trend }}
+            </span>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <!-- Foto Peserta -->
+            <div class="flex-shrink-0 mt-3">
+              <div
+                class="w-12 h-12 rounded-full bg-gradient-to-br from-[#597BF9]/20 to-[#4c6ef5]/30 flex items-center justify-center overflow-hidden"
+              >
+                <img
+                  v-if="peserta.foto"
+                  :src="peserta.foto"
+                  :alt="peserta.nama"
+                  class="w-full h-full object-cover cursor-zoom-in"
+                  @click="openPhotoModal(peserta.foto)"
+                />
+                <svg
+                  v-else
+                  class="w-8 h-8 text-[#597BF9]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            <!-- Info Peserta -->
+            <div class="flex-1 min-w-0 mt-3">
+              <h4
+                class="font-semibold text-gray-700 text-md leading-snug truncate"
+              >
+                {{ peserta.nama }}
+              </h4>
+
+              <div
+                class="flex flex-wrap items-center gap-2 text-sm text-gray-600 mt-1"
+              >
+                <span class="flex items-center gap-1">
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
+                  </svg>
+                  {{ peserta.jenisKelamin }}
+                </span>
+                <span>{{ peserta.usia }} tahun</span>
+              </div>
+
+              <!-- Badge Posisi -->
+              <div class="mt-2 mb-3">
+                <span
+                  class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                >
+                  {{ peserta.posisi }}
+                </span>
+              </div>
+
+              <!-- Target dan Nilai -->
+              <div class="mt-3 flex items-center justify-between">
+                <p class="text-sm text-gray-500">
+                  Target:
+                  <span class="font-medium text-gray-700">{{
+                    peserta.target
+                  }}</span>
+                </p>
+                <p class="text-sm text-gray-500">
+                  Nilai:
+                  <span class="font-medium text-gray-700">{{
+                    peserta.nilai
+                  }}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading state -->
+      <div v-if="loading" class="text-center py-8">
+        <div
+          class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#597BF9] mx-auto"
+        ></div>
+        <p class="text-gray-500 mt-2">Memuat data peserta...</p>
+      </div>
+    </div>
+
+    <!-- Spacer for bottom navigation -->
+    <div class="h-20"></div>
+
+    <!-- Photo Modal -->
+    <div
+      v-if="showPhotoModal"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60"
+      @click.self="closePhotoModal"
+    >
+      <div
+        class="relative bg-white rounded-2xl p-2 shadow-xl max-w-[95vw] max-h-[90vh]"
+      >
+        <button
+          @click="closePhotoModal"
+          class="absolute -top-3 -right-3 bg-white rounded-full p-2 shadow hover:shadow-md"
+          aria-label="Tutup"
+        >
+          <svg
+            class="w-4 h-4 text-gray-600"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+        <img
+          v-if="modalPhotoSrc"
+          :src="modalPhotoSrc"
+          alt="Foto Peserta"
+          class="max-h-[80vh] max-w-[90vw] object-contain rounded-lg"
+        />
+      </div>
+    </div>
+  </PageLayout>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import BottomNavigation from '~/components/BottomNavigation.vue'
+import PageLayout from '~/components/PageLayout.vue'
+import { useTargetLatihan } from '../../../../../../../../composables/useTargetLatihan'
 
 const route = useRoute()
 
@@ -142,126 +289,40 @@ if (targetIdParam && !isNaN(Number(targetIdParam))) {
   targetId = parseInt(targetIdParam)
 }
 
-// Loading state
-const loading = ref(false)
+// Use composable
+const {
+  targetDetail,
+  detailLoading: loading,
+  detailError: error,
+  fetchTargetDetail,
+} = useTargetLatihan()
 
-// Rencana Info
-const rencanaInfo = ref({
-  id: rencanaId,
-  materi: "Latihan strategi dan simulasi pertandingan",
-  tanggal: "2025-08-12"
-})
-
-// Target Info
-const targetInfo = ref({
-  id: targetId,
-  nama: "Peningkatan stamina",
-  target: "12,5 Detik",
-  peserta: "Atlet"
-})
-
-// Mock data untuk peserta yang sudah melakukan target (akan diupdate berdasarkan targetId)
-const pesertaTargetData = ref([
-  {
-    id: 1,
-    nama: "Budi Santoso",
-    jenisKelamin: "Laki-laki",
-    usia: 25,
-    posisi: "Small Forward",
-    nilai: 11.0,
-    target: "12.5 Detik",
-    trend: "Naik"
-  },
-  {
-    id: 2,
-    nama: "Andi Wijaya",
-    jenisKelamin: "Laki-laki",
-    usia: 23,
-    posisi: "Point Guard",
-    nilai: 13.0,
-    target: "12.5 Detik",
-    trend: "Turun"
-  },
-  {
-    id: 3,
-    nama: "Rizky Pratama",
-    jenisKelamin: "Laki-laki",
-    usia: 21,
-    posisi: "Bek Tengah",
-    nilai: 12.5,
-    target: "12.5 Detik",
-    trend: "Stabil"
-  },
-  {
-    id: 4,
-    nama: "Siti Aminah",
-    jenisKelamin: "Perempuan",
-    usia: 22,
-    posisi: "Shooting Guard",
-    nilai: 11.8,
-    target: "12.5 Detik",
-    trend: "Naik"
-  }
-])
-
-// Update peserta data berdasarkan target yang dipilih
-const updatePesertaData = (targetId: number) => {
-  const targetData = {
-    1: { // Peningkatan stamina
-      target: "12.5 Detik",
-      peserta: [
-        { id: 1, nama: "Budi Santoso", jenisKelamin: "Laki-laki", usia: 25, posisi: "Small Forward", nilai: 11.0, target: "12.5 Detik", trend: "Naik" },
-        { id: 2, nama: "Andi Wijaya", jenisKelamin: "Laki-laki", usia: 23, posisi: "Point Guard", nilai: 13.0, target: "12.5 Detik", trend: "Turun" },
-        { id: 3, nama: "Rizky Pratama", jenisKelamin: "Laki-laki", usia: 21, posisi: "Bek Tengah", nilai: 12.5, target: "12.5 Detik", trend: "Stabil" },
-        { id: 4, nama: "Siti Aminah", jenisKelamin: "Perempuan", usia: 22, posisi: "Shooting Guard", nilai: 11.8, target: "12.5 Detik", trend: "Naik" }
-      ]
-    },
-    2: { // Kekuatan otot
-      target: "50 Push-up",
-      peserta: [
-        { id: 1, nama: "Budi Santoso", jenisKelamin: "Laki-laki", usia: 25, posisi: "Small Forward", nilai: 45, target: "50 Push-up", trend: "Naik" },
-        { id: 2, nama: "Andi Wijaya", jenisKelamin: "Laki-laki", usia: 23, posisi: "Point Guard", nilai: 52, target: "50 Push-up", trend: "Naik" },
-        { id: 3, nama: "Rizky Pratama", jenisKelamin: "Laki-laki", usia: 21, posisi: "Bek Tengah", nilai: 38, target: "50 Push-up", trend: "Turun" }
-      ]
-    },
-    3: { // Analisis teknik
-      target: "Evaluasi Video",
-      peserta: [
-        { id: 1, nama: "Agus Salim", jenisKelamin: "Laki-laki", usia: 45, posisi: "Pelatih Fisik", nilai: 85, target: "Evaluasi Video", trend: "Stabil" },
-        { id: 2, nama: "Sri Rahayu", jenisKelamin: "Perempuan", usia: 42, posisi: "Pelatih Fisik", nilai: 92, target: "Evaluasi Video", trend: "Naik" }
-      ]
-    },
-    4: { // Persiapan alat
-      target: "Setup Peralatan",
-      peserta: [
-        { id: 1, nama: "Siti Nurhaliza", jenisKelamin: "Perempuan", usia: 30, posisi: "Administrasi", nilai: 95, target: "Setup Peralatan", trend: "Naik" }
-      ]
-    },
-    5: { // Koordinasi tim
-      target: "Latihan Passing",
-      peserta: [
-        { id: 1, nama: "Budi Santoso", jenisKelamin: "Laki-laki", usia: 25, posisi: "Small Forward", nilai: 78, target: "Latihan Passing", trend: "Naik" },
-        { id: 2, nama: "Andi Wijaya", jenisKelamin: "Laki-laki", usia: 23, posisi: "Point Guard", nilai: 82, target: "Latihan Passing", trend: "Stabil" },
-        { id: 3, nama: "Rizky Pratama", jenisKelamin: "Laki-laki", usia: 21, posisi: "Bek Tengah", nilai: 75, target: "Latihan Passing", trend: "Naik" },
-        { id: 4, nama: "Siti Aminah", jenisKelamin: "Perempuan", usia: 22, posisi: "Shooting Guard", nilai: 80, target: "Latihan Passing", trend: "Stabil" }
-      ]
-    },
-    6: { // Strategi pertahanan
-      target: "Formasi 4-4-2",
-      peserta: [
-        { id: 1, nama: "Agus Salim", jenisKelamin: "Laki-laki", usia: 45, posisi: "Pelatih Fisik", nilai: 88, target: "Formasi 4-4-2", trend: "Naik" },
-        { id: 2, nama: "Sri Rahayu", jenisKelamin: "Perempuan", usia: 42, posisi: "Pelatih Fisik", nilai: 85, target: "Formasi 4-4-2", trend: "Stabil" }
-      ]
+// Computed properties untuk data dari API
+const targetInfo = computed(
+  () =>
+    targetDetail.value?.target || {
+      id: targetId,
+      nama: 'Loading...',
+      target: 'Loading...',
+      peserta: 'Loading...',
     }
-  }
+)
 
-  const selectedTarget = targetData[targetId as keyof typeof targetData]
-  if (selectedTarget) {
-    pesertaTargetData.value = selectedTarget.peserta
-    // Update target info juga
-    targetInfo.value.target = selectedTarget.target
-  }
-}
+const rencanaInfo = computed(
+  () =>
+    targetDetail.value?.rencana || {
+      id: rencanaId,
+      materi: 'Loading...',
+      tanggal: 'Loading...',
+    }
+)
+
+const pesertaTargetData = computed(
+  () => targetDetail.value?.pesertaTarget || []
+)
+
+// Error State
+const showError = computed(() => !!error.value)
 
 // Helper function untuk format tanggal rencana (contoh: "12 Agustus 2025")
 const formatTanggalBulan = (tanggalString: string) => {
@@ -272,8 +333,18 @@ const formatTanggalBulan = (tanggalString: string) => {
     const year = date.getFullYear()
 
     const monthNames = [
-      'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-      'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+      'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
     ]
 
     return `${day} ${monthNames[month]} ${year}`
@@ -311,27 +382,32 @@ const getTrendClass = (trend: string) => {
 
 // Load target info based on targetId
 const loadTargetInfo = () => {
-  // Mock data based on targetId
-  const targets = [
-    { id: 1, nama: "Peningkatan stamina", target: "12,5 detik", peserta: "Atlet" },
-    { id: 2, nama: "Kekuatan otot", target: "50 push-up", peserta: "Atlet" },
-    { id: 3, nama: "Analisis teknik", target: "Evaluasi video pertandingan", peserta: "Pelatih" },
-    { id: 4, nama: "Persiapan alat", target: "Setup peralatan latihan", peserta: "Tenaga Pendukung" },
-    { id: 5, nama: "Koordinasi tim", target: "Latihan passing", peserta: "Atlet" },
-    { id: 6, nama: "Strategi pertahanan", target: "Formasi 4-4-2", peserta: "Pelatih" }
-  ]
+  // Fetch data from API
+  fetchTargetDetail(rencanaId, targetId)
+}
 
-  const target = targets.find(t => t.id === targetId)
-  if (target) {
-    targetInfo.value = target
-  }
-
-  // Update peserta data berdasarkan target yang dipilih
-  updatePesertaData(targetId)
+// Photo modal state and handlers
+const showPhotoModal = ref(false)
+const modalPhotoSrc = ref<string | null>(null)
+const openPhotoModal = (src: string | null) => {
+  if (!src) return
+  modalPhotoSrc.value = src
+  showPhotoModal.value = true
+}
+const closePhotoModal = () => {
+  showPhotoModal.value = false
+  modalPhotoSrc.value = null
 }
 
 onMounted(() => {
-  console.log('Target detail rencana page loaded for Program ID:', programId, 'Rencana ID:', rencanaId, 'Target ID:', targetId)
+  console.log(
+    'Target detail rencana page loaded for Program ID:',
+    programId,
+    'Rencana ID:',
+    rencanaId,
+    'Target ID:',
+    targetId
+  )
   loadTargetInfo()
 })
 </script>

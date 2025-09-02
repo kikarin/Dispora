@@ -2,6 +2,7 @@
   <div>
     <LoadingSplash :show="splashVisible && isLoginPage" />
     <NuxtPage />
+    <BottomNavigation v-if="!isLoginPage" />
   </div>
 </template>
 
@@ -9,20 +10,19 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import LoadingSplash from '~/components/LoadingSplash.vue'
+import BottomNavigation from '~/components/BottomNavigation.vue'
 
 const route = useRoute()
 const splashVisible = ref(true)
 
-// Check if current page is login
 const isLoginPage = computed(() => {
   return route.path === '/login'
 })
 
 onMounted(() => {
-  // Only show splash on login page
   if (isLoginPage.value) {
-    setTimeout(() => { 
-      splashVisible.value = false 
+    setTimeout(() => {
+      splashVisible.value = false
     }, 1200)
   } else {
     splashVisible.value = false
@@ -34,7 +34,7 @@ onMounted(() => {
 /* Page Transitions */
 .page-enter-active,
 .page-leave-active {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .page-enter-from {
@@ -52,7 +52,7 @@ onMounted(() => {
 /* Layout Transitions */
 .layout-enter-active,
 .layout-leave-active {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .layout-enter-from {
