@@ -20,7 +20,7 @@
           />
         </svg>
       </button>
-      <h1 class="text-xl font-bold text-gray-700">Peserta Pemeriksaan</h1>
+      <h1 class="text-xl font-bold text-gray-700">Peserta Rencana Latihan</h1>
     </div>
 
     <!-- Tab Navigation -->
@@ -42,39 +42,86 @@
       </div>
     </div>
 
-    <!-- Search Bar -->
-    <div class="relative mb-4">
-      <div
-        class="flex items-center gap-2 rounded-2xl bg-white/80 px-3 py-2 backdrop-blur"
-      >
-        <svg
-          class="h-5 w-5 text-gray-400"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
-        <input
-          v-model="searchQuery"
-          type="text"
-          placeholder="Cari peserta..."
-          class="flex-1 text-[15px] bg-transparent outline-none placeholder:text-gray-400"
-        />
-      </div>
-    </div>
-
     <!-- Content based on active tab -->
     <div class="space-y-4">
+      <!-- Search -->
+      <div class="relative">
+        <div
+          class="flex items-center gap-2 rounded-2xl bg-white/80 px-3 py-2 backdrop-blur"
+        >
+          <svg
+            class="h-5 w-5 text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+          <input
+            v-model="searchQuery"
+            type="text"
+            placeholder="Cari peserta..."
+            class="flex-1 text-[15px] bg-transparent outline-none placeholder:text-gray-400"
+          />
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div v-if="error" class="bg-red-50 border border-red-200 rounded-lg p-4">
+        <p class="text-red-600 text-sm">{{ error }}</p>
+        <button
+          @click="fetchPeserta"
+          class="mt-2 text-red-700 underline text-sm hover:text-red-800"
+        >
+          Coba lagi
+        </button>
+      </div>
+
+      <!-- Empty State All Tabs -->
+      <div
+        v-else-if="
+          !loading &&
+          pesertaData.atlet.length === 0 &&
+          pesertaData.pelatih.length === 0 &&
+          pesertaData.tenagaPendukung.length === 0
+        "
+        class="text-center py-12"
+      >
+        <div class="text-gray-400 mb-4">
+          <svg
+            class="mx-auto h-12 w-12"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            />
+          </svg>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">
+          Tidak ada peserta
+        </h3>
+        <p class="text-gray-500">
+          {{
+            searchQuery
+              ? 'Coba ubah kata kunci pencarian'
+              : 'Belum ada peserta yang terdaftar untuk rencana ini.'
+          }}
+        </p>
+      </div>
       <!-- Peserta Atlet -->
       <div v-if="activeTab === 'atlet'" class="space-y-3">
         <div
-          v-for="peserta in atlet"
+          v-for="peserta in pesertaData.atlet"
           :key="peserta.id"
           class="bg-white/90 rounded-2xl p-4 backdrop-blur"
         >
@@ -88,7 +135,7 @@
                   v-if="peserta.foto"
                   :src="peserta.foto"
                   :alt="peserta.nama"
-                  class="w-full h-full object-cover"
+                  class="w-full h-full object-cover cursor-zoom-in"
                   @click="openPhotoModal(peserta.foto)"
                 />
                 <svg
@@ -142,25 +189,33 @@
                 </span>
               </div>
 
-              <!-- Status Pemeriksaan -->
-              <div class="flex items-center gap-2">
-                <span class="text-xs text-gray-500">Status Pemeriksaan:</span>
+              <!-- Status Kehadiran -->
+              <div class="flex items-center gap-2 mb-3">
+                <span class="text-xs text-gray-500">Kehadiran:</span>
                 <span
-                  v-if="peserta.statusPemeriksaan"
-                  class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
-                  :class="
-                    getStatusPemeriksaanBadgeClass(peserta.statusPemeriksaan)
-                  "
+                  v-if="peserta.kehadiran"
+                  class="inline-flex items-center py-1 text-xs font-medium"
+                  :class="getKehadiranBadgeClass(peserta.kehadiran)"
                 >
-                  {{ peserta.statusPemeriksaan }}
+                  {{ peserta.kehadiran }}
                 </span>
                 <span
                   v-else
-                  class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600"
+                  class="inline-flex items-center py-1 text-xs font-medium text-gray-600"
                 >
                   -
                 </span>
               </div>
+
+              <!-- Action Button -->
+              <button
+                @click="
+                  viewTargetPeserta(getPesertaIdForNavigation(peserta), 'atlet')
+                "
+                class="w-full bg-[#597BF9] text-white py-2 px-1 rounded-xl w-fit mx-auto text-sm font-medium hover:bg-[#4c6ef5] transition-colors"
+              >
+                Lihat Target Latihan
+              </button>
             </div>
           </div>
         </div>
@@ -169,7 +224,7 @@
       <!-- Peserta Pelatih -->
       <div v-else-if="activeTab === 'pelatih'" class="space-y-3">
         <div
-          v-for="peserta in pelatih"
+          v-for="peserta in pesertaData.pelatih"
           :key="peserta.id"
           class="bg-white/90 rounded-2xl p-4 backdrop-blur"
         >
@@ -183,7 +238,7 @@
                   v-if="peserta.foto"
                   :src="peserta.foto"
                   :alt="peserta.nama"
-                  class="w-full h-full object-cover"
+                  class="w-full h-full object-cover cursor-zoom-in"
                   @click="openPhotoModal(peserta.foto)"
                 />
                 <svg
@@ -237,25 +292,36 @@
                 </span>
               </div>
 
-              <!-- Status Pemeriksaan -->
-              <div class="flex items-center gap-2">
-                <span class="text-xs text-gray-500">Status Pemeriksaan:</span>
+              <!-- Status Kehadiran -->
+              <div class="flex items-center gap-2 mb-3">
+                <span class="text-xs text-gray-500">Kehadiran:</span>
                 <span
-                  v-if="peserta.statusPemeriksaan"
-                  class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
-                  :class="
-                    getStatusPemeriksaanBadgeClass(peserta.statusPemeriksaan)
-                  "
+                  v-if="peserta.kehadiran"
+                  class="inline-flex items-center py-1 text-xs font-medium"
+                  :class="getKehadiranBadgeClass(peserta.kehadiran)"
                 >
-                  {{ peserta.statusPemeriksaan }}
+                  {{ peserta.kehadiran }}
                 </span>
                 <span
                   v-else
-                  class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600"
+                  class="inline-flex items-center py-1 text-xs font-medium text-gray-600"
                 >
                   -
                 </span>
               </div>
+
+              <!-- Action Button -->
+              <button
+                @click="
+                  viewTargetPeserta(
+                    getPesertaIdForNavigation(peserta),
+                    'pelatih'
+                  )
+                "
+                class="w-full bg-[#597BF9] text-white py-2 px-1 rounded-xl w-fit mx-auto text-sm font-medium hover:bg-[#4c6ef5] transition-colors"
+              >
+                Lihat Target Latihan
+              </button>
             </div>
           </div>
         </div>
@@ -264,7 +330,7 @@
       <!-- Peserta Tenaga Pendukung -->
       <div v-else-if="activeTab === 'tenaga-pendukung'" class="space-y-3">
         <div
-          v-for="peserta in tenagaPendukung"
+          v-for="peserta in pesertaData.tenagaPendukung"
           :key="peserta.id"
           class="bg-white/90 rounded-2xl p-4 backdrop-blur"
         >
@@ -278,7 +344,7 @@
                   v-if="peserta.foto"
                   :src="peserta.foto"
                   :alt="peserta.nama"
-                  class="w-full h-full object-cover"
+                  class="w-full h-full object-cover cursor-zoom-in"
                   @click="openPhotoModal(peserta.foto)"
                 />
                 <svg
@@ -332,67 +398,51 @@
                 </span>
               </div>
 
-              <!-- Status Pemeriksaan -->
-              <div class="flex items-center gap-2">
-                <span class="text-xs text-gray-500">Status Pemeriksaan:</span>
+              <!-- Status Kehadiran -->
+              <div class="flex items-center gap-2 mb-3">
+                <span class="text-xs text-gray-500">Kehadiran:</span>
                 <span
-                  v-if="peserta.statusPemeriksaan"
-                  class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
-                  :class="
-                    getStatusPemeriksaanBadgeClass(peserta.statusPemeriksaan)
-                  "
+                  v-if="peserta.kehadiran"
+                  class="inline-flex items-center py-1 text-xs font-medium"
+                  :class="getKehadiranBadgeClass(peserta.kehadiran)"
                 >
-                  {{ peserta.statusPemeriksaan }}
+                  {{ peserta.kehadiran }}
                 </span>
                 <span
                   v-else
-                  class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600"
+                  class="inline-flex items-center py-1 text-xs font-medium text-gray-600"
                 >
                   -
                 </span>
               </div>
+
+              <!-- Action Button -->
+              <button
+                @click="
+                  viewTargetPeserta(
+                    getPesertaIdForNavigation(peserta),
+                    'tenaga-pendukung'
+                  )
+                "
+                class="w-full bg-[#597BF9] text-white py-2 px-1 rounded-xl w-fit mx-auto text-sm font-medium hover:bg-[#4c6ef5] transition-colors"
+              >
+                Lihat Target Latihan
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Empty State -->
-      <div
-        v-if="
-          !loading &&
-          atlet.length === 0 &&
-          pelatih.length === 0 &&
-          tenagaPendukung.length === 0
-        "
-        class="text-center py-12"
-      >
-        <div class="text-gray-400 mb-4">
-          <svg
-            class="mx-auto h-12 w-12"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-            />
-          </svg>
-        </div>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">
-          Tidak ada peserta
-        </h3>
-        <p class="text-gray-500">
-          {{
-            searchQuery
-              ? 'Tidak ada peserta yang sesuai dengan pencarian'
-              : 'Belum ada peserta yang terdaftar untuk pemeriksaan ini'
-          }}
-        </p>
+      <!-- Loading state -->
+      <div v-if="loading" class="text-center py-8">
+        <div
+          class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#597BF9] mx-auto"
+        ></div>
+        <p class="text-gray-500 mt-2">Memuat data peserta...</p>
       </div>
     </div>
+
+    <div class="h-20"></div>
 
     <!-- Photo Modal -->
     <div
@@ -435,27 +485,44 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import PageLayout from '~/components/PageLayout.vue'
-import { usePesertaPemeriksaan } from '../../../../composables/usePesertaPemeriksaan'
-import { useAuth } from '../../../../composables/useAuth'
+import { usePesertaRencana } from '../../../../../../../composables/usePesertaRencana'
 
 const route = useRoute()
-const { initAuth } = useAuth()
+const router = useRouter()
 
 // Validate and handle route params
-const pemeriksaanIdParam = route.params.id as string
+const programIdParam = route.params.id as string
+const rencanaIdParam = route.params.rencanaId as string
 
-console.log('Peserta pemeriksaan page - Pemeriksaan ID:', pemeriksaanIdParam)
+console.log('Peserta page - Program ID:', programIdParam)
+console.log('Peserta page - Rencana ID:', rencanaIdParam)
 
 // Simple validation
-let pemeriksaanId = 1
+let programId = 1
+let rencanaId = 1
 
-if (pemeriksaanIdParam && !isNaN(Number(pemeriksaanIdParam))) {
-  pemeriksaanId = parseInt(pemeriksaanIdParam)
+if (programIdParam && !isNaN(Number(programIdParam))) {
+  programId = parseInt(programIdParam)
 }
 
-// Use composable
+if (rencanaIdParam && !isNaN(Number(rencanaIdParam))) {
+  rencanaId = parseInt(rencanaIdParam)
+}
+
+// Tab Management
+const activeTab = ref('atlet')
+const tabs = computed(() => [
+  { id: 'atlet', label: `Atlet (${pesertaData.value.atlet.length})` },
+  { id: 'pelatih', label: `Pelatih (${pesertaData.value.pelatih.length})` },
+  {
+    id: 'tenaga-pendukung',
+    label: `Pendukung (${pesertaData.value.tenagaPendukung.length})`,
+  },
+])
+
+// Fetch peserta via composable
 const {
   atlet,
   pelatih,
@@ -464,44 +531,55 @@ const {
   error,
   searchQuery,
   fetchPeserta,
-} = usePesertaPemeriksaan(pemeriksaanId)
+} = usePesertaRencana(rencanaId)
 
-// Tab Management
-const activeTab = ref('atlet')
-const tabs = computed(() => [
-  { id: 'atlet', label: `Atlet (${atlet.value.length})` },
-  { id: 'pelatih', label: `Pelatih (${pelatih.value.length})` },
-  {
-    id: 'tenaga-pendukung',
-    label: `Pendukung (${tenagaPendukung.value.length})`,
-  },
-])
-
-// Helper function untuk mendapatkan class badge berdasarkan status pemeriksaan
-const getStatusPemeriksaanBadgeClass = (status: string) => {
-  switch (status) {
-    case 'Normal':
-      return 'bg-green-100 text-green-800'
-    case 'Tidak Normal':
-      return 'bg-red-100 text-red-800'
-    case 'Cedera Ringan':
-      return 'bg-yellow-100 text-yellow-800'
-    case 'Cedera Berat':
-      return 'bg-red-100 text-red-800'
-    case 'Perlu Tindak Lanjut':
-      return 'bg-purple-100 text-purple-800'
+// Helper function untuk mendapatkan class badge berdasarkan kehadiran
+const getKehadiranBadgeClass = (kehadiran: string) => {
+  switch (kehadiran) {
+    case 'Hadir':
+      return 'text-green-800'
+    case 'Tidak Hadir':
+      return 'text-red-800'
+    case 'Izin':
+      return 'text-yellow-800'
+    case 'Sakit':
+      return 'text-purple-800'
     default:
-      return 'bg-gray-100 text-gray-600'
+      return 'text-gray-600'
   }
 }
 
-onMounted(async () => {
-  initAuth()
-  await fetchPeserta()
-  console.log(
-    'Peserta pemeriksaan page loaded for Pemeriksaan ID:',
-    pemeriksaanId
+// Helper function untuk mendapatkan ID yang benar untuk navigasi
+const getPesertaIdForNavigation = (peserta: any) => {
+  console.log('🔍 Peserta data for navigation:', {
+    id: peserta.id,
+    rencanaLatihanPesertaId: peserta.rencanaLatihanPesertaId,
+    nama: peserta.nama,
+    rawData: peserta,
+  })
+  // Prioritas: rencanaLatihanPesertaId > id
+  const selectedId = peserta.rencanaLatihanPesertaId || peserta.id
+  console.log('✅ Selected ID for navigation:', selectedId)
+  return selectedId
+}
+
+// Navigation function untuk melihat target peserta
+const viewTargetPeserta = (pesertaId: number, pesertaType: string) => {
+  console.log('Navigating to target peserta for:', { pesertaId, pesertaType })
+  router.push(
+    `/program-latihan/${programId}/rencana/${rencanaId}/peserta/${pesertaId}?peserta_type=${pesertaType}`
   )
+}
+
+// Peserta Data reactive dari composable
+const pesertaData = computed(() => ({
+  atlet: atlet.value,
+  pelatih: pelatih.value,
+  tenagaPendukung: tenagaPendukung.value,
+}))
+
+onMounted(async () => {
+  await fetchPeserta()
 })
 
 // Photo modal state and handlers

@@ -3,6 +3,7 @@ import { useAuth } from './useAuth'
 
 interface PesertaAtlet {
   id: number
+  pemeriksaanPesertaId: number
   nama: string
   foto: string | null
   jenisKelamin: string
@@ -13,6 +14,7 @@ interface PesertaAtlet {
 
 interface PesertaPelatih {
   id: number
+  pemeriksaanPesertaId: number
   nama: string
   foto: string | null
   jenisKelamin: string
@@ -23,6 +25,7 @@ interface PesertaPelatih {
 
 interface PesertaTenagaPendukung {
   id: number
+  pemeriksaanPesertaId: number
   nama: string
   foto: string | null
   jenisKelamin: string
@@ -107,15 +110,54 @@ export const usePesertaPemeriksaan = (pemeriksaanId: number) => {
 
       if (response.status === 'success') {
         pemeriksaanInfo.value = response.data.pemeriksaan
-        atlet.value = response.data.atlet || []
-        pelatih.value = response.data.pelatih || []
-        tenagaPendukung.value = response.data.tenagaPendukung || []
 
+        // Map data dengan pemeriksaanPesertaId (backend menggunakan pemeriksaan_peserta_id)
+        atlet.value = (response.data.atlet || []).map((item: any) => ({
+          ...item,
+          pemeriksaanPesertaId: item.pemeriksaan_peserta_id,
+        }))
+
+        pelatih.value = (response.data.pelatih || []).map((item: any) => ({
+          ...item,
+          pemeriksaanPesertaId: item.pemeriksaan_peserta_id,
+        }))
+
+        tenagaPendukung.value = (response.data.tenagaPendukung || []).map(
+          (item: any) => ({
+            ...item,
+            pemeriksaanPesertaId: item.pemeriksaan_peserta_id,
+          })
+        )
+
+        // Log untuk debugging
         console.log(' Peserta loaded:', {
           atlet: atlet.value.length,
           pelatih: pelatih.value.length,
           tenagaPendukung: tenagaPendukung.value.length,
         })
+
+        // Log sample data untuk debugging
+        if (atlet.value.length > 0) {
+          console.log('Sample atlet data:', atlet.value[0])
+          console.log(
+            'Atlet pemeriksaanPesertaId:',
+            atlet.value[0].pemeriksaanPesertaId
+          )
+        }
+        if (pelatih.value.length > 0) {
+          console.log('Sample pelatih data:', pelatih.value[0])
+          console.log(
+            'Pelatih pemeriksaanPesertaId:',
+            pelatih.value[0].pemeriksaanPesertaId
+          )
+        }
+        if (tenagaPendukung.value.length > 0) {
+          console.log('Sample tenaga pendukung data:', tenagaPendukung.value[0])
+          console.log(
+            'Tenaga pendukung pemeriksaanPesertaId:',
+            tenagaPendukung.value[0].pemeriksaanPesertaId
+          )
+        }
       } else {
         error.value =
           response.message || 'Gagal mengambil data peserta pemeriksaan'

@@ -66,7 +66,7 @@ export const useTargetLatihan = () => {
     console.warn('useRuntimeConfig not available, using fallback URL:', baseURL)
   }
 
-  const { getAuthHeaders, isAuthenticated, initAuth } = useAuth()
+  const { getAuthHeaders, isAuthenticated, token, initAuth } = useAuth()
 
   // Initialize auth on composable creation
   if (process.client) {
@@ -85,20 +85,10 @@ export const useTargetLatihan = () => {
 
   // Fetch list targets
   const fetchTargetList = async (rencanaId: number) => {
-    // Re-check auth before API call
-    if (process.client) {
-      initAuth()
-    }
-
-    if (!isAuthenticated.value) {
+    // Pastikan auth ready
+    if (!isAuthenticated.value || !token.value) {
       error.value = 'Anda harus login terlebih dahulu.'
-      loading.value = false
-      console.warn('User not authenticated, redirecting to login')
-      if (process.client) {
-        setTimeout(() => {
-          window.location.href = '/login'
-        }, 2000)
-      }
+      if (process.client) window.location.href = '/login'
       return
     }
 
@@ -106,9 +96,16 @@ export const useTargetLatihan = () => {
       loading.value = true
       error.value = null
 
-      const url = `${baseURL}/rencana-latihan/${rencanaId}/targets`
+      const cacheBuster = Date.now()
+      const url = `${baseURL}/rencana-latihan/${rencanaId}/targets?_t=${cacheBuster}`
+
       const response = await $fetch<ApiResponse<TargetListResponse>>(url, {
-        headers: getAuthHeaders(),
+        headers: {
+          ...getAuthHeaders(),
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          Pragma: 'no-cache',
+          Expires: '0',
+        },
         credentials: 'include',
       })
 

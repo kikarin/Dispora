@@ -1,4 +1,5 @@
 /// <reference types="nuxt-auth-sanctum" />
+/// <reference types="nuxt-charts" />
 /// <reference types="@nuxt/devtools" />
 /// <reference types="@nuxt/telemetry" />
 /// <reference path="types/builder-env.d.ts" />

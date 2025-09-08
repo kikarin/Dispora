@@ -265,6 +265,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
+import {
+  ArrowTrendingUpIcon,
+  MinusIcon,
+  ArrowTrendingDownIcon,
+  QuestionMarkCircleIcon,
+} from '@heroicons/vue/24/solid'
 import { useRoute, useRouter } from 'vue-router'
 import PageLayout from '~/components/PageLayout.vue'
 import { useTargetLatihan } from '../../../../../../composables/useTargetLatihan'
@@ -343,12 +349,15 @@ const closeTargetKelompokModal = () => {
 }
 
 const getTrendClass = (trend: string | null) => {
-  if (trend === 'Naik') {
-    return 'bg-green-100 text-green-800 border border-green-200'
-  } else if (trend === 'Turun') {
-    return 'bg-red-100 text-red-800 border border-red-200'
-  } else {
-    return 'bg-gray-100 text-gray-800 border border-gray-200'
+  switch (trend) {
+    case 'naik':
+      return 'text-green-600 bg-green-100'
+    case 'turun':
+      return 'text-red-600 bg-red-100'
+    case 'stabil':
+      return 'text-yellow-600 bg-yellow-100'
+    default:
+      return 'text-gray-600 bg-gray-100'
   }
 }
 

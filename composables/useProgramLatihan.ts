@@ -76,12 +76,6 @@ export const useProgramLatihan = () => {
   const filteredPrograms = computed(() => {
     let filtered = programs.value
 
-    console.log('🔍 Search Debug:', {
-      searchQuery: searchQuery.value,
-      totalPrograms: programs.value.length,
-      hasSearch: !!searchQuery.value,
-    })
-
     // Filter by search query
     if (searchQuery.value) {
       const beforeFilter = filtered.length
@@ -100,10 +94,6 @@ export const useProgramLatihan = () => {
             ?.toLowerCase()
             .includes(searchQuery.value.toLowerCase())
       )
-      console.log('🔍 Filter Result:', {
-        before: beforeFilter,
-        after: filtered.length,
-      })
     }
 
     // Filter by selected cabor

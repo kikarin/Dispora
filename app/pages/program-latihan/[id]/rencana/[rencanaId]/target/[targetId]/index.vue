@@ -105,16 +105,6 @@
           :key="peserta.id"
           class="relative bg-white rounded-xl p-5"
         >
-          <!-- Trend Badge (pojok kanan atas) -->
-          <div class="absolute top-2 right-3">
-            <span
-              class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
-              :class="getTrendClass(peserta.trend)"
-            >
-              {{ peserta.trend }}
-            </span>
-          </div>
-
           <div class="flex items-start gap-4">
             <!-- Foto Peserta -->
             <div class="flex-shrink-0 mt-3">
@@ -184,19 +174,35 @@
                 </span>
               </div>
 
-              <!-- Target dan Nilai -->
+              <!-- Nilai -->
               <div class="mt-3 flex items-center justify-between">
-                <p class="text-sm text-gray-500">
-                  Target:
-                  <span class="font-medium text-gray-700">{{
-                    peserta.target
-                  }}</span>
-                </p>
-                <p class="text-sm text-gray-500">
+                <p class="text-sm text-gray-500 flex items-center gap-2">
                   Nilai:
                   <span class="font-medium text-gray-700">{{
                     peserta.nilai
                   }}</span>
+
+                  <!-- Icon Trend -->
+                  <ArrowTrendingUpIcon
+                    v-if="
+                      peserta.trend === 'Naik' || peserta.trend === 'Kenaikan'
+                    "
+                    class="w-5 h-5 text-green-500"
+                  />
+                  <MinusIcon
+                    v-else-if="peserta.trend === 'Stabil'"
+                    class="w-5 h-5 text-yellow-500"
+                  />
+                  <ArrowTrendingDownIcon
+                    v-else-if="
+                      peserta.trend === 'Turun' || peserta.trend === 'Penurunan'
+                    "
+                    class="w-5 h-5 text-red-500"
+                  />
+                  <QuestionMarkCircleIcon
+                    v-else
+                    class="w-5 h-5 text-gray-400"
+                  />
                 </p>
               </div>
             </div>
@@ -257,6 +263,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
+import {
+  ArrowTrendingUpIcon,
+  MinusIcon,
+  ArrowTrendingDownIcon,
+  QuestionMarkCircleIcon,
+} from '@heroicons/vue/24/solid'
 import { useRoute } from 'vue-router'
 import PageLayout from '~/components/PageLayout.vue'
 import { useTargetLatihan } from '../../../../../../../../composables/useTargetLatihan'
@@ -350,33 +362,6 @@ const formatTanggalBulan = (tanggalString: string) => {
     return `${day} ${monthNames[month]} ${year}`
   } catch (error) {
     return tanggalString
-  }
-}
-
-// Functions
-const getPesertaBadgeClass = (peserta: string) => {
-  switch (peserta) {
-    case 'Atlet':
-      return 'bg-blue-100 text-blue-800 border border-blue-200'
-    case 'Pelatih':
-      return 'bg-green-100 text-green-800 border border-green-200'
-    case 'Tenaga Pendukung':
-      return 'bg-orange-100 text-orange-800 border border-orange-200'
-    default:
-      return 'bg-gray-100 text-gray-800 border border-gray-200'
-  }
-}
-
-const getTrendClass = (trend: string) => {
-  switch (trend) {
-    case 'Naik':
-      return 'text-green-600 bg-green-100'
-    case 'Turun':
-      return 'text-red-600 bg-red-100'
-    case 'Stabil':
-      return 'text-yellow-600 bg-yellow-100'
-    default:
-      return 'text-gray-600 bg-gray-100'
   }
 }
 

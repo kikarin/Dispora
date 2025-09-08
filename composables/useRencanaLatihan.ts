@@ -30,8 +30,7 @@ interface ApiResponse<T> {
 export const useRencanaLatihan = (programId: number) => {
   const config = useRuntimeConfig()
   const baseURL = config.public.apiBase || 'http://localhost:8000/api'
-  const { getAuthHeaders } = useAuth()
-
+  const { getAuthHeaders, isAuthenticated, token, initAuth } = useAuth()
   // State
   const rencanaList = ref<RencanaLatihanItem[]>([])
   const loading = ref(false)
@@ -48,6 +47,23 @@ export const useRencanaLatihan = (programId: number) => {
   const selectedDate = ref('')
 
   const fetchRencana = async (page = 1) => {
+    // Re-check auth before API call
+    if (process.client) {
+      initAuth()
+    }
+
+    if (!isAuthenticated.value) {
+      error.value = 'Anda harus login terlebih dahulu.'
+      loading.value = false
+      console.warn('User not authenticated, redirecting to login')
+      if (process.client) {
+        setTimeout(() => {
+          window.location.href = '/login'
+        }, 2000)
+      }
+      return
+    }
+
     try {
       loading.value = true
       error.value = null
@@ -62,10 +78,15 @@ export const useRencanaLatihan = (programId: number) => {
 
       const url = `${baseURL}/program-latihan/${programId}/rencana-latihan?${params}`
 
+      console.log('🔍 Fetching rencana latihan with URL:', url)
+      console.log('🔑 Auth headers:', getAuthHeaders())
+
       const response = await $fetch<ApiResponse<RencanaLatihanItem[]>>(url, {
         headers: getAuthHeaders(),
         credentials: 'include',
       })
+
+      console.log('📊 API Response:', response)
 
       if (response.status === 'success') {
         rencanaList.value = response.data || []

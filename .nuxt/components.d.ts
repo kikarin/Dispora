@@ -28,6 +28,11 @@ interface _GlobalComponents {
     'NuxtRouteAnnouncer': typeof import("../node_modules/nuxt/dist/app/components/nuxt-route-announcer")['default']
     'NuxtImg': typeof import("../node_modules/nuxt/dist/app/components/nuxt-stubs")['NuxtImg']
     'NuxtPicture': typeof import("../node_modules/nuxt/dist/app/components/nuxt-stubs")['NuxtPicture']
+    'AreaChart': typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['AreaChart']
+    'AreaStackedChart': typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['AreaStackedChart']
+    'LineChart': typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['LineChart']
+    'BarChart': typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['BarChart']
+    'DonutChart': typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['DonutChart']
     'NuxtPage': typeof import("../node_modules/nuxt/dist/pages/runtime/page")['default']
     'NoScript': typeof import("../node_modules/nuxt/dist/head/runtime/components")['NoScript']
     'Link': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Link']
@@ -40,6 +45,11 @@ interface _GlobalComponents {
     'Body': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
     'NuxtIsland': typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']
     'NuxtRouteAnnouncer': typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']
+    'AreaChart': typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['AreaChart']
+    'AreaStackedChart': typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['AreaStackedChart']
+    'LineChart': typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['LineChart']
+    'BarChart': typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['BarChart']
+    'DonutChart': typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['DonutChart']
       'LazyBottomNavigation': LazyComponent<typeof import("../app/components/BottomNavigation.vue")['default']>
     'LazyContentLayout': LazyComponent<typeof import("../app/components/ContentLayout.vue")['default']>
     'LazyLoadingSplash': LazyComponent<typeof import("../app/components/LoadingSplash.vue")['default']>
@@ -56,6 +66,11 @@ interface _GlobalComponents {
     'LazyNuxtRouteAnnouncer': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-route-announcer")['default']>
     'LazyNuxtImg': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-stubs")['NuxtImg']>
     'LazyNuxtPicture': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-stubs")['NuxtPicture']>
+    'LazyAreaChart': LazyComponent<typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['AreaChart']>
+    'LazyAreaStackedChart': LazyComponent<typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['AreaStackedChart']>
+    'LazyLineChart': LazyComponent<typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['LineChart']>
+    'LazyBarChart': LazyComponent<typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['BarChart']>
+    'LazyDonutChart': LazyComponent<typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['DonutChart']>
     'LazyNuxtPage': LazyComponent<typeof import("../node_modules/nuxt/dist/pages/runtime/page")['default']>
     'LazyNoScript': LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['NoScript']>
     'LazyLink': LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Link']>
@@ -68,6 +83,11 @@ interface _GlobalComponents {
     'LazyBody': LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']>
     'LazyNuxtIsland': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']>
     'LazyNuxtRouteAnnouncer': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
+    'LazyAreaChart': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['AreaChart']>
+    'LazyAreaStackedChart': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['AreaStackedChart']>
+    'LazyLineChart': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['LineChart']>
+    'LazyBarChart': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['BarChart']>
+    'LazyDonutChart': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['DonutChart']>
 }
 
 declare module 'vue' {
@@ -90,6 +110,11 @@ export const NuxtTime: typeof import("../node_modules/nuxt/dist/app/components/n
 export const NuxtRouteAnnouncer: typeof import("../node_modules/nuxt/dist/app/components/nuxt-route-announcer")['default']
 export const NuxtImg: typeof import("../node_modules/nuxt/dist/app/components/nuxt-stubs")['NuxtImg']
 export const NuxtPicture: typeof import("../node_modules/nuxt/dist/app/components/nuxt-stubs")['NuxtPicture']
+export const AreaChart: typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['AreaChart']
+export const AreaStackedChart: typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['AreaStackedChart']
+export const LineChart: typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['LineChart']
+export const BarChart: typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['BarChart']
+export const DonutChart: typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['DonutChart']
 export const NuxtPage: typeof import("../node_modules/nuxt/dist/pages/runtime/page")['default']
 export const NoScript: typeof import("../node_modules/nuxt/dist/head/runtime/components")['NoScript']
 export const Link: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Link']
@@ -102,6 +127,11 @@ export const Html: typeof import("../node_modules/nuxt/dist/head/runtime/compone
 export const Body: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
 export const NuxtIsland: typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']
 export const NuxtRouteAnnouncer: typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']
+export const AreaChart: typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['AreaChart']
+export const AreaStackedChart: typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['AreaStackedChart']
+export const LineChart: typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['LineChart']
+export const BarChart: typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['BarChart']
+export const DonutChart: typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['DonutChart']
 export const LazyBottomNavigation: LazyComponent<typeof import("../app/components/BottomNavigation.vue")['default']>
 export const LazyContentLayout: LazyComponent<typeof import("../app/components/ContentLayout.vue")['default']>
 export const LazyLoadingSplash: LazyComponent<typeof import("../app/components/LoadingSplash.vue")['default']>
@@ -118,6 +148,11 @@ export const LazyNuxtTime: LazyComponent<typeof import("../node_modules/nuxt/dis
 export const LazyNuxtRouteAnnouncer: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-route-announcer")['default']>
 export const LazyNuxtImg: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-stubs")['NuxtImg']>
 export const LazyNuxtPicture: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-stubs")['NuxtPicture']>
+export const LazyAreaChart: LazyComponent<typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['AreaChart']>
+export const LazyAreaStackedChart: LazyComponent<typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['AreaStackedChart']>
+export const LazyLineChart: LazyComponent<typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['LineChart']>
+export const LazyBarChart: LazyComponent<typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['BarChart']>
+export const LazyDonutChart: LazyComponent<typeof import("../node_modules/nuxt-charts/dist/runtime/vue-chrts")['DonutChart']>
 export const LazyNuxtPage: LazyComponent<typeof import("../node_modules/nuxt/dist/pages/runtime/page")['default']>
 export const LazyNoScript: LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['NoScript']>
 export const LazyLink: LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Link']>
@@ -130,5 +165,10 @@ export const LazyHtml: LazyComponent<typeof import("../node_modules/nuxt/dist/he
 export const LazyBody: LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']>
 export const LazyNuxtIsland: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']>
 export const LazyNuxtRouteAnnouncer: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
+export const LazyAreaChart: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['AreaChart']>
+export const LazyAreaStackedChart: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['AreaStackedChart']>
+export const LazyLineChart: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['LineChart']>
+export const LazyBarChart: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['BarChart']>
+export const LazyDonutChart: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['DonutChart']>
 
 export const componentNames: string[]

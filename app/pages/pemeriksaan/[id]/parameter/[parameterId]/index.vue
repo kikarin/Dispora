@@ -95,16 +95,6 @@
             :key="peserta.id"
             class="relative bg-white/90 rounded-2xl p-4 backdrop-blur"
           >
-            <!-- Status Badge (pojok kanan atas) -->
-            <div class="absolute top-2 right-3">
-              <span
-                class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
-                :class="getStatusClass(peserta.status)"
-              >
-                {{ peserta.status }}
-              </span>
-            </div>
-
             <div class="flex items-start gap-4">
               <!-- Foto Peserta -->
               <div class="flex-shrink-0 mt-1">
@@ -171,11 +161,29 @@
 
                 <!-- Nilai -->
                 <div class="mt-3">
-                  <p class="text-sm text-gray-500">
+                  <p class="text-sm text-gray-500 flex items-center gap-2">
                     Nilai:
-                    <span class="font-medium text-gray-700"
-                      >{{ peserta.nilai }} {{ parameterDetail?.satuan }}</span
-                    >
+                    <span class="font-medium text-gray-700">{{
+                      peserta.nilai
+                    }}</span>
+
+                    <!-- Icon Status -->
+                    <ArrowTrendingUpIcon
+                      v-if="peserta.status === 'Kenaikan'"
+                      class="w-5 h-5 text-green-500"
+                    />
+                    <MinusIcon
+                      v-else-if="peserta.status === 'Stabil'"
+                      class="w-5 h-5 text-yellow-500"
+                    />
+                    <ArrowTrendingDownIcon
+                      v-else-if="peserta.status === 'Penurunan'"
+                      class="w-5 h-5 text-red-500"
+                    />
+                    <QuestionMarkCircleIcon
+                      v-else
+                      class="w-5 h-5 text-gray-400"
+                    />
                   </p>
                 </div>
               </div>
@@ -190,16 +198,6 @@
             :key="peserta.id"
             class="relative bg-white/90 rounded-2xl p-4 backdrop-blur"
           >
-            <!-- Status Badge (pojok kanan atas) -->
-            <div class="absolute top-2 right-3">
-              <span
-                class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
-                :class="getStatusClass(peserta.status)"
-              >
-                {{ peserta.status }}
-              </span>
-            </div>
-
             <div class="flex items-start gap-4">
               <!-- Foto Peserta -->
               <div class="flex-shrink-0 mt-1">
@@ -266,11 +264,29 @@
 
                 <!-- Nilai -->
                 <div class="mt-3">
-                  <p class="text-sm text-gray-500">
+                  <p class="text-sm text-gray-500 flex items-center gap-2">
                     Nilai:
-                    <span class="font-medium text-gray-700"
-                      >{{ peserta.nilai }} {{ parameterDetail?.satuan }}</span
-                    >
+                    <span class="font-medium text-gray-700">{{
+                      peserta.nilai
+                    }}</span>
+
+                    <!-- Icon Status -->
+                    <ArrowTrendingUpIcon
+                      v-if="peserta.status === 'Kenaikan'"
+                      class="w-5 h-5 text-green-500"
+                    />
+                    <MinusIcon
+                      v-else-if="peserta.status === 'Stabil'"
+                      class="w-5 h-5 text-yellow-500"
+                    />
+                    <ArrowTrendingDownIcon
+                      v-else-if="peserta.status === 'Penurunan'"
+                      class="w-5 h-5 text-red-500"
+                    />
+                    <QuestionMarkCircleIcon
+                      v-else
+                      class="w-5 h-5 text-gray-400"
+                    />
                   </p>
                 </div>
               </div>
@@ -285,16 +301,6 @@
             :key="peserta.id"
             class="relative bg-white/90 rounded-2xl p-4 backdrop-blur"
           >
-            <!-- Status Badge (pojok kanan atas) -->
-            <div class="absolute top-2 right-3">
-              <span
-                class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
-                :class="getStatusClass(peserta.status)"
-              >
-                {{ peserta.status }}
-              </span>
-            </div>
-
             <div class="flex items-start gap-4">
               <!-- Foto Peserta -->
               <div class="flex-shrink-0 mt-1">
@@ -361,11 +367,29 @@
 
                 <!-- Nilai -->
                 <div class="mt-3">
-                  <p class="text-sm text-gray-500">
+                  <p class="text-sm text-gray-500 flex items-center gap-2">
                     Nilai:
-                    <span class="font-medium text-gray-700"
-                      >{{ peserta.nilai }} {{ parameterDetail?.satuan }}</span
-                    >
+                    <span class="font-medium text-gray-700">{{
+                      peserta.nilai
+                    }}</span>
+
+                    <!-- Icon Status -->
+                    <ArrowTrendingUpIcon
+                      v-if="peserta.status === 'Kenaikan'"
+                      class="w-5 h-5 text-green-500"
+                    />
+                    <MinusIcon
+                      v-else-if="peserta.status === 'Stabil'"
+                      class="w-5 h-5 text-yellow-500"
+                    />
+                    <ArrowTrendingDownIcon
+                      v-else-if="peserta.status === 'Penurunan'"
+                      class="w-5 h-5 text-red-500"
+                    />
+                    <QuestionMarkCircleIcon
+                      v-else
+                      class="w-5 h-5 text-gray-400"
+                    />
                   </p>
                 </div>
               </div>
@@ -460,6 +484,12 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import {
+  ArrowTrendingUpIcon,
+  MinusIcon,
+  ArrowTrendingDownIcon,
+  QuestionMarkCircleIcon,
+} from '@heroicons/vue/24/solid'
 import PageLayout from '~/components/PageLayout.vue'
 import { useParameterPemeriksaan } from '../../../../../../composables/useParameterPemeriksaan'
 import { useAuth } from '../../../../../..//composables/useAuth'

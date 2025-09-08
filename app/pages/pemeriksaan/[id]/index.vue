@@ -74,7 +74,7 @@
         <div
           v-for="parameter in filteredParameterList"
           :key="parameter.id"
-          class="p-4 bg-white/90 rounded-2xl backdrop-blur cursor-pointer hover:bg-white transition-all duration-300 hover:-translate-y-1 shadow-sm"
+          class="p-4 bg-white/90 rounded-2xl backdrop-blur cursor-pointer hover:bg-white transition-all duration-300 hover:-translate-y-1"
           @click="navigateToParameterDetail(parameter.id)"
         >
           <div class="flex items-start justify-between">
