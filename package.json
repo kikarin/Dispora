@@ -24,10 +24,13 @@
     "tailwindcss": "^4.1.12",
     "typescript": "^5.9.2",
     "unplugin": "^1.12.2",
-    "unstorage": "^1.16.1",
+    "unstorage": "1.10.2",
     "untyped": "^1.4.2",
     "vue": "^3.5.19",
     "vue-router": "^4.5.1"
+  },
+  "overrides": {
+    "unstorage": "1.10.2"
   },
   "devDependencies": {
     "@iconify-json/heroicons": "^1.2.2",
