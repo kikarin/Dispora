@@ -35,6 +35,10 @@
     "patch-package": "^8.0.0",
     "prettier": "^3.6.2"
   },
+  "overrides": {
+    "resolve": "1.22.8",
+    "unstorage": "1.16.0"
+  },
   "engines": {
     "node": "22.x"
   }
