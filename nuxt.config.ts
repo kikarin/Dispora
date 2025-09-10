@@ -45,6 +45,7 @@ export default defineNuxtConfig({
       wasm: true,
     },
     externals: {
+      inline: [],
       external: ['detect-libc'],
     },
     alias: {
