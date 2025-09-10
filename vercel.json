@@ -1,4 +1,10 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "nuxtjs"
+  "buildCommand": "npm ci && npm run build",
+  "installCommand": "npm ci",
+  "framework": "nuxtjs",
+  "functions": {
+    "app/**": {
+      "runtime": "nodejs18.x"
+    }
+  }
 }

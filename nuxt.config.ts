@@ -45,7 +45,7 @@ export default defineNuxtConfig({
       wasm: true,
     },
     externals: {
-      inline: [],
+      inline: ['unstorage'],
       external: ['detect-libc'],
     },
     alias: {
