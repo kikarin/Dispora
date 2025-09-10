@@ -29,8 +29,8 @@ export { withCtx, withDirectives, withKeys, withMemo, withModifiers, withScopeId
 export { requestIdleCallback, cancelIdleCallback } from '#app/compat/idle-callback';
 export { setInterval } from '#app/compat/interval';
 export { BulletLegendItemInterface, CurveType, LegendPosition, Orientation } from '../node_modules/nuxt-charts/dist/runtime/vue-chrts';
+export { definePageMeta } from '../node_modules/nuxt/dist/pages/runtime/composables';
 export { defineLazyHydrationComponent } from '#app/composables/lazy-hydration';
 export { useColorMode } from '../node_modules/@nuxtjs/color-mode/dist/runtime/composables';
 export { usePWA, useTransparentPwaIcon, useMaskablePwaIcon, useFaviconPwaIcon, useApplePwaIcon, useAppleSplashScreenPwaIcon } from '../node_modules/@vite-pwa/nuxt/dist/runtime/composables/index';
 export { useNuxtDevTools } from '../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';
-export { definePageMeta } from '../node_modules/nuxt/dist/pages/runtime/composables';

@@ -52,25 +52,27 @@ export function usePWAInstall() {
     showPrompt.value = false
   }
 
+  const handler = (e: Event) => {
+    e.preventDefault()
+    deferredPrompt.value = e as BeforeInstallPromptEvent
+    showPrompt.value = true
+  }
+
   onMounted(() => {
-    const handler = (e: Event) => {
-      e.preventDefault()
-      deferredPrompt.value = e as BeforeInstallPromptEvent
-      showPrompt.value = true
+    if (typeof window !== 'undefined') {
+      window.addEventListener('beforeinstallprompt', handler as EventListener)
     }
-    window.addEventListener('beforeinstallprompt', handler as EventListener)
 
     // For iOS we cannot capture event; show a hint when not standalone
     if (!isInStandalone.value && isIOS.value) {
       showPrompt.value = true
     }
+  })
 
-    onUnmounted(() => {
-      window.removeEventListener(
-        'beforeinstallprompt',
-        handler as EventListener
-      )
-    })
+  onUnmounted(() => {
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('beforeinstallprompt', handler as EventListener)
+    }
   })
 
   return { canInstall, isIOS, isInStandalone, showPrompt, install, hide }
