@@ -3,8 +3,8 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  css: ['~/assets/css/main.css'],
-  modules: ['nuxt-auth-sanctum', 'nuxt-charts'],
+  css: ['~/assets/css/main.css', '~/assets/css/components.pcss'],
+  modules: ['nuxt-auth-sanctum', 'nuxt-charts', '@nuxt/ui', '@vite-pwa/nuxt'],
 
   // Runtime config untuk API base URL
   runtimeConfig: {
@@ -86,6 +86,50 @@ export default defineNuxtConfig({
         { name: 'apple-mobile-web-app-capable', content: 'yes' },
         { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
       ],
+    },
+  },
+
+  pwa: {
+    registerType: 'autoUpdate',
+    includeAssets: ['favicon.ico', 'robots.txt'],
+    manifest: {
+      name: 'Dispora',
+      short_name: 'Dispora',
+      description: 'Aplikasi Dispora',
+      theme_color: '#597BF9',
+      background_color: '#ffffff',
+      display: 'standalone',
+      start_url: '/',
+      icons: [
+        {
+          src: '/pwa-192x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+        },
+        {
+          src: '/pwa-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+        },
+        {
+          src: '/pwa-512x512-maskable.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'maskable',
+        },
+      ],
+    },
+    workbox: {
+      navigateFallback: '/',
+      globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+    },
+    devOptions: {
+      enabled: true,
+      type: 'module',
+    },
+    client: {
+      installPrompt: true,
+      periodicSyncForUpdates: 24 * 60 * 60,
     },
   },
 

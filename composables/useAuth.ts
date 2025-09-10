@@ -21,7 +21,6 @@ export const useAuth = () => {
         token.value = savedToken
         user.value = JSON.parse(savedUser)
         isAuthenticated.value = true
-        console.log('✅ Auth initialized successfully')
       } else {
         console.log('❌ No saved auth data found')
         // Check if we're on login page, if not redirect

@@ -3,6 +3,7 @@
     <LoadingSplash :show="splashVisible && isLoginPage" />
     <NuxtPage />
     <BottomNavigation v-if="!isLoginPage" />
+    <PWAInstallPrompt />
   </div>
 </template>
 
@@ -11,6 +12,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import LoadingSplash from '~/components/LoadingSplash.vue'
 import BottomNavigation from '~/components/BottomNavigation.vue'
+import PWAInstallPrompt from '~/components/PWAInstallPrompt.vue'
 
 const route = useRoute()
 const splashVisible = ref(true)

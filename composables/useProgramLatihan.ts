@@ -4,11 +4,21 @@ import { useAuth } from './useAuth'
 interface ProgramLatihan {
   id: number
   nama_program: string
-  cabor: string
-  kategori: string
-  periode: string
+  cabor: {
+    id: number
+    nama: string
+  }
+  kategori: {
+    id: number
+    nama: string
+  }
+  periode: {
+    mulai: string
+    selesai: string
+    formatted: string
+  }
   keterangan: string
-  jumlah_rencana_latihan: number
+  jumlah_rencana_latihan?: number
   created_at: string
   updated_at: string
 }
@@ -57,6 +67,7 @@ export const useProgramLatihan = () => {
   // State
   const programs = ref<ProgramLatihan[]>([])
   const caborList = ref<Cabor[]>([])
+  const caborKategoriList = ref<Cabor[]>([])
   const loading = ref(false)
   const error = ref<string | null>(null)
 
@@ -314,6 +325,45 @@ export const useProgramLatihan = () => {
     }
   }
 
+  const fetchCaborListForCreate = async () => {
+    try {
+      const response = await $fetch<ApiResponse<Cabor[]>>(
+        `${baseURL}/program-latihan/cabor/list-for-create`,
+        {
+          headers: getAuthHeaders(),
+          credentials: 'include',
+        }
+      )
+
+      if (response.status === 'success') {
+        return response.data
+      }
+    } catch (err: any) {
+      console.error('Error fetching cabor list for create:', err)
+      throw err
+    }
+  }
+
+  const fetchCaborKategoriByCabor = async (caborId: number) => {
+    try {
+      const response = await $fetch<ApiResponse<Cabor[]>>(
+        `${baseURL}/program-latihan/cabor/${caborId}/kategori`,
+        {
+          headers: getAuthHeaders(),
+          credentials: 'include',
+        }
+      )
+
+      if (response.status === 'success') {
+        caborKategoriList.value = response.data
+        return response.data
+      }
+    } catch (err: any) {
+      console.error('Error fetching cabor kategori:', err)
+      throw err
+    }
+  }
+
   const fetchProgramDetail = async (id: number) => {
     try {
       loading.value = true
@@ -487,10 +537,160 @@ export const useProgramLatihan = () => {
     }
   }
 
+  // CRUD Methods
+  const createProgram = async (data: any) => {
+    try {
+      loading.value = true
+      error.value = null
+
+      const response = await $fetch<ApiResponse<ProgramLatihan>>(
+        `${baseURL}/program-latihan`,
+        {
+          method: 'POST',
+          headers: {
+            ...getAuthHeaders(),
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: {
+            cabor_id: data.cabor_id,
+            nama_program: data.nama_program,
+            cabor_kategori_id: data.cabor_kategori_id,
+            periode_mulai: data.periode_mulai,
+            periode_selesai: data.periode_selesai,
+            keterangan: data.keterangan || null,
+          },
+        }
+      )
+
+      if (response.status === 'success') {
+        // Refresh the programs list
+        await fetchPrograms()
+        return response.data
+      }
+    } catch (err: any) {
+      console.error('Error creating program:', err)
+
+      if (err.status === 401) {
+        error.value = 'Sesi Anda telah berakhir. Silakan login kembali.'
+        if (process.client) {
+          window.location.href = '/login'
+        }
+      } else if (err.status === 403) {
+        error.value = 'Anda tidak memiliki izin untuk membuat program latihan.'
+      } else if (err.status === 422) {
+        error.value = err.data?.message || 'Data yang dimasukkan tidak valid.'
+      } else {
+        error.value = err.data?.message || 'Gagal membuat program latihan'
+      }
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const updateProgram = async (id: number, data: any) => {
+    try {
+      loading.value = true
+      error.value = null
+
+      const response = await $fetch<ApiResponse<ProgramLatihan>>(
+        `${baseURL}/program-latihan/${id}`,
+        {
+          method: 'PUT',
+          headers: {
+            ...getAuthHeaders(),
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: {
+            cabor_id: data.cabor_id,
+            nama_program: data.nama_program,
+            cabor_kategori_id: data.cabor_kategori_id,
+            periode_mulai: data.periode_mulai,
+            periode_selesai: data.periode_selesai,
+            keterangan: data.keterangan || null,
+          },
+        }
+      )
+
+      if (response.status === 'success') {
+        // Refresh the programs list
+        await fetchPrograms()
+        return response.data
+      }
+    } catch (err: any) {
+      console.error('Error updating program:', err)
+
+      if (err.status === 401) {
+        error.value = 'Sesi Anda telah berakhir. Silakan login kembali.'
+        if (process.client) {
+          window.location.href = '/login'
+        }
+      } else if (err.status === 403) {
+        error.value =
+          'Anda tidak memiliki izin untuk mengupdate program latihan.'
+      } else if (err.status === 404) {
+        error.value = 'Program latihan tidak ditemukan.'
+      } else if (err.status === 422) {
+        error.value = err.data?.message || 'Data yang dimasukkan tidak valid.'
+      } else {
+        error.value = err.data?.message || 'Gagal mengupdate program latihan'
+      }
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const deleteProgram = async (id: number) => {
+    try {
+      loading.value = true
+      error.value = null
+
+      const response = await $fetch<ApiResponse<any>>(
+        `${baseURL}/program-latihan/${id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            ...getAuthHeaders(),
+          },
+          credentials: 'include',
+        }
+      )
+
+      if (response.status === 'success') {
+        // Refresh the programs list
+        await fetchPrograms()
+        return true
+      }
+    } catch (err: any) {
+      console.error('Error deleting program:', err)
+
+      if (err.status === 401) {
+        error.value = 'Sesi Anda telah berakhir. Silakan login kembali.'
+        if (process.client) {
+          window.location.href = '/login'
+        }
+      } else if (err.status === 403) {
+        error.value =
+          'Anda tidak memiliki izin untuk menghapus program latihan.'
+      } else if (err.status === 404) {
+        error.value = 'Program latihan tidak ditemukan.'
+      } else {
+        error.value = err.data?.message || 'Gagal menghapus program latihan'
+      }
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
     // State
     programs,
     caborList,
+    caborKategoriList,
     loading,
     error,
 
@@ -512,6 +712,8 @@ export const useProgramLatihan = () => {
     // API Functions
     fetchPrograms,
     fetchCaborList,
+    fetchCaborListForCreate,
+    fetchCaborKategoriByCabor,
     fetchProgramDetail,
     forceRefreshData,
     hardRefresh,
@@ -526,5 +728,10 @@ export const useProgramLatihan = () => {
     nextPage,
     prevPage,
     goToPage,
+
+    // CRUD Functions
+    createProgram,
+    updateProgram,
+    deleteProgram,
   }
 }

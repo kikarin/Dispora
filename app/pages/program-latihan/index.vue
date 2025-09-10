@@ -214,6 +214,83 @@
                   </span>
                 </div>
               </div>
+
+              <!-- Menu Options -->
+              <div v-if="canManagePrograms" class="relative">
+                <button
+                  @click="
+                    activeMenu = activeMenu === program.id ? null : program.id
+                  "
+                  class="p-2 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group"
+                  :class="{ 'bg-gray-100': activeMenu === program.id }"
+                >
+                  <svg
+                    class="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
+                    />
+                  </svg>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <div
+                  v-if="activeMenu === program.id"
+                  class="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-200 z-[9999]"
+                  style="pointer-events: auto"
+                >
+                  <div class="py-2">
+                    <button
+                      @click="
+                        () => {
+                          activeMenu = null
+                          router.push(`/program-latihan/edit/${program.id}`)
+                        }
+                      "
+                      class="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 cursor-pointer group"
+                    >
+                      <svg
+                        class="w-4 h-4 flex-shrink-0 group-hover:scale-110 transition-transform"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                        />
+                      </svg>
+                      <span class="font-medium">Edit Program</span>
+                    </button>
+                    <button
+                      @click="
+                        () =>
+                          handleDeleteClick(program.id, program.nama_program)
+                      "
+                      class="flex items-center gap-3 w-full px-4 py-3 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-200 cursor-pointer group"
+                    >
+                      <svg
+                        class="w-4 h-4 flex-shrink-0 group-hover:scale-110 transition-transform"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
+                      </svg>
+                      <span class="font-medium">Hapus Program</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Program Info -->
@@ -308,15 +385,46 @@
       </div>
     </div>
 
+    <!-- FAB Create Program -->
+    <button
+      v-if="canManagePrograms"
+      @click="router.push('/program-latihan/create')"
+      class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-[#597BF9] text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-[#4c6ef5] transition-colors z-50 transform"
+    >
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 4v16m8-8H4"
+        />
+      </svg>
+    </button>
+
     <!-- Spacer for bottom navigation -->
     <div class="h-20"></div>
 
-    <!-- Click outside handler for calendar -->
-    <div
-      v-if="showCalendar"
-      @click="showCalendar = false"
-      class="fixed inset-0 z-40"
-    ></div>
+    <!-- Click outside handler for calendar and menu - DISABLED FOR TESTING -->
+    <!-- <div
+      v-if="showCalendar || activeMenu"
+      @click="closeAllDropdowns"
+      class="fixed inset-0 z-[9998]"
+      style="pointer-events: auto;"
+    ></div> -->
+
+    <!-- Alert Component -->
+    <Alert
+      :show-alert="showAlert"
+      :alert-config="alertConfig"
+      @hide="hideAlert"
+      @confirm="handleConfirm"
+      @cancel="handleCancel"
+    />
   </PageLayout>
 </template>
 
@@ -324,10 +432,28 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import PageLayout from '~/components/PageLayout.vue'
+import Alert from '~/components/Alert.vue'
 import { useProgramLatihan } from '../../../composables/useProgramLatihan'
 import { useAuth } from '../../../composables/useAuth'
+import { useAlert } from '../../../composables/useAlert'
 const router = useRouter()
-const { user, logout, isAuthenticated, initAuth } = useAuth()
+const { user, logout, isAuthenticated, initAuth, token } = useAuth()
+const {
+  showAlert,
+  alertConfig,
+  showConfirm,
+  hideAlert,
+  handleConfirm,
+  handleCancel,
+} = useAlert()
+
+// Permission check
+const canManagePrograms = computed(() => {
+  if (!user.value) return false
+
+  const allowedRoles = [1, 11, 36] // Superadmin, Admin, Pelatih
+  return allowedRoles.includes(user.value.current_role?.id)
+})
 
 // Use composable
 const {
@@ -353,10 +479,14 @@ const {
   nextPage,
   prevPage,
   goToPage,
+  deleteProgram,
 } = useProgramLatihan()
 
 // Calendar state
 const showCalendar = ref(false)
+
+// Menu state
+const activeMenu = ref<number | null>(null)
 
 // Computed
 const hasActiveFilters = computed(() => {
@@ -381,6 +511,32 @@ const clearDateFilter = () => {
 
 const viewRencana = (id: number) => {
   router.push(`/program-latihan/${id}`)
+}
+
+// Function untuk handle delete
+const handleDeleteClick = (programId: number, programName: string) => {
+  activeMenu.value = null
+
+  showConfirm({
+    title: 'Konfirmasi Hapus',
+    message: `Apakah Anda yakin ingin menghapus program "${programName}"?`,
+    type: 'warning',
+    confirmText: 'Hapus',
+    cancelText: 'Batal',
+    onConfirm: async () => {
+      try {
+        await deleteProgram(programId)
+        console.log('Program berhasil dihapus')
+      } catch (err) {
+        console.error('Error deleting program:', err)
+      }
+    },
+  })
+}
+
+const closeAllDropdowns = () => {
+  showCalendar.value = false
+  activeMenu.value = null
 }
 
 // Search is now handled by computed property filteredPrograms - no debounce needed for client-side filtering

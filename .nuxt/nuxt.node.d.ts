@@ -1,5 +1,7 @@
 /// <reference types="nuxt-auth-sanctum" />
 /// <reference types="nuxt-charts" />
+/// <reference types="@nuxt/ui" />
+/// <reference types="@vite-pwa/nuxt" />
 /// <reference types="@nuxt/devtools" />
 /// <reference types="@nuxt/telemetry" />
 /// <reference path="types/modules.d.ts" />

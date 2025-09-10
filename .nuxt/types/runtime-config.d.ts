@@ -81,6 +81,10 @@ import { RuntimeConfig as UserRuntimeConfig, PublicRuntimeConfig as UserPublicRu
 
       origin: string,
    },
+
+   icon: {
+      serverKnownCssClasses: Array<any>,
+   },
   }
   interface SharedPublicRuntimeConfig {
    apiBase: string,
