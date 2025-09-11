@@ -174,16 +174,110 @@
       </p>
     </div>
 
-    <!-- Nama Program -->
+    <!-- Tenaga Pendukung Selection -->
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-2">
-        Nama Program <span class="text-red-500">*</span>
+        Tenaga Pendukung <span class="text-red-500">*</span>
+      </label>
+      <div class="relative" style="position: relative; z-index: 9997">
+        <div
+          @click="toggleTenagaPendukungDropdown"
+          data-dropdown-trigger="tenaga-pendukung"
+          class="relative cursor-pointer rounded-xl bg-gradient-to-r from-[#EBEFFE] to-[#E0E7FF] px-4 py-3 pr-10 text-sm font-semibold text-[#597BF9] border-2 border-transparent hover:border-[#597BF9]/30 focus:border-[#597BF9] transition-all duration-200 hover:shadow-md transform hover:scale-[1.02] active:scale-[0.98]"
+          :class="{
+            'opacity-50':
+              !formData.cabor_kategori_id ||
+              loading ||
+              isLoadingTenagaPendukung,
+            'cursor-not-allowed':
+              !formData.cabor_kategori_id ||
+              loading ||
+              isLoadingTenagaPendukung,
+          }"
+        >
+          <span>{{ selectedTenagaPendukung.label }}</span>
+          <!-- Animated arrow icon -->
+          <div
+            class="pointer-events-none absolute inset-y-0 right-3 flex items-center"
+          >
+            <svg
+              class="h-4 w-4 text-[#597BF9] transition-transform duration-200"
+              :class="{ 'rotate-180': isTenagaPendukungDropdownOpen }"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Enhanced Dropdown Menu with animations -->
+        <Teleport to="body">
+          <transition
+            enter-active-class="transition duration-200 ease-out"
+            enter-from-class="transform scale-95 opacity-0"
+            enter-to-class="transform scale-100 opacity-100"
+            leave-active-class="transition duration-150 ease-in"
+            leave-from-class="transform scale-100 opacity-100"
+            leave-to-class="transform scale-95 opacity-0"
+          >
+            <div
+              v-if="isTenagaPendukungDropdownOpen"
+              class="fixed rounded-xl bg-white/95 backdrop-blur-md border border-white/50 ring-1 ring-black/5 z-[99997] w-64"
+              :style="getTenagaPendukungDropdownPosition()"
+            >
+              <div class="p-1">
+                <div
+                  v-for="tenagaPendukung in availableTenagaPendukung"
+                  :key="tenagaPendukung.id"
+                  @click="selectTenagaPendukung(tenagaPendukung)"
+                  class="group flex items-center w-full px-3 py-2.5 text-sm font-medium text-gray-700 rounded-lg hover:bg-gradient-to-r hover:from-[#597BF9]/10 hover:to-[#4c6ef5]/10 hover:text-[#597BF9] cursor-pointer transition-all duration-200 transform hover:scale-[1.02]"
+                  :class="{
+                    'bg-gradient-to-r from-[#597BF9]/20 to-[#4c6ef5]/20 text-[#597BF9]':
+                      selectedTenagaPendukung.value === tenagaPendukung.id,
+                  }"
+                >
+                  <span>{{ tenagaPendukung.nama }}</span>
+                  <!-- Check mark for selected option -->
+                  <svg
+                    v-if="selectedTenagaPendukung.value === tenagaPendukung.id"
+                    class="ml-auto h-4 w-4 text-[#597BF9]"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </transition>
+        </Teleport>
+      </div>
+      <p v-if="errors.tenaga_pendukung_id" class="mt-1 text-sm text-red-600">
+        {{ errors.tenaga_pendukung_id }}
+      </p>
+    </div>
+
+    <!-- Nama Pemeriksaan -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-2">
+        Nama Pemeriksaan <span class="text-red-500">*</span>
       </label>
       <div class="relative">
         <input
-          v-model="formData.nama_program"
+          v-model="formData.nama_pemeriksaan"
           type="text"
-          placeholder="Masukkan nama program latihan"
+          placeholder="Masukkan nama pemeriksaan"
           class="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-[#EBEFFE] to-[#E0E7FF] text-sm font-medium text-gray-700 placeholder:text-gray-500 border-2 border-transparent hover:border-[#597BF9]/30 focus:border-[#597BF9] focus:outline-none transition-all duration-200 hover:shadow-md transform hover:scale-[1.02] active:scale-[0.98]"
           :class="{ 'opacity-50': loading }"
           :disabled="loading"
@@ -202,24 +296,24 @@
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
-              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
             />
           </svg>
         </div>
       </div>
-      <p v-if="errors.nama_program" class="mt-1 text-sm text-red-600">
-        {{ errors.nama_program }}
+      <p v-if="errors.nama_pemeriksaan" class="mt-1 text-sm text-red-600">
+        {{ errors.nama_pemeriksaan }}
       </p>
     </div>
 
-    <!-- Periode Mulai -->
+    <!-- Tanggal Pemeriksaan -->
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-2">
-        Periode Mulai <span class="text-red-500">*</span>
+        Tanggal Pemeriksaan <span class="text-red-500">*</span>
       </label>
       <div class="relative">
         <input
-          v-model="formData.periode_mulai"
+          v-model="formData.tanggal_pemeriksaan"
           type="date"
           class="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-[#EBEFFE] to-[#E0E7FF] text-sm font-medium text-gray-700 border-2 border-transparent hover:border-[#597BF9]/30 focus:border-[#597BF9] focus:outline-none transition-all duration-200 hover:shadow-md transform hover:scale-[1.02] active:scale-[0.98]"
           :class="{ 'opacity-50': loading }"
@@ -244,82 +338,93 @@
           </svg>
         </div>
       </div>
-      <p v-if="errors.periode_mulai" class="mt-1 text-sm text-red-600">
-        {{ errors.periode_mulai }}
+      <p v-if="errors.tanggal_pemeriksaan" class="mt-1 text-sm text-red-600">
+        {{ errors.tanggal_pemeriksaan }}
       </p>
     </div>
 
-    <!-- Periode Selesai -->
+    <!-- Status -->
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-2">
-        Periode Selesai <span class="text-red-500">*</span>
+        Status <span class="text-red-500">*</span>
       </label>
-      <div class="relative">
-        <input
-          v-model="formData.periode_selesai"
-          type="date"
-          class="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-[#EBEFFE] to-[#E0E7FF] text-sm font-medium text-gray-700 border-2 border-transparent hover:border-[#597BF9]/30 focus:border-[#597BF9] focus:outline-none transition-all duration-200 hover:shadow-md transform hover:scale-[1.02] active:scale-[0.98]"
-          :class="{ 'opacity-50': loading }"
-          :disabled="loading"
-          :min="formData.periode_mulai"
-        />
-        <!-- Calendar icon -->
+      <div class="relative" style="position: relative; z-index: 9996">
         <div
-          class="absolute inset-y-0 right-3 flex items-center pointer-events-none"
-        >
-          <svg
-            class="h-5 w-5 text-[#597BF9]"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-            />
-          </svg>
-        </div>
-      </div>
-      <p v-if="errors.periode_selesai" class="mt-1 text-sm text-red-600">
-        {{ errors.periode_selesai }}
-      </p>
-    </div>
-
-    <!-- Keterangan -->
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-2">
-        Keterangan <span class="text-gray-400 text-xs">(Opsional)</span>
-      </label>
-      <div class="relative">
-        <textarea
-          v-model="formData.keterangan"
-          rows="3"
-          placeholder="Masukkan keterangan program latihan (opsional)"
-          class="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-[#EBEFFE] to-[#E0E7FF] text-sm font-medium text-gray-700 placeholder:text-gray-500 border-2 border-transparent hover:border-[#597BF9]/30 focus:border-[#597BF9] focus:outline-none transition-all duration-200 hover:shadow-md transform hover:scale-[1.02] active:scale-[0.98] resize-none"
+          @click="toggleStatusDropdown"
+          data-dropdown-trigger="status"
+          class="relative cursor-pointer rounded-xl bg-gradient-to-r from-[#EBEFFE] to-[#E0E7FF] px-4 py-3 pr-10 text-sm font-semibold text-[#597BF9] border-2 border-transparent hover:border-[#597BF9]/30 focus:border-[#597BF9] transition-all duration-200 hover:shadow-md transform hover:scale-[1.02] active:scale-[0.98]"
           :class="{ 'opacity-50': loading }"
-          :disabled="loading"
-        ></textarea>
-        <!-- Textarea icon -->
-        <div class="absolute top-3 right-3 pointer-events-none">
-          <svg
-            class="h-5 w-5 text-[#597BF9]"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            viewBox="0 0 24 24"
+        >
+          <span>{{ selectedStatus.label }}</span>
+          <!-- Animated arrow icon -->
+          <div
+            class="pointer-events-none absolute inset-y-0 right-3 flex items-center"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M4 6h16M4 10h16M4 14h16M4 18h16"
-            />
-          </svg>
+            <svg
+              class="h-4 w-4 text-[#597BF9] transition-transform duration-200"
+              :class="{ 'rotate-180': isStatusDropdownOpen }"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </div>
         </div>
+
+        <!-- Enhanced Dropdown Menu with animations -->
+        <Teleport to="body">
+          <transition
+            enter-active-class="transition duration-200 ease-out"
+            enter-from-class="transform scale-95 opacity-0"
+            enter-to-class="transform scale-100 opacity-100"
+            leave-active-class="transition duration-150 ease-in"
+            leave-from-class="transform scale-100 opacity-100"
+            leave-to-class="transform scale-95 opacity-0"
+          >
+            <div
+              v-if="isStatusDropdownOpen"
+              class="fixed rounded-xl bg-white/95 backdrop-blur-md border border-white/50 ring-1 ring-black/5 z-[99996] w-64"
+              :style="getStatusDropdownPosition()"
+            >
+              <div class="p-1">
+                <div
+                  v-for="status in statusOptions"
+                  :key="status.value"
+                  @click="selectStatus(status)"
+                  class="group flex items-center w-full px-3 py-2.5 text-sm font-medium text-gray-700 rounded-lg hover:bg-gradient-to-r hover:from-[#597BF9]/10 hover:to-[#4c6ef5]/10 hover:text-[#597BF9] cursor-pointer transition-all duration-200 transform hover:scale-[1.02]"
+                  :class="{
+                    'bg-gradient-to-r from-[#597BF9]/20 to-[#4c6ef5]/20 text-[#597BF9]':
+                      selectedStatus.value === status.value,
+                  }"
+                >
+                  <span>{{ status.label }}</span>
+                  <!-- Check mark for selected option -->
+                  <svg
+                    v-if="selectedStatus.value === status.value"
+                    class="ml-auto h-4 w-4 text-[#597BF9]"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </transition>
+        </Teleport>
       </div>
-      <p v-if="errors.keterangan" class="mt-1 text-sm text-red-600">
-        {{ errors.keterangan }}
+      <p v-if="errors.status" class="mt-1 text-sm text-red-600">
+        {{ errors.status }}
       </p>
     </div>
 
@@ -351,7 +456,12 @@
 
     <!-- Click outside handler for dropdowns -->
     <div
-      v-if="isCaborDropdownOpen || isKategoriDropdownOpen"
+      v-if="
+        isCaborDropdownOpen ||
+        isKategoriDropdownOpen ||
+        isTenagaPendukungDropdownOpen ||
+        isStatusDropdownOpen
+      "
       @click="closeAllDropdowns"
       class="fixed inset-0 z-30"
     ></div>
@@ -364,10 +474,10 @@ import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 interface FormData {
   cabor_id: number | null
   cabor_kategori_id: number | null
-  nama_program: string
-  periode_mulai: string
-  periode_selesai: string
-  keterangan: string
+  tenaga_pendukung_id: number | null
+  nama_pemeriksaan: string
+  tanggal_pemeriksaan: string
+  status: string
 }
 
 interface Cabor {
@@ -398,32 +508,44 @@ const emit = defineEmits<Emits>()
 const formData = ref<FormData>({
   cabor_id: null,
   cabor_kategori_id: null,
-  nama_program: '',
-  periode_mulai: '',
-  periode_selesai: '',
-  keterangan: '',
+  tenaga_pendukung_id: null,
+  nama_pemeriksaan: '',
+  tanggal_pemeriksaan: '',
+  status: 'belum',
 })
 
 // Errors
 const errors = ref<Partial<Record<keyof FormData, string>>>({})
 
-// Kategori options from API
+// Options from API
 const availableKategori = ref<Cabor[]>([])
+const availableTenagaPendukung = ref<Cabor[]>([])
+
+// Status options
+const statusOptions = [
+  { value: 'belum', label: 'Belum' },
+  { value: 'sebagian', label: 'Sebagian' },
+  { value: 'selesai', label: 'Selesai' },
+]
 
 // Dropdown states
 const isCaborDropdownOpen = ref(false)
 const isKategoriDropdownOpen = ref(false)
+const isTenagaPendukungDropdownOpen = ref(false)
+const isStatusDropdownOpen = ref(false)
 
-// Computed
+// Loading states
 const isLoadingKategori = ref(false)
+const isLoadingTenagaPendukung = ref(false)
 
 const isFormValid = computed(() => {
   return !!(
     formData.value.cabor_id &&
     formData.value.cabor_kategori_id &&
-    formData.value.nama_program &&
-    formData.value.periode_mulai &&
-    formData.value.periode_selesai
+    formData.value.tenaga_pendukung_id &&
+    formData.value.nama_pemeriksaan &&
+    formData.value.tanggal_pemeriksaan &&
+    formData.value.status
   )
 })
 
@@ -450,12 +572,37 @@ const selectedKategori = computed(() => {
     : { value: null, label: 'Pilih Kategori' }
 })
 
+const selectedTenagaPendukung = computed(() => {
+  if (isLoadingTenagaPendukung.value) {
+    return { value: null, label: 'Memuat tenaga pendukung...' }
+  }
+  if (
+    availableTenagaPendukung.value.length === 0 &&
+    formData.value.cabor_kategori_id
+  ) {
+    return { value: null, label: 'Tidak ada tenaga pendukung tersedia' }
+  }
+  const tenagaPendukung = availableTenagaPendukung.value.find(
+    (t) => t.id === formData.value.tenaga_pendukung_id
+  )
+  return tenagaPendukung
+    ? { value: tenagaPendukung.id, label: tenagaPendukung.nama }
+    : { value: null, label: 'Pilih Tenaga Pendukung' }
+})
+
+const selectedStatus = computed(() => {
+  const status = statusOptions.find((s) => s.value === formData.value.status)
+  return status || statusOptions[0]
+})
+
 // Methods
 const toggleCaborDropdown = () => {
   if (props.loading) return
   isCaborDropdownOpen.value = !isCaborDropdownOpen.value
   if (isCaborDropdownOpen.value) {
     isKategoriDropdownOpen.value = false
+    isTenagaPendukungDropdownOpen.value = false
+    isStatusDropdownOpen.value = false
   }
 }
 
@@ -465,15 +612,45 @@ const toggleKategoriDropdown = () => {
   isKategoriDropdownOpen.value = !isKategoriDropdownOpen.value
   if (isKategoriDropdownOpen.value) {
     isCaborDropdownOpen.value = false
+    isTenagaPendukungDropdownOpen.value = false
+    isStatusDropdownOpen.value = false
+  }
+}
+
+const toggleTenagaPendukungDropdown = () => {
+  if (
+    !formData.value.cabor_kategori_id ||
+    props.loading ||
+    isLoadingTenagaPendukung.value
+  )
+    return
+  isTenagaPendukungDropdownOpen.value = !isTenagaPendukungDropdownOpen.value
+  if (isTenagaPendukungDropdownOpen.value) {
+    isCaborDropdownOpen.value = false
+    isKategoriDropdownOpen.value = false
+    isStatusDropdownOpen.value = false
+  }
+}
+
+const toggleStatusDropdown = () => {
+  if (props.loading) return
+  isStatusDropdownOpen.value = !isStatusDropdownOpen.value
+  if (isStatusDropdownOpen.value) {
+    isCaborDropdownOpen.value = false
+    isKategoriDropdownOpen.value = false
+    isTenagaPendukungDropdownOpen.value = false
   }
 }
 
 const selectCabor = async (cabor: Cabor) => {
   formData.value.cabor_id = cabor.id
   formData.value.cabor_kategori_id = null
+  formData.value.tenaga_pendukung_id = null
   errors.value.cabor_id = ''
   errors.value.cabor_kategori_id = ''
+  errors.value.tenaga_pendukung_id = ''
   availableKategori.value = []
+  availableTenagaPendukung.value = []
   isCaborDropdownOpen.value = false
 
   if (cabor.id) {
@@ -481,25 +658,56 @@ const selectCabor = async (cabor: Cabor) => {
   }
 }
 
-const selectKategori = (kategori: Cabor) => {
+const selectKategori = async (kategori: Cabor) => {
   formData.value.cabor_kategori_id = kategori.id
+  formData.value.tenaga_pendukung_id = null
   errors.value.cabor_kategori_id = ''
+  errors.value.tenaga_pendukung_id = ''
+  availableTenagaPendukung.value = []
   isKategoriDropdownOpen.value = false
+
+  if (kategori.id) {
+    await fetchTenagaPendukungByKategori(kategori.id)
+  }
+}
+
+const selectTenagaPendukung = (tenagaPendukung: Cabor) => {
+  formData.value.tenaga_pendukung_id = tenagaPendukung.id
+  errors.value.tenaga_pendukung_id = ''
+  isTenagaPendukungDropdownOpen.value = false
+}
+
+const selectStatus = (status: { value: string; label: string }) => {
+  formData.value.status = status.value
+  errors.value.status = ''
+  isStatusDropdownOpen.value = false
 }
 
 const fetchKategoriByCabor = async (caborId: number) => {
   try {
     isLoadingKategori.value = true
-    const { useProgramLatihan } = await import(
-      '../../composables/useProgramLatihan'
-    )
-    const { fetchCaborKategoriByCabor } = useProgramLatihan()
+    const { usePemeriksaan } = await import('../../composables/usePemeriksaan')
+    const { fetchCaborKategoriByCabor } = usePemeriksaan()
     const kategori = await fetchCaborKategoriByCabor(caborId)
     availableKategori.value = kategori || []
   } catch (error) {
     availableKategori.value = []
   } finally {
     isLoadingKategori.value = false
+  }
+}
+
+const fetchTenagaPendukungByKategori = async (kategoriId: number) => {
+  try {
+    isLoadingTenagaPendukung.value = true
+    const { usePemeriksaan } = await import('../../composables/usePemeriksaan')
+    const { fetchTenagaPendukungByKategori } = usePemeriksaan()
+    const tenagaPendukung = await fetchTenagaPendukungByKategori(kategoriId)
+    availableTenagaPendukung.value = tenagaPendukung || []
+  } catch (error) {
+    availableTenagaPendukung.value = []
+  } finally {
+    isLoadingTenagaPendukung.value = false
   }
 }
 
@@ -529,7 +737,39 @@ const getKategoriDropdownPosition = () => {
     }
   }
   return {
-    top: '150px',
+    top: '200px',
+    left: '20px',
+  }
+}
+
+const getTenagaPendukungDropdownPosition = () => {
+  const trigger = document.querySelector(
+    '[data-dropdown-trigger="tenaga-pendukung"]'
+  )
+  if (trigger) {
+    const rect = trigger.getBoundingClientRect()
+    return {
+      top: `${rect.bottom + 8}px`,
+      left: `${rect.left}px`,
+    }
+  }
+  return {
+    top: '300px',
+    left: '20px',
+  }
+}
+
+const getStatusDropdownPosition = () => {
+  const trigger = document.querySelector('[data-dropdown-trigger="status"]')
+  if (trigger) {
+    const rect = trigger.getBoundingClientRect()
+    return {
+      top: `${rect.bottom + 8}px`,
+      left: `${rect.left}px`,
+    }
+  }
+  return {
+    top: '500px',
     left: '20px',
   }
 }
@@ -538,6 +778,8 @@ const getKategoriDropdownPosition = () => {
 const closeAllDropdowns = () => {
   isCaborDropdownOpen.value = false
   isKategoriDropdownOpen.value = false
+  isTenagaPendukungDropdownOpen.value = false
+  isStatusDropdownOpen.value = false
 }
 
 // Close dropdowns on escape key
@@ -561,30 +803,24 @@ const validateForm = (): boolean => {
     isValid = false
   }
 
-  if (!formData.value.nama_program.trim()) {
-    errors.value.nama_program = 'Nama program harus diisi'
+  if (!formData.value.tenaga_pendukung_id) {
+    errors.value.tenaga_pendukung_id = 'Tenaga pendukung harus dipilih'
     isValid = false
   }
 
-  if (!formData.value.periode_mulai) {
-    errors.value.periode_mulai = 'Periode mulai harus diisi'
+  if (!formData.value.nama_pemeriksaan.trim()) {
+    errors.value.nama_pemeriksaan = 'Nama pemeriksaan harus diisi'
     isValid = false
   }
 
-  if (!formData.value.periode_selesai) {
-    errors.value.periode_selesai = 'Periode selesai harus diisi'
+  if (!formData.value.tanggal_pemeriksaan) {
+    errors.value.tanggal_pemeriksaan = 'Tanggal pemeriksaan harus diisi'
     isValid = false
   }
 
-  if (formData.value.periode_mulai && formData.value.periode_selesai) {
-    const startDate = new Date(formData.value.periode_mulai)
-    const endDate = new Date(formData.value.periode_selesai)
-
-    if (startDate >= endDate) {
-      errors.value.periode_selesai =
-        'Periode selesai harus setelah periode mulai'
-      isValid = false
-    }
+  if (!formData.value.status) {
+    errors.value.status = 'Status harus dipilih'
+    isValid = false
   }
 
   return isValid
@@ -607,6 +843,11 @@ watch(
       if (newData.cabor_id) {
         fetchKategoriByCabor(newData.cabor_id)
       }
+
+      // Jika ada cabor_kategori_id, load tenaga pendukung
+      if (newData.cabor_kategori_id) {
+        fetchTenagaPendukungByKategori(newData.cabor_kategori_id)
+      }
     }
   },
   { immediate: true, deep: true }
@@ -619,6 +860,17 @@ watch(
     // Load kategori jika cabor berubah (kecuali saat initial load)
     if (newCaborId && newCaborId !== oldCaborId) {
       fetchKategoriByCabor(newCaborId)
+    }
+  }
+)
+
+// Watch for cabor_kategori_id changes
+watch(
+  () => formData.value.cabor_kategori_id,
+  (newKategoriId, oldKategoriId) => {
+    // Load tenaga pendukung jika kategori berubah (kecuali saat initial load)
+    if (newKategoriId && newKategoriId !== oldKategoriId) {
+      fetchTenagaPendukungByKategori(newKategoriId)
     }
   }
 )
@@ -670,25 +922,6 @@ textarea:focus {
 /* Ensure dropdowns are always on top */
 [class*='z-'] {
   z-index: 9999 !important;
-}
-
-/* Custom scrollbar for textarea */
-textarea::-webkit-scrollbar {
-  width: 6px;
-}
-
-textarea::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-}
-
-textarea::-webkit-scrollbar-thumb {
-  background: rgba(89, 123, 249, 0.3);
-  border-radius: 10px;
-}
-
-textarea::-webkit-scrollbar-thumb:hover {
-  background: rgba(89, 123, 249, 0.5);
 }
 
 /* Date input styling */

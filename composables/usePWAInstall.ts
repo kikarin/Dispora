@@ -71,7 +71,10 @@ export function usePWAInstall() {
 
   onUnmounted(() => {
     if (typeof window !== 'undefined') {
-      window.removeEventListener('beforeinstallprompt', handler as EventListener)
+      window.removeEventListener(
+        'beforeinstallprompt',
+        handler as EventListener
+      )
     }
   })
 

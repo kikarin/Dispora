@@ -21,9 +21,7 @@
             />
           </svg>
         </button>
-        <h1 class="text-xl font-semibold text-gray-800">
-          Tambah Program Latihan
-        </h1>
+        <h1 class="text-xl font-semibold text-gray-800">Tambah Pemeriksaan</h1>
       </div>
     </div>
 
@@ -59,7 +57,7 @@
 
     <!-- Form -->
     <div v-else class="bg-white rounded-2xl p-6 shadow-sm">
-      <ProgramLatihanForm
+      <PemeriksaanForm
         :cabor-list="caborListForForm"
         :loading="submitting"
         @submit="handleSubmit"
@@ -73,12 +71,17 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import PageLayout from '~/components/PageLayout.vue'
-import ProgramLatihanForm from '~/components/ProgramLatihanForm.vue'
-import { useProgramLatihan } from '../../../composables/useProgramLatihan'
+import PemeriksaanForm from '~/components/PemeriksaanForm.vue'
+import { usePemeriksaan } from '../../../composables/usePemeriksaan'
 
 const router = useRouter()
-const { caborList, loading, error, fetchCaborListForCreate, createProgram } =
-  useProgramLatihan()
+const {
+  caborList,
+  loading,
+  error,
+  fetchCaborListForCreate,
+  createPemeriksaan,
+} = usePemeriksaan()
 
 // Local state for cabor list
 const caborListForForm = ref<any[]>([])
@@ -88,22 +91,22 @@ const submitting = ref(false)
 const handleSubmit = async (formData: any) => {
   try {
     submitting.value = true
-    await createProgram(formData)
+    await createPemeriksaan(formData)
 
     // Show success message (you can add a toast notification here)
-    console.log('Program latihan berhasil dibuat')
+    console.log('Pemeriksaan berhasil dibuat')
 
-    // Redirect to program list
-    router.push('/program-latihan')
+    // Redirect to pemeriksaan list
+    router.push('/pemeriksaan')
   } catch (err) {
-    console.error('Error creating program:', err)
+    console.error('Error creating pemeriksaan:', err)
   } finally {
     submitting.value = false
   }
 }
 
 const handleCancel = () => {
-  router.push('/program-latihan')
+  router.push('/pemeriksaan')
 }
 
 onMounted(async () => {

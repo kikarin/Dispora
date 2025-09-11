@@ -135,6 +135,27 @@
 
     <!-- Rencana Latihan -->
     <div>
+      <!-- FAB Create Rencana -->
+      <button
+        v-if="canManageRencana"
+        @click="router.push(`/program-latihan/${programId}/rencana/create`)"
+        class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-[#597BF9] text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-[#4c6ef5] transition-colors z-50 transform"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 4v16m8-8H4"
+          />
+        </svg>
+      </button>
+
       <!-- Loading State -->
       <div v-if="loading" class="flex justify-center items-center py-8">
         <div
@@ -313,19 +334,95 @@
             </div>
 
             <!-- Action Buttons -->
-            <div class="flex gap-3">
-              <button
-                @click="viewPesertaRencana(rencana.id)"
-                class="flex-1 bg-[#597BF9] text-white py-2 px-4 rounded-xl text-sm font-medium hover:bg-[#4c6ef5] transition-colors"
-              >
-                Lihat Peserta
-              </button>
-              <button
-                @click="viewTargetRencana(rencana.id)"
-                class="flex-1 bg-green-500 text-white py-2 px-4 rounded-xl text-sm font-medium hover:bg-green-600 transition-colors"
-              >
-                Lihat Target
-              </button>
+            <div class="flex gap-3 items-center justify-between">
+              <div class="flex gap-3 flex-1">
+                <button
+                  @click="viewPesertaRencana(rencana.id)"
+                  class="flex-1 bg-[#597BF9] text-white py-2 px-4 rounded-xl text-sm font-medium hover:bg-[#4c6ef5] transition-colors"
+                >
+                  Lihat Peserta
+                </button>
+                <button
+                  @click="viewTargetRencana(rencana.id)"
+                  class="flex-1 bg-green-500 text-white py-2 px-4 rounded-xl text-sm font-medium hover:bg-green-600 transition-colors"
+                >
+                  Lihat Target
+                </button>
+              </div>
+              <div v-if="canManageRencana" class="relative">
+                <button
+                  @click="
+                    activeMenu = activeMenu === rencana.id ? null : rencana.id
+                  "
+                  class="p-2 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+                >
+                  <svg
+                    class="w-5 h-5 text-gray-400"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
+                    />
+                  </svg>
+                </button>
+                <div
+                  v-if="activeMenu === rencana.id"
+                  class="dropdown-menu absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-200 z-[9999]"
+                  style="pointer-events: auto; z-index: 9999 !important"
+                >
+                  <div class="py-2">
+                    <button
+                      @click="
+                        () => {
+                          activeMenu = null
+                          editRencana(rencana.id)
+                        }
+                      "
+                      class="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                        />
+                      </svg>
+                      <span class="font-medium">Edit</span>
+                    </button>
+                    <button
+                      @click="
+                        () => {
+                          activeMenu = null
+                          confirmDelete(rencana.id)
+                        }
+                      "
+                      class="flex items-center gap-3 w-full px-4 py-3 text-sm text-red-600 hover:bg-red-50 hover:text-red-700"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
+                      </svg>
+                      <span class="font-medium">Hapus</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -367,17 +464,39 @@
       @click="showCalendar = false"
       class="fixed inset-0 z-40"
     ></div>
+    <!-- Alert Component -->
+    <Alert
+      :show-alert="showAlert"
+      :alert-config="alertConfig"
+      @hide="hideAlert"
+      @confirm="handleConfirm"
+      @cancel="handleCancel"
+    />
   </PageLayout>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import PageLayout from '~/components/PageLayout.vue'
 import { useRencanaLatihan } from '../../../../composables/useRencanaLatihan'
+import { useAuth } from '../../../../composables/useAuth'
+import { useAlert } from '../../../../composables/useAlert'
+import Alert from '~/components/Alert.vue'
+import { useRencanaLatihanForm } from '../../../../composables/useRencanaLatihanForm'
 
 const route = useRoute()
 const router = useRouter()
+const { user, initAuth } = useAuth()
+const {
+  showAlert,
+  alertConfig,
+  showConfirm,
+  hideAlert,
+  handleConfirm,
+  handleCancel,
+} = useAlert()
+const { deleteRencana } = useRencanaLatihanForm()
 
 // Search and Calendar
 const searchQuery = ref('')
@@ -414,6 +533,12 @@ const {
   applyDateFilter,
   clearDateFilter,
 } = useRencanaLatihan(programId)
+
+const canManageRencana = computed(() => {
+  if (!user.value) return false
+  const allowed = [1, 11, 36]
+  return allowed.includes(user.value.current_role?.id)
+})
 
 // Helper function untuk format periode tanggal
 const formatPeriode = (periodeString: string) => {
@@ -554,7 +679,48 @@ const viewTargetRencana = (rencanaId: number) => {
   router.push(`/program-latihan/${programId}/rencana/${rencanaId}/targets`)
 }
 
+const editRencana = (rencanaId: number) => {
+  router.push(`/program-latihan/${programId}/rencana/edit/${rencanaId}`)
+}
+
+const confirmDelete = (rencanaId: number) => {
+  showConfirm({
+    title: 'Hapus Rencana',
+    message: 'Yakin ingin menghapus rencana latihan ini?',
+    type: 'warning',
+    confirmText: 'Hapus',
+    cancelText: 'Batal',
+    onConfirm: async () => {
+      const ok = await deleteRencana(rencanaId)
+      if (ok) fetchRencana()
+    },
+  })
+}
+
 onMounted(async () => {
+  initAuth()
   await fetchRencana()
+})
+
+// Close menu on Escape and outside click
+const activeMenu = ref<number | null>(null)
+const handleKeydown = (e: KeyboardEvent) => {
+  if (e.key === 'Escape') activeMenu.value = null
+}
+const handleClick = (e: MouseEvent) => {
+  const target = e.target as HTMLElement
+  if (!target.closest('.dropdown-menu') && !target.closest('button')) {
+    activeMenu.value = null
+  }
+}
+if (process.client) {
+  document.addEventListener('keydown', handleKeydown)
+  document.addEventListener('click', handleClick)
+}
+onBeforeUnmount(() => {
+  if (process.client) {
+    document.removeEventListener('keydown', handleKeydown)
+    document.removeEventListener('click', handleClick)
+  }
 })
 </script>

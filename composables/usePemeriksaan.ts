@@ -16,6 +16,11 @@ interface Pemeriksaan {
   jumlah_tenaga_pendukung: number
 }
 
+interface Cabor {
+  id: number
+  nama: string
+}
+
 interface ApiResponse<T> {
   status: string
   message: string
@@ -273,6 +278,63 @@ export const usePemeriksaan = () => {
     }
   }
 
+  const fetchCaborListForCreate = async () => {
+    try {
+      const response = await $fetch<ApiResponse<Cabor[]>>(
+        `${baseURL}/pemeriksaan/cabor/list-for-create`,
+        {
+          headers: getAuthHeaders(),
+          credentials: 'include',
+        }
+      )
+
+      if (response.status === 'success') {
+        return response.data
+      }
+    } catch (err: any) {
+      console.error('Error fetching cabor list for create:', err)
+      throw err
+    }
+  }
+
+  const fetchCaborKategoriByCabor = async (caborId: number) => {
+    try {
+      const response = await $fetch<ApiResponse<Cabor[]>>(
+        `${baseURL}/pemeriksaan/cabor/${caborId}/kategori`,
+        {
+          headers: getAuthHeaders(),
+          credentials: 'include',
+        }
+      )
+
+      if (response.status === 'success') {
+        return response.data
+      }
+    } catch (err: any) {
+      console.error('Error fetching cabor kategori:', err)
+      throw err
+    }
+  }
+
+  const fetchTenagaPendukungByKategori = async (kategoriId: number) => {
+    try {
+      const response = await $fetch<ApiResponse<Cabor[]>>(
+        `${baseURL}/pemeriksaan/cabor-kategori/${kategoriId}/tenaga-pendukung`,
+        {
+          headers: getAuthHeaders(),
+          credentials: 'include',
+        }
+      )
+
+      if (response.status === 'success') {
+        return response.data
+      }
+    } catch (err: any) {
+      console.error('Error fetching tenaga pendukung:', err)
+      throw err
+    }
+  }
+
   const fetchPemeriksaanDetail = async (id: number) => {
     try {
       loading.value = true
@@ -444,6 +506,153 @@ export const usePemeriksaan = () => {
     }
   }
 
+  // CRUD Methods
+  const createPemeriksaan = async (data: any) => {
+    try {
+      loading.value = true
+      error.value = null
+
+      const response = await $fetch<ApiResponse<Pemeriksaan>>(
+        `${baseURL}/pemeriksaan`,
+        {
+          method: 'POST',
+          headers: {
+            ...getAuthHeaders(),
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: {
+            cabor_id: data.cabor_id,
+            cabor_kategori_id: data.cabor_kategori_id,
+            tenaga_pendukung_id: data.tenaga_pendukung_id,
+            nama_pemeriksaan: data.nama_pemeriksaan,
+            tanggal_pemeriksaan: data.tanggal_pemeriksaan,
+            status: data.status,
+          },
+        }
+      )
+
+      if (response.status === 'success') {
+        // Refresh the pemeriksaan list
+        await fetchPemeriksaan()
+        return response.data
+      }
+    } catch (err: any) {
+      console.error('Error creating pemeriksaan:', err)
+
+      if (err.status === 401) {
+        error.value = 'Sesi Anda telah berakhir. Silakan login kembali.'
+        if (process.client) {
+          window.location.href = '/login'
+        }
+      } else if (err.status === 403) {
+        error.value = 'Anda tidak memiliki izin untuk membuat pemeriksaan.'
+      } else if (err.status === 422) {
+        error.value = err.data?.message || 'Data yang dimasukkan tidak valid.'
+      } else {
+        error.value = err.data?.message || 'Gagal membuat pemeriksaan'
+      }
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const updatePemeriksaan = async (id: number, data: any) => {
+    try {
+      loading.value = true
+      error.value = null
+
+      const response = await $fetch<ApiResponse<Pemeriksaan>>(
+        `${baseURL}/pemeriksaan/${id}`,
+        {
+          method: 'PUT',
+          headers: {
+            ...getAuthHeaders(),
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: {
+            cabor_id: data.cabor_id,
+            cabor_kategori_id: data.cabor_kategori_id,
+            tenaga_pendukung_id: data.tenaga_pendukung_id,
+            nama_pemeriksaan: data.nama_pemeriksaan,
+            tanggal_pemeriksaan: data.tanggal_pemeriksaan,
+            status: data.status,
+          },
+        }
+      )
+
+      if (response.status === 'success') {
+        // Refresh the pemeriksaan list
+        await fetchPemeriksaan()
+        return response.data
+      }
+    } catch (err: any) {
+      console.error('Error updating pemeriksaan:', err)
+
+      if (err.status === 401) {
+        error.value = 'Sesi Anda telah berakhir. Silakan login kembali.'
+        if (process.client) {
+          window.location.href = '/login'
+        }
+      } else if (err.status === 403) {
+        error.value = 'Anda tidak memiliki izin untuk mengupdate pemeriksaan.'
+      } else if (err.status === 404) {
+        error.value = 'Pemeriksaan tidak ditemukan.'
+      } else if (err.status === 422) {
+        error.value = err.data?.message || 'Data yang dimasukkan tidak valid.'
+      } else {
+        error.value = err.data?.message || 'Gagal mengupdate pemeriksaan'
+      }
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const deletePemeriksaan = async (id: number) => {
+    try {
+      loading.value = true
+      error.value = null
+
+      const response = await $fetch<ApiResponse<any>>(
+        `${baseURL}/pemeriksaan/${id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            ...getAuthHeaders(),
+          },
+          credentials: 'include',
+        }
+      )
+
+      if (response.status === 'success') {
+        // Refresh the pemeriksaan list
+        await fetchPemeriksaan()
+        return true
+      }
+    } catch (err: any) {
+      console.error('Error deleting pemeriksaan:', err)
+
+      if (err.status === 401) {
+        error.value = 'Sesi Anda telah berakhir. Silakan login kembali.'
+        if (process.client) {
+          window.location.href = '/login'
+        }
+      } else if (err.status === 403) {
+        error.value = 'Anda tidak memiliki izin untuk menghapus pemeriksaan.'
+      } else if (err.status === 404) {
+        error.value = 'Pemeriksaan tidak ditemukan.'
+      } else {
+        error.value = err.data?.message || 'Gagal menghapus pemeriksaan'
+      }
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
     // State
     pemeriksaanList,
@@ -468,6 +677,9 @@ export const usePemeriksaan = () => {
     // API Functions
     fetchPemeriksaan,
     fetchCaborList,
+    fetchCaborListForCreate,
+    fetchCaborKategoriByCabor,
+    fetchTenagaPendukungByKategori,
     fetchPemeriksaanDetail,
     forceRefreshData,
     hardRefresh,
@@ -482,5 +694,10 @@ export const usePemeriksaan = () => {
     nextPage,
     prevPage,
     goToPage,
+
+    // CRUD Functions
+    createPemeriksaan,
+    updatePemeriksaan,
+    deletePemeriksaan,
   }
 }

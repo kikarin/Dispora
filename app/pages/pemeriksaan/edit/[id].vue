@@ -21,9 +21,7 @@
             />
           </svg>
         </button>
-        <h1 class="text-xl font-semibold text-gray-800">
-          Edit Program Latihan
-        </h1>
+        <h1 class="text-xl font-semibold text-gray-800">Edit Pemeriksaan</h1>
       </div>
     </div>
 
@@ -57,7 +55,7 @@
       </div>
       <div class="mt-3">
         <button
-          @click="loadProgramData"
+          @click="loadPemeriksaanData"
           class="px-3 py-1 text-red-700 underline text-sm hover:text-red-800"
         >
           Coba lagi
@@ -66,8 +64,8 @@
     </div>
 
     <!-- Form -->
-    <div v-else-if="programData" class="bg-white rounded-2xl p-6 shadow-sm">
-      <ProgramLatihanForm
+    <div v-else-if="pemeriksaanData" class="bg-white rounded-2xl p-6 shadow-sm">
+      <PemeriksaanForm
         :initial-data="formData"
         :cabor-list="caborListForForm"
         :loading="submitting"
@@ -95,16 +93,16 @@
         </svg>
       </div>
       <h3 class="text-lg font-medium text-gray-900 mb-2">
-        Program tidak ditemukan
+        Pemeriksaan tidak ditemukan
       </h3>
       <p class="text-gray-500 mb-4">
-        Program latihan yang Anda cari tidak ditemukan atau telah dihapus.
+        Pemeriksaan yang Anda cari tidak ditemukan atau telah dihapus.
       </p>
       <button
-        @click="$router.push('/program-latihan')"
+        @click="$router.push('/pemeriksaan')"
         class="px-4 py-2 bg-[#597BF9] text-white rounded-lg hover:bg-[#4c6ef5] transition-colors"
       >
-        Kembali ke Daftar Program
+        Kembali ke Daftar Pemeriksaan
       </button>
     </div>
   </PageLayout>
@@ -114,70 +112,70 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import PageLayout from '~/components/PageLayout.vue'
-import ProgramLatihanForm from '~/components/ProgramLatihanForm.vue'
-import { useProgramLatihan } from '../../../../composables/useProgramLatihan'
+import PemeriksaanForm from '~/components/PemeriksaanForm.vue'
+import { usePemeriksaan } from '../../../../composables/usePemeriksaan'
 
 const router = useRouter()
 const route = useRoute()
 const {
-  programs,
+  pemeriksaanList,
   caborList,
   loading,
   error,
   fetchCaborListForCreate,
-  fetchProgramDetail,
-  updateProgram,
-} = useProgramLatihan()
+  fetchPemeriksaanDetail,
+  updatePemeriksaan,
+} = usePemeriksaan()
 
-const programData = ref<any>(null)
+const pemeriksaanData = ref<any>(null)
 const submitting = ref(false)
 const caborListForForm = ref<any[]>([])
 
-const programId = computed(() => parseInt(route.params.id as string))
+const pemeriksaanId = computed(() => parseInt(route.params.id as string))
 
 const formData = computed(() => {
-  if (!programData.value) return null
+  if (!pemeriksaanData.value) return null
 
   return {
-    cabor_id: programData.value.cabor?.id || null,
-    cabor_kategori_id: programData.value.kategori?.id || null,
-    nama_program: programData.value.nama_program || '',
-    periode_mulai: programData.value.periode?.mulai || '',
-    periode_selesai: programData.value.periode?.selesai || '',
-    keterangan: programData.value.keterangan || '',
+    cabor_id: pemeriksaanData.value.cabor?.id || null,
+    cabor_kategori_id: pemeriksaanData.value.kategori?.id || null,
+    tenaga_pendukung_id: pemeriksaanData.value.tenaga_pendukung?.id || null,
+    nama_pemeriksaan: pemeriksaanData.value.nama_pemeriksaan || '',
+    tanggal_pemeriksaan: pemeriksaanData.value.tanggal_pemeriksaan || '',
+    status: pemeriksaanData.value.status || 'belum',
   }
 })
 
-const loadProgramData = async () => {
+const loadPemeriksaanData = async () => {
   try {
-    const data = await fetchProgramDetail(programId.value)
+    const data = await fetchPemeriksaanDetail(pemeriksaanId.value)
     if (data) {
-      programData.value = data
+      pemeriksaanData.value = data
     }
   } catch (err) {
-    console.error('Error loading program data:', err)
+    console.error('Error loading pemeriksaan data:', err)
   }
 }
 
 const handleSubmit = async (formData: any) => {
   try {
     submitting.value = true
-    await updateProgram(programId.value, formData)
+    await updatePemeriksaan(pemeriksaanId.value, formData)
 
     // Show success message (you can add a toast notification here)
-    console.log('Program latihan berhasil diupdate')
+    console.log('Pemeriksaan berhasil diupdate')
 
-    // Redirect to program list
-    router.push('/program-latihan')
+    // Redirect to pemeriksaan list
+    router.push('/pemeriksaan')
   } catch (err) {
-    console.error('Error updating program:', err)
+    console.error('Error updating pemeriksaan:', err)
   } finally {
     submitting.value = false
   }
 }
 
 const handleCancel = () => {
-  router.push('/program-latihan')
+  router.push('/pemeriksaan')
 }
 
 onMounted(async () => {
@@ -188,6 +186,6 @@ onMounted(async () => {
     console.error('Error fetching cabor list:', err)
   }
 
-  await loadProgramData()
+  await loadPemeriksaanData()
 })
 </script>

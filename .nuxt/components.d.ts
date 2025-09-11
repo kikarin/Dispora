@@ -20,7 +20,11 @@ export const ContentLayout: typeof import("../app/components/ContentLayout.vue")
 export const LoadingSplash: typeof import("../app/components/LoadingSplash.vue")['default']
 export const PWAInstallPrompt: typeof import("../app/components/PWAInstallPrompt.vue")['default']
 export const PageLayout: typeof import("../app/components/PageLayout.vue")['default']
+export const PemeriksaanForm: typeof import("../app/components/PemeriksaanForm.vue")['default']
+export const PemeriksaanParameterForm: typeof import("../app/components/PemeriksaanParameterForm.vue")['default']
 export const ProgramLatihanForm: typeof import("../app/components/ProgramLatihanForm.vue")['default']
+export const RencanaLatihanForm: typeof import("../app/components/RencanaLatihanForm.vue")['default']
+export const TargetLatihanForm: typeof import("../app/components/TargetLatihanForm.vue")['default']
 export const NuxtWelcome: typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
 export const NuxtLayout: typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
 export const NuxtErrorBoundary: typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']
@@ -71,7 +75,11 @@ export const LazyContentLayout: LazyComponent<typeof import("../app/components/C
 export const LazyLoadingSplash: LazyComponent<typeof import("../app/components/LoadingSplash.vue")['default']>
 export const LazyPWAInstallPrompt: LazyComponent<typeof import("../app/components/PWAInstallPrompt.vue")['default']>
 export const LazyPageLayout: LazyComponent<typeof import("../app/components/PageLayout.vue")['default']>
+export const LazyPemeriksaanForm: LazyComponent<typeof import("../app/components/PemeriksaanForm.vue")['default']>
+export const LazyPemeriksaanParameterForm: LazyComponent<typeof import("../app/components/PemeriksaanParameterForm.vue")['default']>
 export const LazyProgramLatihanForm: LazyComponent<typeof import("../app/components/ProgramLatihanForm.vue")['default']>
+export const LazyRencanaLatihanForm: LazyComponent<typeof import("../app/components/RencanaLatihanForm.vue")['default']>
+export const LazyTargetLatihanForm: LazyComponent<typeof import("../app/components/TargetLatihanForm.vue")['default']>
 export const LazyNuxtWelcome: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
 export const LazyNuxtLayout: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>
 export const LazyNuxtErrorBoundary: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']>

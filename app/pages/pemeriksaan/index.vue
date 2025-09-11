@@ -201,14 +201,146 @@
                 </span>
               </div>
 
-              <!-- Status Badge -->
-              <div class="ml-3">
-                <span
-                  class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium"
-                  :class="getStatusBadgeClass(pemeriksaan.status)"
-                >
-                  {{ pemeriksaan.status }}
-                </span>
+              <div class="flex items-center gap-3">
+                <!-- Status Badge -->
+                <div>
+                  <span
+                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium"
+                    :class="getStatusBadgeClass(pemeriksaan.status)"
+                  >
+                    {{ pemeriksaan.status }}
+                  </span>
+                </div>
+
+                <!-- Menu Options -->
+                <div v-if="canManagePemeriksaan" class="relative">
+                  <button
+                    @click="
+                      activeMenu =
+                        activeMenu === pemeriksaan.id ? null : pemeriksaan.id
+                    "
+                    class="p-2 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group"
+                    :class="{ 'bg-gray-100': activeMenu === pemeriksaan.id }"
+                  >
+                    <svg
+                      class="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
+                      />
+                    </svg>
+                  </button>
+
+                  <!-- Dropdown Menu -->
+                  <div
+                    v-if="activeMenu === pemeriksaan.id"
+                    class="dropdown-menu absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-200 z-[9999]"
+                    style="pointer-events: auto; z-index: 9999 !important"
+                  >
+                    <div class="py-2">
+                      <button
+                        @click="
+                          () => {
+                            activeMenu = null
+                            router.push(
+                              `/pemeriksaan/${pemeriksaan.id}/kelola-peserta`
+                            )
+                          }
+                        "
+                        class="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-all duration-200 cursor-pointer group"
+                      >
+                        <svg
+                          class="w-4 h-4 flex-shrink-0 group-hover:scale-110 transition-transform"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                        <span class="font-medium">Kelola Peserta</span>
+                      </button>
+                      <button
+                        @click="
+                          () => {
+                            activeMenu = null
+                            router.push(
+                              `/pemeriksaan/${pemeriksaan.id}/parameter`
+                            )
+                          }
+                        "
+                        class="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-all duration-200 cursor-pointer group"
+                      >
+                        <svg
+                          class="w-4 h-4 flex-shrink-0 group-hover:scale-110 transition-transform"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                        <span class="font-medium">Lihat Parameter</span>
+                      </button>
+                      <button
+                        @click="
+                          () => {
+                            activeMenu = null
+                            router.push(`/pemeriksaan/edit/${pemeriksaan.id}`)
+                          }
+                        "
+                        class="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 cursor-pointer group"
+                      >
+                        <svg
+                          class="w-4 h-4 flex-shrink-0 group-hover:scale-110 transition-transform"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                          />
+                        </svg>
+                        <span class="font-medium">Edit</span>
+                      </button>
+                      <button
+                        @click="
+                          () =>
+                            handleDeleteClick(pemeriksaan.id, pemeriksaan.nama)
+                        "
+                        class="flex items-center gap-3 w-full px-4 py-3 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-200 cursor-pointer group"
+                      >
+                        <svg
+                          class="w-4 h-4 flex-shrink-0 group-hover:scale-110 transition-transform"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          />
+                        </svg>
+                        <span class="font-medium">Hapus</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -347,15 +479,45 @@
       </div>
     </div>
 
+    <!-- FAB Create Pemeriksaan -->
+    <button
+      v-if="canManagePemeriksaan"
+      @click="router.push('/pemeriksaan/create')"
+      class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-[#597BF9] text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-[#4c6ef5] transition-colors z-50 transform"
+    >
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 4v16m8-8H4"
+        />
+      </svg>
+    </button>
+
     <!-- Spacer for bottom navigation -->
     <div class="h-20"></div>
 
-    <!-- Click outside handler for calendar -->
-    <div
-      v-if="showCalendar"
-      @click="showCalendar = false"
+    <!-- Click outside handler for calendar and menu - DISABLED FOR TESTING -->
+    <!-- <div
+      v-if="showCalendar || activeMenu"
+      @click="closeAllDropdowns"
       class="fixed inset-0 z-40"
-    ></div>
+    ></div> -->
+
+    <!-- Alert Component -->
+    <Alert
+      :show-alert="showAlert"
+      :alert-config="alertConfig"
+      @hide="hideAlert"
+      @confirm="handleConfirm"
+      @cancel="handleCancel"
+    />
   </PageLayout>
 </template>
 
@@ -363,11 +525,29 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import PageLayout from '~/components/PageLayout.vue'
+import Alert from '~/components/Alert.vue'
 import { usePemeriksaan } from '../../../composables/usePemeriksaan'
 import { useAuth } from '../../../composables/useAuth'
+import { useAlert } from '../../../composables/useAlert'
 
 const router = useRouter()
-const { initAuth } = useAuth()
+const { user, initAuth } = useAuth()
+const {
+  showAlert,
+  alertConfig,
+  showConfirm,
+  hideAlert,
+  handleConfirm,
+  handleCancel,
+} = useAlert()
+
+// Permission check
+const canManagePemeriksaan = computed(() => {
+  if (!user.value) return false
+
+  const allowedRoles = [1, 11, 37] // Superadmin, Admin, Tenaga Pendukung
+  return allowedRoles.includes(user.value.current_role?.id)
+})
 
 // Use composable
 const {
@@ -382,14 +562,19 @@ const {
   filteredPemeriksaan,
   fetchPemeriksaan,
   fetchCaborList,
+  fetchPemeriksaanDetail,
   toggleCaborFilter,
   applyDateFilter,
   nextPage,
   prevPage,
+  deletePemeriksaan,
 } = usePemeriksaan()
 
 // Calendar Filter
 const showCalendar = ref(false)
+
+// Menu state
+const activeMenu = ref<number | null>(null)
 
 // Helper function untuk format tanggal
 const formatTanggal = (tanggalString: string) => {
@@ -467,6 +652,32 @@ const getStatusBadgeClass = (status: string) => {
   }
 }
 
+// Function untuk handle delete
+const handleDeleteClick = (pemeriksaanId: number, pemeriksaanName: string) => {
+  activeMenu.value = null
+
+  showConfirm({
+    title: 'Konfirmasi Hapus',
+    message: `Apakah Anda yakin ingin menghapus pemeriksaan "${pemeriksaanName}"?`,
+    type: 'warning',
+    confirmText: 'Hapus',
+    cancelText: 'Batal',
+    onConfirm: async () => {
+      try {
+        await deletePemeriksaan(pemeriksaanId)
+        console.log('Pemeriksaan berhasil dihapus')
+      } catch (err) {
+        console.error('Error deleting pemeriksaan:', err)
+      }
+    },
+  })
+}
+
+const closeAllDropdowns = () => {
+  showCalendar.value = false
+  activeMenu.value = null
+}
+
 // Search is now handled by computed property filteredPemeriksaan - no debounce needed for client-side filtering
 
 // Lifecycle
@@ -475,3 +686,32 @@ onMounted(async () => {
   await Promise.all([fetchPemeriksaan(), fetchCaborList()])
 })
 </script>
+
+<style scoped>
+/* Ensure dropdown menu is clickable */
+.dropdown-menu {
+  pointer-events: auto !important;
+  z-index: 9999 !important;
+}
+
+/* Force higher z-index for all dropdowns */
+[class*='z-'] {
+  z-index: 9999 !important;
+}
+
+/* Ensure buttons inside dropdown are clickable */
+.dropdown-menu button {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+/* Hover effects for dropdown items */
+.dropdown-menu button:hover {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+  color: rgb(29, 78, 216) !important;
+}
+
+.dropdown-menu button:hover svg {
+  transform: scale(1.1) !important;
+}
+</style>
