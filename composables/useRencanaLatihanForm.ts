@@ -61,7 +61,12 @@ export const useRencanaLatihanForm = () => {
         headers: getAuthHeaders(),
         credentials: 'include',
       })
-      targets.value = res.data || []
+      targets.value = (res.data || []).map((t: any) => ({
+        id: Number(t.id),
+        deskripsi: t.deskripsi,
+        peruntukan: t.peruntukan,
+        jenis_target: t.jenis_target,
+      }))
     } catch (e: any) {
       error.value = e?.message || 'Gagal memuat target latihan'
     } finally {
@@ -78,7 +83,7 @@ export const useRencanaLatihanForm = () => {
       credentials: 'include',
     })
     atlet.value = (res.data || []).map((a: any) => ({
-      id: a.id,
+      id: Number(a.id),
       nama: a.nama,
       foto: a.foto || null,
     }))
@@ -93,7 +98,7 @@ export const useRencanaLatihanForm = () => {
       credentials: 'include',
     })
     pelatih.value = (res.data || []).map((p: any) => ({
-      id: p.id,
+      id: Number(p.id),
       nama: p.nama,
       foto: p.foto || null,
     }))
@@ -108,7 +113,7 @@ export const useRencanaLatihanForm = () => {
       credentials: 'include',
     })
     tenagaPendukung.value = (res.data || []).map((t: any) => ({
-      id: t.id,
+      id: Number(t.id),
       nama: t.nama,
       foto: t.foto || null,
     }))

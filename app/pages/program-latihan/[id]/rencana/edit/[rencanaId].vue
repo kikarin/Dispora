@@ -74,13 +74,13 @@ onMounted(async () => {
       program_latihan_id: data?.program_latihan?.id ?? programId.value,
       tanggal: data?.tanggal ?? '',
       materi: data?.materi ?? '',
-      lokasi_latihan: data?.lokasi_latihan ?? '',
+      lokasi_latihan: data?.lokasi_latihan ?? data?.lokasi ?? '',
       catatan: data?.catatan ?? '',
-      target_latihan_ids: (data?.targets || []).map((t: any) => t.id),
-      atlet_ids: (data?.atlet || []).map((a: any) => a.id),
-      pelatih_ids: (data?.pelatih || []).map((p: any) => p.id),
-      tenaga_pendukung_ids: (data?.tenaga_pendukung || []).map(
-        (t: any) => t.id
+      target_latihan_ids: (data?.targets || []).map((t: any) => Number(t.id)),
+      atlet_ids: (data?.atlet || []).map((a: any) => Number(a.id)),
+      pelatih_ids: (data?.pelatih || []).map((p: any) => Number(p.id)),
+      tenaga_pendukung_ids: (data?.tenaga_pendukung || []).map((t: any) =>
+        Number(t.id)
       ),
     }
   } catch (e: any) {

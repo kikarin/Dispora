@@ -73,9 +73,16 @@ onMounted(async () => {
     if (data) {
       formData.value = {
         program_latihan_id: data.program_latihan?.id ?? programId.value,
-        jenis_target:
-          (data.jenis_target as 'individu' | 'kelompok') ?? 'individu',
-        peruntukan: (data.peruntukan as any) ?? '',
+        jenis_target: ((): 'individu' | 'kelompok' => {
+          const val = String(data.jenis_target || '').toLowerCase()
+          return val === 'kelompok' ? 'kelompok' : 'individu'
+        })(),
+        // Normalisasi peruntukan: API bisa kirim "tenaga_pendukung" → komponen pakai "tenaga-pendukung"
+        peruntukan: ((): any => {
+          const raw = (data.peruntukan as any) ?? ''
+          if (!raw) return ''
+          return String(raw).replace('_', '-')
+        })(),
         deskripsi: data.deskripsi ?? '',
         satuan: data.satuan ?? '',
         nilai_target: data.nilai_target ?? '',

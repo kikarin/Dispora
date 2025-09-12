@@ -137,13 +137,16 @@
         <div
           v-for="t in targets"
           :key="t.id"
-          class="flex items-center gap-3 p-3 bg-white rounded-xl border"
+          class="flex items-center gap-3 p-3 bg-white/60 rounded-xl border border-gray-200/50 hover:bg-white/80 transition-colors"
         >
-          <input
-            type="checkbox"
-            :value="t.id"
-            v-model="form.target_latihan_ids"
-          />
+          <div class="relative">
+            <input
+              type="checkbox"
+              :value="t.id"
+              v-model="form.target_latihan_ids"
+              class="custom-checkbox w-4 h-4 text-[#597BF9] bg-white border-2 border-gray-300 rounded focus:ring-[#597BF9] focus:ring-2"
+            />
+          </div>
           <div class="flex-1">
             <div class="text-sm font-medium text-gray-800">
               {{ t.deskripsi }}
@@ -182,9 +185,16 @@
           <div
             v-for="p in atlet"
             :key="p.id"
-            class="flex items-center gap-3 p-3 bg-white rounded-xl border"
+            class="flex items-center gap-3 p-3 bg-white/60 rounded-xl border border-gray-200/50 hover:bg-white/80 transition-colors"
           >
-            <input type="checkbox" :value="p.id" v-model="form.atlet_ids" />
+            <div class="relative">
+              <input
+                type="checkbox"
+                :value="p.id"
+                v-model="form.atlet_ids"
+                class="custom-checkbox w-4 h-4 text-[#597BF9] bg-white border-2 border-gray-300 rounded focus:ring-[#597BF9] focus:ring-2"
+              />
+            </div>
             <div
               class="w-8 h-8 rounded-full bg-gray-100 overflow-hidden flex items-center justify-center"
             >
@@ -236,9 +246,16 @@
           <div
             v-for="p in pelatih"
             :key="p.id"
-            class="flex items-center gap-3 p-3 bg-white rounded-xl border"
+            class="flex items-center gap-3 p-3 bg-white/60 rounded-xl border border-gray-200/50 hover:bg-white/80 transition-colors"
           >
-            <input type="checkbox" :value="p.id" v-model="form.pelatih_ids" />
+            <div class="relative">
+              <input
+                type="checkbox"
+                :value="p.id"
+                v-model="form.pelatih_ids"
+                class="custom-checkbox w-4 h-4 text-[#597BF9] bg-white border-2 border-gray-300 rounded focus:ring-[#597BF9] focus:ring-2"
+              />
+            </div>
             <div
               class="w-8 h-8 rounded-full bg-gray-100 overflow-hidden flex items-center justify-center"
             >
@@ -290,13 +307,16 @@
           <div
             v-for="p in tenagaPendukung"
             :key="p.id"
-            class="flex items-center gap-3 p-3 bg-white rounded-xl border"
+            class="flex items-center gap-3 p-3 bg-white/60 rounded-xl border border-gray-200/50 hover:bg-white/80 transition-colors"
           >
-            <input
-              type="checkbox"
-              :value="p.id"
-              v-model="form.tenaga_pendukung_ids"
-            />
+            <div class="relative">
+              <input
+                type="checkbox"
+                :value="p.id"
+                v-model="form.tenaga_pendukung_ids"
+                class="custom-checkbox w-4 h-4 text-[#597BF9] bg-white border-2 border-gray-300 rounded focus:ring-[#597BF9] focus:ring-2"
+              />
+            </div>
             <div
               class="w-8 h-8 rounded-full bg-gray-100 overflow-hidden flex items-center justify-center"
             >
@@ -475,7 +495,31 @@ const submit = () => {
 }
 
 onMounted(async () => {
-  if (props.initialData) form.value = { ...form.value, ...props.initialData }
+  if (props.initialData) {
+    // Merge basic fields
+    form.value = { ...form.value, ...props.initialData }
+    // Prefill selected items for edit mode
+    if (props.initialData.target_latihan_ids) {
+      form.value.target_latihan_ids = [
+        ...props.initialData.target_latihan_ids.map((id: any) => Number(id)),
+      ]
+    }
+    if (props.initialData.atlet_ids) {
+      form.value.atlet_ids = [
+        ...props.initialData.atlet_ids.map((id: any) => Number(id)),
+      ]
+    }
+    if (props.initialData.pelatih_ids) {
+      form.value.pelatih_ids = [
+        ...props.initialData.pelatih_ids.map((id: any) => Number(id)),
+      ]
+    }
+    if (props.initialData.tenaga_pendukung_ids) {
+      form.value.tenaga_pendukung_ids = [
+        ...props.initialData.tenaga_pendukung_ids.map((id: any) => Number(id)),
+      ]
+    }
+  }
   await fetchProgramDetailForForm(props.programId)
   const caborKategoriId = getCaborKategoriId()
   await fetchTargetList(props.programId)
@@ -487,4 +531,64 @@ onMounted(async () => {
     ])
   }
 })
+
+// Prefill reaktif ketika initialData datang belakangan
+watch(
+  () => props.initialData,
+  (val) => {
+    if (!val) return
+    form.value = { ...form.value, ...val }
+    if (val.target_latihan_ids) {
+      form.value.target_latihan_ids = [
+        ...val.target_latihan_ids.map((id: any) => Number(id)),
+      ]
+    }
+    if (val.atlet_ids) {
+      form.value.atlet_ids = [...val.atlet_ids.map((id: any) => Number(id))]
+    }
+    if (val.pelatih_ids) {
+      form.value.pelatih_ids = [...val.pelatih_ids.map((id: any) => Number(id))]
+    }
+    if (val.tenaga_pendukung_ids) {
+      form.value.tenaga_pendukung_ids = [
+        ...val.tenaga_pendukung_ids.map((id: any) => Number(id)),
+      ]
+    }
+  },
+  { immediate: false, deep: true }
+)
 </script>
+
+<style scoped>
+/* Custom checkbox styling */
+.custom-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  cursor: pointer;
+}
+
+.custom-checkbox:checked {
+  background-color: #597bf9;
+  border-color: #597bf9;
+}
+
+.custom-checkbox:checked::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='m13.854 3.646-7.5 7.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6 10.293l7.146-7.147a.5.5 0 0 1 .708.708z'/%3e%3c/svg%3e");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.custom-checkbox:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(89, 123, 249, 0.2);
+}
+</style>

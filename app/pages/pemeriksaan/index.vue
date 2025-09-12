@@ -338,6 +338,32 @@
                         </svg>
                         <span class="font-medium">Hapus</span>
                       </button>
+                      <button
+                        @click="
+                          () => {
+                            activeMenu = null
+                            router.push(
+                              `/pemeriksaan/${pemeriksaan.id}/pemetaan-peserta`
+                            )
+                          }
+                        "
+                        class="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-all duration-200 cursor-pointer group"
+                      >
+                        <svg
+                          class="w-4 h-4 flex-shrink-0 group-hover:scale-110 transition-transform"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                        <span class="font-medium">Pemetaan Peserta</span>
+                      </button>
                     </div>
                   </div>
                 </div>

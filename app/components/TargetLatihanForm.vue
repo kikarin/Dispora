@@ -242,7 +242,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 
 interface FormData {
   program_latihan_id: number
@@ -371,6 +371,16 @@ watch(
   },
   { immediate: true, deep: true }
 )
+
+onMounted(() => {
+  if (props.initialData) {
+    formData.value = {
+      ...formData.value,
+      ...props.initialData,
+      program_latihan_id: props.programId,
+    }
+  }
+})
 
 // Dropdown positioning helpers (fix: referenced in template)
 const getJenisDropdownPosition = () => {
