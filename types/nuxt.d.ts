@@ -193,3 +193,10 @@ declare module '~/composables/useHome' {
     setModuleFilter: (module: string) => void
   }
 }
+
+// Global declarations
+declare global {
+  const process: {
+    client: boolean
+  }
+}

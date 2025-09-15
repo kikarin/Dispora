@@ -131,7 +131,7 @@ export const useTurnamen = () => {
         hasToken: !!token.value,
       })
       error.value = 'Anda harus login terlebih dahulu.'
-      if (process.client) {
+      if (typeof process !== 'undefined' && process.client) {
         window.location.href = '/login'
       }
       return
@@ -246,7 +246,7 @@ export const useTurnamen = () => {
       if (err.status === 302 || err.status === 401) {
         error.value = 'Sesi Anda telah berakhir. Silakan login kembali.'
         // Redirect to login if unauthorized
-        if (process.client) {
+        if (typeof process !== 'undefined' && process.client) {
           window.location.href = '/login'
         }
       } else if (err.status === 404) {
@@ -292,7 +292,7 @@ export const useTurnamen = () => {
       error.value = null
 
       const response = await $fetch<ApiResponse<any>>(
-        `${baseURL}/turnamen/${id}`,
+        `${baseURL}/turnamen/crud/${id}`,
         {
           headers: getAuthHeaders(),
           credentials: 'include',
@@ -362,7 +362,7 @@ export const useTurnamen = () => {
     })
 
     // Clear browser cache and localStorage for this data
-    if (process.client) {
+    if (typeof process !== 'undefined' && process.client) {
       // Clear any cached data
       sessionStorage.removeItem('turnamen_cache')
       sessionStorage.removeItem('cabor_list_cache')
@@ -394,6 +394,165 @@ export const useTurnamen = () => {
       )
     } catch (error) {
       console.error('❌ Force refresh failed:', error)
+    }
+  }
+
+  // CRUD Methods
+  const createTurnamen = async (data: any) => {
+    try {
+      loading.value = true
+      error.value = null
+
+      const response = await $fetch<ApiResponse<any>>(
+        `${baseURL}/turnamen/crud`,
+        {
+          method: 'POST',
+          headers: {
+            ...getAuthHeaders(),
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: {
+            cabor_kategori_id: data.cabor_kategori_id,
+            nama: data.nama,
+            tanggal_mulai: data.tanggal_mulai,
+            tanggal_selesai: data.tanggal_selesai,
+            tingkat_id: data.tingkat_id,
+            lokasi: data.lokasi,
+            juara_id: data.juara_id || null,
+            hasil: data.hasil || null,
+            evaluasi: data.evaluasi || null,
+            atlet_ids: data.atlet_ids || [],
+            pelatih_ids: data.pelatih_ids || [],
+            tenaga_pendukung_ids: data.tenaga_pendukung_ids || [],
+          },
+        }
+      )
+
+      if (response.status === 'success') {
+        // Refresh the turnamen list
+        await fetchTurnamen()
+        return response.data
+      }
+    } catch (err: any) {
+      console.error('Error creating turnamen:', err)
+
+      if (err.status === 401) {
+        error.value = 'Sesi Anda telah berakhir. Silakan login kembali.'
+        if (typeof process !== 'undefined' && process.client) {
+          window.location.href = '/login'
+        }
+      } else if (err.status === 403) {
+        error.value = 'Anda tidak memiliki izin untuk membuat turnamen.'
+      } else if (err.status === 422) {
+        error.value = err.data?.message || 'Data yang dimasukkan tidak valid.'
+      } else {
+        error.value = err.data?.message || 'Gagal membuat turnamen'
+      }
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const updateTurnamen = async (id: number, data: any) => {
+    try {
+      loading.value = true
+      error.value = null
+
+      const response = await $fetch<ApiResponse<any>>(
+        `${baseURL}/turnamen/crud/${id}`,
+        {
+          method: 'PUT',
+          headers: {
+            ...getAuthHeaders(),
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: {
+            cabor_kategori_id: data.cabor_kategori_id,
+            nama: data.nama,
+            tanggal_mulai: data.tanggal_mulai,
+            tanggal_selesai: data.tanggal_selesai,
+            tingkat_id: data.tingkat_id,
+            lokasi: data.lokasi,
+            juara_id: data.juara_id || null,
+            hasil: data.hasil || null,
+            evaluasi: data.evaluasi || null,
+            atlet_ids: data.atlet_ids || [],
+            pelatih_ids: data.pelatih_ids || [],
+            tenaga_pendukung_ids: data.tenaga_pendukung_ids || [],
+          },
+        }
+      )
+
+      if (response.status === 'success') {
+        // Refresh the turnamen list
+        await fetchTurnamen()
+        return response.data
+      }
+    } catch (err: any) {
+      console.error('Error updating turnamen:', err)
+
+      if (err.status === 401) {
+        error.value = 'Sesi Anda telah berakhir. Silakan login kembali.'
+        if (typeof process !== 'undefined' && process.client) {
+          window.location.href = '/login'
+        }
+      } else if (err.status === 403) {
+        error.value = 'Anda tidak memiliki izin untuk mengupdate turnamen.'
+      } else if (err.status === 404) {
+        error.value = 'Turnamen tidak ditemukan.'
+      } else if (err.status === 422) {
+        error.value = err.data?.message || 'Data yang dimasukkan tidak valid.'
+      } else {
+        error.value = err.data?.message || 'Gagal mengupdate turnamen'
+      }
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const deleteTurnamen = async (id: number) => {
+    try {
+      loading.value = true
+      error.value = null
+
+      const response = await $fetch<ApiResponse<any>>(
+        `${baseURL}/turnamen/crud/${id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            ...getAuthHeaders(),
+          },
+          credentials: 'include',
+        }
+      )
+
+      if (response.status === 'success') {
+        // Refresh the turnamen list
+        await fetchTurnamen()
+        return true
+      }
+    } catch (err: any) {
+      console.error('Error deleting turnamen:', err)
+
+      if (err.status === 401) {
+        error.value = 'Sesi Anda telah berakhir. Silakan login kembali.'
+        if (typeof process !== 'undefined' && process.client) {
+          window.location.href = '/login'
+        }
+      } else if (err.status === 403) {
+        error.value = 'Anda tidak memiliki izin untuk menghapus turnamen.'
+      } else if (err.status === 404) {
+        error.value = 'Turnamen tidak ditemukan.'
+      } else {
+        error.value = err.data?.message || 'Gagal menghapus turnamen'
+      }
+      throw err
+    } finally {
+      loading.value = false
     }
   }
 
@@ -434,5 +593,10 @@ export const useTurnamen = () => {
     nextPage,
     prevPage,
     goToPage,
+
+    // CRUD Functions
+    createTurnamen,
+    updateTurnamen,
+    deleteTurnamen,
   }
 }

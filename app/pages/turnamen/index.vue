@@ -210,6 +210,107 @@
                 {{ turnamen.cabor }} - {{ turnamen.kategori }}
               </span>
             </div>
+
+            <!-- Menu Options -->
+            <div v-if="canManageTurnamen" class="relative">
+              <button
+                @click="
+                  activeMenu = activeMenu === turnamen.id ? null : turnamen.id
+                "
+                class="p-2 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group"
+                :class="{ 'bg-gray-100': activeMenu === turnamen.id }"
+              >
+                <svg
+                  class="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
+                  />
+                </svg>
+              </button>
+
+              <!-- Dropdown Menu -->
+              <div
+                v-if="activeMenu === turnamen.id"
+                class="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-200 z-[9999]"
+                style="pointer-events: auto"
+              >
+                <div class="py-2">
+                  <button
+                    @click="
+                      () => {
+                        activeMenu = null
+                        router.push(`/turnamen/${turnamen.id}/kelola-peserta`)
+                      }
+                    "
+                    class="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700 transition-all duration-200 cursor-pointer group"
+                  >
+                    <svg
+                      class="w-4 h-4 flex-shrink-0 group-hover:scale-110 transition-transform"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
+                      />
+                    </svg>
+                    <span class="font-medium">Kelola Peserta</span>
+                  </button>
+                  <button
+                    @click="
+                      () => {
+                        activeMenu = null
+                        router.push(`/turnamen/edit/${turnamen.id}`)
+                      }
+                    "
+                    class="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 cursor-pointer group"
+                  >
+                    <svg
+                      class="w-4 h-4 flex-shrink-0 group-hover:scale-110 transition-transform"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                      />
+                    </svg>
+                    <span class="font-medium">Edit</span>
+                  </button>
+                  <button
+                    @click="
+                      () =>
+                        handleDeleteClick(turnamen.id, turnamen.nama)
+                    "
+                    class="flex items-center gap-3 w-full px-4 py-3 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-200 cursor-pointer group"
+                  >
+                    <svg
+                      class="w-4 h-4 flex-shrink-0 group-hover:scale-110 transition-transform"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                    <span class="font-medium">Hapus</span>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Turnamen Info -->
@@ -394,15 +495,45 @@
       class="fixed inset-0 z-30"
     ></div>
 
-    <!-- Click outside handler for calendar -->
-    <div
-      v-if="showCalendar"
-      @click="showCalendar = false"
+    <!-- Click outside handler for calendar and menu - DISABLED FOR TESTING -->
+    <!-- <div
+      v-if="showCalendar || activeMenu"
+      @click="closeAllDropdowns"
       class="fixed inset-0 z-40"
-    ></div>
+    ></div> -->
+
+    <!-- FAB Create Turnamen -->
+    <button
+      v-if="canManageTurnamen"
+      @click="router.push('/turnamen/create')"
+      class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-[#597BF9] text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-[#4c6ef5] transition-colors z-50 transform"
+    >
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 4v16m8-8H4"
+        />
+      </svg>
+    </button>
 
     <!-- Spacer for bottom navigation -->
     <div class="h-20"></div>
+
+    <!-- Alert Component -->
+    <Alert
+      :show-alert="showAlert"
+      :alert-config="alertConfig"
+      @hide="hideAlert"
+      @confirm="handleConfirm"
+      @cancel="handleCancel"
+    />
   </PageLayout>
 </template>
 
@@ -410,11 +541,29 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import PageLayout from '~/components/PageLayout.vue'
+import Alert from '~/components/Alert.vue'
 import { useTurnamen } from '../../../composables/useTurnamen'
 import { useAuth } from '../../../composables/useAuth'
+import { useAlert } from '../../../composables/useAlert'
 
 const router = useRouter()
-const { initAuth } = useAuth()
+const { user, initAuth } = useAuth()
+const {
+  showAlert,
+  alertConfig,
+  showConfirm,
+  hideAlert,
+  handleConfirm,
+  handleCancel,
+} = useAlert()
+
+// Permission check
+const canManageTurnamen = computed(() => {
+  if (!user.value) return false
+
+  const allowedRoles = [1, 11, 36] // Superadmin, Admin, Pelatih
+  return allowedRoles.includes(user.value.current_role?.id)
+})
 
 // Use composable
 const {
@@ -437,10 +586,14 @@ const {
   applyDateFilter,
   nextPage,
   prevPage,
+  deleteTurnamen,
 } = useTurnamen()
 
 // Calendar Filter
 const showCalendar = ref(false)
+
+// Menu state
+const activeMenu = ref<number | null>(null)
 
 // Helper function untuk format periode tanggal
 const formatPeriode = (periodeString: string) => {
@@ -528,6 +681,32 @@ const viewPeserta = (id: number) => {
   router.push(`/turnamen/${id}/peserta`)
 }
 
+// Function untuk handle delete
+const handleDeleteClick = (turnamenId: number, turnamenName: string) => {
+  activeMenu.value = null
+
+  showConfirm({
+    title: 'Konfirmasi Hapus',
+    message: `Apakah Anda yakin ingin menghapus turnamen "${turnamenName}"?`,
+    type: 'warning',
+    confirmText: 'Hapus',
+    cancelText: 'Batal',
+    onConfirm: async () => {
+      try {
+        await deleteTurnamen(turnamenId)
+        console.log('Turnamen berhasil dihapus')
+      } catch (err) {
+        console.error('Error deleting turnamen:', err)
+      }
+    },
+  })
+}
+
+const closeAllDropdowns = () => {
+  showCalendar.value = false
+  activeMenu.value = null
+}
+
 // Search is now handled by computed property filteredTurnamen - no debounce needed for client-side filtering
 
 // Lifecycle
@@ -536,3 +715,20 @@ onMounted(async () => {
   await Promise.all([fetchTurnamen(), fetchCaborList()])
 })
 </script>
+
+<style scoped>
+/* Ensure dropdown menu is clickable */
+.dropdown-menu {
+  pointer-events: auto !important;
+}
+
+/* Force higher z-index for all dropdowns */
+[class*='z-'] {
+  z-index: 9999 !important;
+}
+
+/* Ensure proper spacing and alignment */
+.space-y-6 > * + * {
+  margin-top: 1.5rem;
+}
+</style>

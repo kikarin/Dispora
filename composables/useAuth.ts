@@ -1,13 +1,14 @@
 import { ref, readonly } from 'vue'
 
+// Singleton state (shared across all imports/usages)
+const user = ref<any>(null)
+const token = ref<string | null>(null)
+const isAuthenticated = ref(false)
+const isLoading = ref(false)
+
 export const useAuth = () => {
   const config = useRuntimeConfig()
   const baseURL = config.public.apiBase || 'http://localhost:8000/api'
-
-  const user = ref<any>(null)
-  const token = ref<string | null>(null)
-  const isAuthenticated = ref(false)
-  const isLoading = ref(false)
 
   const initAuth = () => {
     if (process.client) {
@@ -23,11 +24,7 @@ export const useAuth = () => {
         isAuthenticated.value = true
       } else {
         console.log('❌ No saved auth data found')
-        // Check if we're on login page, if not redirect
-        if (window.location.pathname !== '/login') {
-          console.log('🔄 Redirecting to login...')
-          window.location.href = '/login'
-        }
+        isAuthenticated.value = false
       }
     }
   }
@@ -166,7 +163,7 @@ export const useAuth = () => {
       return {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: 'Bearer null', // Fallback untuk TypeScript
+        Authorization: 'Bearer',
       }
     }
 
