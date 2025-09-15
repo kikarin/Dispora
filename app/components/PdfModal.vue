@@ -58,17 +58,16 @@ const closeModal = () => {
 }
 
 // Close modal on escape key and handle body scroll
-onMounted(() => {
-  const handleEscape = (e: KeyboardEvent) => {
-    if (e.key === 'Escape' && props.isOpen) {
-      closeModal()
-    }
+const handleEscape = (e: KeyboardEvent) => {
+  if (e.key === 'Escape' && props.isOpen) {
+    closeModal()
   }
-  document.addEventListener('keydown', handleEscape)
-  
-  onUnmounted(() => {
-    document.removeEventListener('keydown', handleEscape)
-  })
+}
+
+onMounted(() => {
+  if (typeof document !== 'undefined') {
+    document.addEventListener('keydown', handleEscape)
+  }
 })
 
 // Prevent body scroll when modal is open
@@ -84,6 +83,7 @@ watch(() => props.isOpen, (isOpen) => {
 
 onUnmounted(() => {
   if (typeof document !== 'undefined') {
+    document.removeEventListener('keydown', handleEscape)
     document.body.style.overflow = ''
   }
 })
