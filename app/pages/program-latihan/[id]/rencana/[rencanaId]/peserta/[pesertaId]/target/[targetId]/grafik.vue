@@ -106,12 +106,6 @@
               <span>{{ pesertaInfo.jenisKelamin }}</span>
               <span>•</span>
               <span>{{ pesertaInfo.usia }} tahun</span>
-              <span>•</span>
-              <span
-                class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
-              >
-                {{ pesertaInfo.posisi }}
-              </span>
             </div>
           </div>
         </div>
@@ -234,7 +228,7 @@
                     <!-- Icon Stabil (Garis Horizontal - Kuning) -->
                     <MinusIcon
                       v-else-if="(item.trend || item.status) === 'Stabil'"
-                      class="w-5 h-5 text-yellow-500"
+                      class="w-5 h-5 text-blue-500"
                     />
                     <!-- Icon Turun (Panah Ke Bawah - Merah) -->
                     <ArrowTrendingDownIcon

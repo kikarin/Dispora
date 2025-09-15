@@ -361,7 +361,7 @@
         v-if="currentStep < 3"
         @click="nextStep"
         type="button"
-        class="px-6 py-3 bg-[#597BF9] text-white rounded-xl font-semibold hover:bg-[#4c6ef5]"
+        class="px-6 py-3 bg-emerald-500 text-white rounded-xl font-semibold hover:bg-emerald-600"
       >
         Lanjut
       </button>
@@ -369,7 +369,7 @@
         v-else
         @click="submit"
         type="button"
-        class="px-6 py-3 bg-emerald-500 text-white rounded-xl font-semibold hover:bg-emerald-600"
+        class="px-6 py-3 bg-[#597BF9] text-white rounded-xl font-semibold hover:bg-[#4c6ef5]"
         :disabled="loading"
       >
         {{ isEdit ? 'Update' : 'Simpan' }}

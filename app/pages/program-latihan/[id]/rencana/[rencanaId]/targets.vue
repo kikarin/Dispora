@@ -324,7 +324,7 @@ const getPesertaBadgeClass = (peserta: string) => {
       return 'bg-blue-100 text-blue-800 border border-blue-200'
     case 'Pelatih':
       return 'bg-green-100 text-green-800 border border-green-200'
-    case 'Tenaga Pendukung':
+    case 'Tenaga-pendukung':
       return 'bg-orange-100 text-orange-800 border border-orange-200'
     default:
       return 'bg-gray-100 text-gray-800 border border-gray-200'
@@ -355,7 +355,7 @@ const getTrendClass = (trend: string | null) => {
     case 'turun':
       return 'text-red-600 bg-red-100'
     case 'stabil':
-      return 'text-yellow-600 bg-yellow-100'
+      return 'text-blue-600 bg-blue-100'
     default:
       return 'text-gray-600 bg-gray-100'
   }

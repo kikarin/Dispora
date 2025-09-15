@@ -168,7 +168,7 @@
             <!-- Foto Peserta -->
             <div class="flex-shrink-0 mt-1">
               <div
-                class="w-12 h-12 rounded-full bg-gradient-to-br from-green-100 to-emerald-200 flex items-center justify-center overflow-hidden"
+                class="w-12 h-12 rounded-full bg-gradient-to-br from-[#597BF9]/20 to-[#4c6ef5]/30 flex items-center justify-center overflow-hidden"
               >
                 <img
                   v-if="peserta.foto"
@@ -179,7 +179,7 @@
                 />
                 <svg
                   v-else
-                  class="w-8 h-8 text-green-600"
+                  class="w-8 h-8 text-[#597BF9]"
                   fill="none"
                   stroke="currentColor"
                   stroke-width="2"
@@ -222,7 +222,7 @@
               <!-- Badge Jenis Pelatih -->
               <div class="mb-2">
                 <span
-                  class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800"
+                  class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
                 >
                   {{ peserta.jenisPelatih }}
                 </span>
@@ -243,7 +243,7 @@
             <!-- Foto Peserta -->
             <div class="flex-shrink-0 mt-1">
               <div
-                class="w-12 h-12 rounded-full bg-gradient-to-br from-orange-100 to-red-200 flex items-center justify-center overflow-hidden"
+                class="w-12 h-12 rounded-full bg-gradient-to-br from-[#597BF9]/20 to-[#4c6ef5]/30 flex items-center justify-center overflow-hidden"
               >
                 <img
                   v-if="peserta.foto"
@@ -254,7 +254,7 @@
                 />
                 <svg
                   v-else
-                  class="w-8 h-8 text-orange-600"
+                  class="w-8 h-8 text-[#597BF9]"
                   fill="none"
                   stroke="currentColor"
                   stroke-width="2"
@@ -297,7 +297,7 @@
               <!-- Badge Jenis Tenaga Pendukung -->
               <div class="mb-2">
                 <span
-                  class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800"
+                  class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
                 >
                   {{ peserta.jenisTenagaPendukung }}
                 </span>

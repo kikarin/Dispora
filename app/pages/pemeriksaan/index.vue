@@ -214,14 +214,15 @@
 
                 <!-- Menu Options -->
                 <div v-if="canManagePemeriksaan" class="relative">
-                  <button
-                    @click="
-                      activeMenu =
-                        activeMenu === pemeriksaan.id ? null : pemeriksaan.id
-                    "
-                    class="p-2 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group"
-                    :class="{ 'bg-gray-100': activeMenu === pemeriksaan.id }"
-                  >
+                <button
+                  @click="
+                    activeMenu =
+                      activeMenu === pemeriksaan.id ? null : pemeriksaan.id
+                  "
+                  :data-menu-trigger="pemeriksaan.id"
+                  class="p-2 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group"
+                  :class="{ 'bg-gray-100': activeMenu === pemeriksaan.id }"
+                >
                     <svg
                       class="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
                       fill="currentColor"
@@ -234,11 +235,12 @@
                   </button>
 
                   <!-- Dropdown Menu -->
-                  <div
-                    v-if="activeMenu === pemeriksaan.id"
-                    class="dropdown-menu absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-200 z-[9999]"
-                    style="pointer-events: auto; z-index: 9999 !important"
-                  >
+                  <Teleport to="body">
+                    <div
+                      v-if="activeMenu === pemeriksaan.id"
+                      class="fixed bg-white rounded-xl shadow-xl border border-gray-200 z-[99999] w-48"
+                      :style="getDropdownPosition(pemeriksaan.id)"
+                    >
                     <div class="py-2">
                       <button
                         @click="
@@ -296,6 +298,32 @@
                         @click="
                           () => {
                             activeMenu = null
+                            router.push(
+                              `/pemeriksaan/${pemeriksaan.id}/pemetaan-peserta`
+                            )
+                          }
+                        "
+                      class="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700"
+                      >
+                      <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                        />
+                      </svg>
+                        <span class="font-medium">Pemetaan Peserta</span>
+                      </button>
+                      <button
+                        @click="
+                          () => {
+                            activeMenu = null
                             router.push(`/pemeriksaan/edit/${pemeriksaan.id}`)
                           }
                         "
@@ -338,34 +366,9 @@
                         </svg>
                         <span class="font-medium">Hapus</span>
                       </button>
-                      <button
-                        @click="
-                          () => {
-                            activeMenu = null
-                            router.push(
-                              `/pemeriksaan/${pemeriksaan.id}/pemetaan-peserta`
-                            )
-                          }
-                        "
-                        class="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-all duration-200 cursor-pointer group"
-                      >
-                        <svg
-                          class="w-4 h-4 flex-shrink-0 group-hover:scale-110 transition-transform"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
-                        <span class="font-medium">Pemetaan Peserta</span>
-                      </button>
                     </div>
-                  </div>
+                    </div>
+                  </Teleport>
                 </div>
               </div>
             </div>
@@ -548,7 +551,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, Teleport } from 'vue'
 import { useRouter } from 'vue-router'
 import PageLayout from '~/components/PageLayout.vue'
 import Alert from '~/components/Alert.vue'
@@ -702,6 +705,18 @@ const handleDeleteClick = (pemeriksaanId: number, pemeriksaanName: string) => {
 const closeAllDropdowns = () => {
   showCalendar.value = false
   activeMenu.value = null
+}
+
+// Function to get dropdown position
+const getDropdownPosition = (pemeriksaanId: number) => {
+  const button = document.querySelector(`[data-menu-trigger="${pemeriksaanId}"]`) as HTMLElement
+  if (!button) return { top: '100px', right: '20px' }
+  
+  const rect = button.getBoundingClientRect()
+  return {
+    top: `${rect.bottom + 8}px`,
+    right: `${window.innerWidth - rect.right}px`
+  }
 }
 
 // Search is now handled by computed property filteredPemeriksaan - no debounce needed for client-side filtering

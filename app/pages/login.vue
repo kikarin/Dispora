@@ -5,12 +5,12 @@
     >
       <!-- Header -->
       <div>
-        <h1 class="text-[30px] font-bold leading-tight text-gray-900">
+        <h1 class="absolute top-16 text-[30px] font-bold leading-tight text-gray-900">
           Dispora
         </h1>
-        <p class="mt-1 text-[14px] text-gray-500">
-          Silahkan masukkan email dan password Anda untuk melanjutkan
-        </p>
+<p class="absolute top-26 mt-1 w-full max-w-xs break-words text-[14px] text-gray-500">
+  Silahkan masukkan email dan password Anda untuk melanjutkan
+</p>
 
         <!-- Email -->
         <div class="mt-20 space-y-2">
@@ -105,7 +105,7 @@
 
         <!-- Remember -->
         <label
-          class="mt-8 inline-flex items-center gap-2 text-[13px] text-gray-700"
+          class="mt-4 mb-2 inline-flex items-center gap-2 text-[13px] text-gray-700"
         >
           <input
             type="checkbox"
@@ -115,6 +115,24 @@
           Remember me
         </label>
 
+        <!-- Button -->
+        <button
+          @click="handleLogin"
+          :disabled="isLoading || isDisabledAfterSuccess"
+          class="mt-4 w-full rounded-2xl bg-gradient-to-r from-[#597BF9] to-[#4c6ef5] py-3 text-center text-[15px] font-medium text-white shadow-lg shadow-blue-500/30 active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <span v-if="isLoading || isDisabledAfterSuccess">
+            <div class="flex items-center justify-center gap-2">
+              <div
+                class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
+              ></div>
+              Loading...
+            </div>
+          </span>
+          <span v-else>Log in</span>
+        </button>
+      </div>
+<div class="relative mt-4 min-h-[60px]">
         <!-- Error Message (Improved) -->
         <Transition
           enter-active-class="duration-200 ease-out"
@@ -166,7 +184,6 @@
             </div>
           </div>
         </Transition>
-
         <!-- Success Message (Improved) -->
         <Transition
           enter-active-class="duration-200 ease-out"
@@ -216,27 +233,10 @@
             </div>
           </div>
         </Transition>
-
-        <!-- Button -->
-        <button
-          @click="handleLogin"
-          :disabled="isLoading"
-          class="mt-4 w-full rounded-2xl bg-gradient-to-r from-[#597BF9] to-[#4c6ef5] py-3 text-center text-[15px] font-medium text-white shadow-lg shadow-blue-500/30 active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <span v-if="isLoading">
-            <div class="flex items-center justify-center gap-2">
-              <div
-                class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
-              ></div>
-              Loading...
-            </div>
-          </span>
-          <span v-else>Log in</span>
-        </button>
-      </div>
+</div>
 
       <!-- Bottom section -->
-      <div class="absolute bottom-138 left-1/2 -translate-x-1/2 w-[350px]">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[450px]">
         <div class="relative h-42 w-full overflow-hidden">
           <svg
             class="absolute inset-0 h-full w-full"
@@ -264,7 +264,7 @@
                 :width="cube.size"
                 :height="cube.size"
                 rx="2"
-                ry="2"
+                ry="10"
                 :opacity="cube.opacity"
               />
             </g>
@@ -283,6 +283,7 @@ import { LockClosedIcon } from '@heroicons/vue/24/outline'
 
 const router = useRouter()
 const { login, isLoading } = useAuth()
+const isDisabledAfterSuccess = ref(false)
 
 interface Cube {
   x: number
@@ -343,14 +344,16 @@ const handleLogin = async () => {
       password: password.value,
     })
 
-    if (result.success) {
-      successMessage.value = result.message || 'Login berhasil!'
 
-      // Redirect ke home setelah delay singkat
-      setTimeout(() => {
-        router.push('/home')
-      }, 1000)
-    }
+    if (result.success) {
+  successMessage.value = result.message || 'Login berhasil!'
+  isDisabledAfterSuccess.value = true  
+
+  setTimeout(() => {
+    router.push('/home')
+  }, 1000)
+}
+
   } catch (error: any) {
     console.error('Login error:', error)
 

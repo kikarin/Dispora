@@ -21,7 +21,7 @@
             />
           </svg>
         </button>
-        <h1 class="text-xl font-semibold text-gray-800">Pemetaan Peserta</h1>
+        <h1 class="text-xl font-semibold text-gray-700">Pemetaan Peserta</h1>
       </div>
     </div>
 
@@ -59,7 +59,7 @@
     <div v-else-if="mappingData">
       <!-- Rencana Info -->
       <div class="mb-6 bg-white rounded-2xl p-4 shadow-sm">
-        <h2 class="text-lg font-semibold text-gray-800 mb-2">
+        <h2 class="text-lg font-semibold text-gray-700 mb-2">
           {{ mappingData.rencana_latihan.materi }}
         </h2>
         <div class="text-sm text-gray-600 space-y-1">
@@ -100,10 +100,6 @@
             </svg>
             <span>{{ mappingData.rencana_latihan.lokasi_latihan }}</span>
           </div>
-          <div class="text-xs text-gray-500">
-            {{ mappingData.rencana_latihan.program_latihan.nama_program }} -
-            {{ mappingData.rencana_latihan.program_latihan.cabor_nama }}
-          </div>
         </div>
       </div>
 
@@ -113,7 +109,7 @@
           <div
             @click="toggleJenisPesertaDropdown"
             data-dropdown-trigger="jenis-peserta"
-            class="relative cursor-pointer rounded-xl bg-gradient-to-r from-[#EBEFFE] to-[#E0E7FF] px-4 py-3 pr-8 text-sm font-semibold text-[#597BF9] border-2 border-transparent hover:border-[#597BF9]/30 focus:border-[#597BF9] hover:shadow-md"
+            class="relative cursor-pointer rounded-xl bg-white px-4 py-3 pr-8 text-sm font-semibold text-gray-700 focus:border-[#597BF9] hover:shadow-md"
           >
             <span>{{ selectedJenisPesertaLabel }}</span>
             <div
@@ -279,7 +275,9 @@
                       :data-dropdown-trigger="`trend-${peserta.peserta_id}-${target.target_latihan_id}`"
                       class="relative cursor-pointer rounded-lg bg-gray-50 px-3 py-2 pr-8 text-sm border border-gray-300 hover:border-[#597BF9] focus:border-[#597BF9]"
                     >
-                      <span>{{ getTrendLabel(target.trend) }}</span>
+  <span :class="getTrendColor(target.trend)">
+    {{ getTrendLabel(target.trend) }}
+  </span>
                       <div
                         class="pointer-events-none absolute inset-y-0 right-2 flex items-center"
                       >
@@ -332,9 +330,10 @@
                                 )
                               "
                               class="px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer rounded"
-                              :class="{
-                                'bg-gray-100': target.trend === trend.value,
-                              }"
+  :class="[
+    getTrendColor(trend.value),
+    { 'bg-gray-100': target.trend === trend.value }
+  ]"
                             >
                               {{ trend.label }}
                             </div>
@@ -440,6 +439,20 @@ const trendOptions = [
   { value: 'stabil', label: 'Stabil' },
   { value: 'turun', label: 'Turun' },
 ]
+
+const getTrendColor = (trend: string) => {
+  switch (trend) {
+    case 'naik':
+      return 'text-green-600 font-medium'
+    case 'stabil':
+      return 'text-blue-600 font-medium'
+    case 'turun':
+      return 'text-red-600 font-medium'
+    default:
+      return 'text-gray-600'
+  }
+}
+
 
 // Computed
 const selectedJenisPesertaLabel = computed(() => {

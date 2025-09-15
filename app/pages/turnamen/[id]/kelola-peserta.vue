@@ -72,22 +72,91 @@
 
     <!-- Content -->
     <div v-else>
-      <!-- Filter Tabs -->
-      <div class="mb-6">
-        <div class="flex gap-2 overflow-x-auto pb-2">
-          <button
-            v-for="tab in tabs"
-            :key="tab.key"
-            @click="switchTab(tab.key as any)"
-            class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
-            :class="
-              activeTab === tab.key
-                ? 'bg-[#597BF9] text-white shadow-lg'
-                : 'bg-white/80 text-gray-600 hover:bg-white'
-            "
+      <!-- Filter Bar (search + jenis dropdown) -->
+      <div class="mb-6 flex items-center gap-2">
+        <div class="flex items-center gap-2 rounded-2xl bg-white/80 px-3 py-2 backdrop-blur">
+          <svg
+            class="h-5 w-5 text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
           >
-            {{ tab.label }} ({{ getTabCount(tab.key) }})
-          </button>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+          <input
+            v-model="searchQuery"
+            type="text"
+            placeholder="Cari peserta..."
+            class="flex-1 text-[15px] bg-transparent outline-none placeholder:text-gray-400"
+          />
+        </div>
+        <div class="relative" style="position: relative; z-index: 1">
+          <div
+            @click="toggleJenisDropdown"
+            data-dropdown-trigger="jenis-turnamen"
+            class="relative cursor-pointer rounded-xl bg-gradient-to-r from-[#EBEFFE] to-[#E0E7FF] px-4 py-3 pr-8 text-sm font-semibold text-[#597BF9] border-2 border-transparent hover:border-[#597BF9]/30 focus:border-[#597BF9] hover:shadow-md"
+          >
+            <span>{{ selectedJenisLabel }}</span>
+            <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+              <svg
+                class="h-4 w-4 text-[#597BF9] transition-transform duration-200"
+                :class="{ 'rotate-180': isJenisOpen }"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+          <Teleport to="body">
+            <transition
+              enter-active-class="transition duration-200 ease-out"
+              enter-from-class="transform scale-95 opacity-0"
+              enter-to-class="transform scale-100 opacity-100"
+              leave-active-class="transition duration-150 ease-in"
+              leave-from-class="transform scale-100 opacity-100"
+              leave-to-class="transform scale-95 opacity-0"
+            >
+              <div
+                v-if="isJenisOpen"
+                class="fixed rounded-xl bg-white/95 backdrop-blur-md border border-white/50 ring-1 ring-black/5 z-[99999] w-56"
+                :style="getJenisDropdownPosition()"
+              >
+                <div class="p-1">
+                  <div
+                    v-for="opt in jenisOptions"
+                    :key="opt.value"
+                    @click="selectJenis(opt.value)"
+                    class="group flex items-center w-full px-3 py-2.5 text-sm font-medium text-gray-700 rounded-lg hover:bg-gradient-to-r hover:from-[#597BF9]/10 hover:to-[#4c6ef5]/10 hover:text-[#597BF9] cursor-pointer"
+                    :class="{
+                      'bg-gradient-to-r from-[#597BF9]/20 to-[#4c6ef5]/20 text-[#597BF9]': activeTab === opt.value,
+                    }"
+                  >
+                    <span>{{ opt.label }}</span>
+                    <svg
+                      v-if="activeTab === opt.value"
+                      class="ml-auto h-4 w-4 text-[#597BF9]"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </transition>
+          </Teleport>
         </div>
       </div>
 
@@ -101,11 +170,11 @@
           <div class="flex items-center gap-4">
             <!-- Avatar -->
             <div class="flex-shrink-0">
-              <div
+              <img
                 v-if="peserta.foto"
-                class="w-12 h-12 rounded-full bg-cover bg-center"
-                :style="{ backgroundImage: `url(${peserta.foto})` }"
-              ></div>
+                :src="peserta.foto"
+                class="w-12 h-12 rounded-full object-cover"
+              />
               <div
                 v-else
                 class="w-12 h-12 rounded-full bg-gradient-to-br from-[#597BF9]/20 to-[#4c6ef5]/30 flex items-center justify-center"
@@ -401,12 +470,30 @@ const showAddPesertaModal = ref(false)
 const searchQuery = ref('')
 const availablePesertaList = ref<any[]>([])
 
-// Tabs configuration
-const tabs = [
-  { key: 'atlet', label: 'Atlet' },
-  { key: 'pelatih', label: 'Pelatih' },
-  { key: 'tenaga-pendukung', label: 'Tenaga Pendukung' },
+// Dropdown jenis seperti pemeriksaan
+const jenisOptions = [
+  { value: 'atlet', label: 'Atlet' },
+  { value: 'pelatih', label: 'Pelatih' },
+  { value: 'tenaga-pendukung', label: 'Tenaga Pendukung' },
 ]
+const isJenisOpen = ref(false)
+const selectedJenisLabel = computed(() => {
+  return jenisOptions.find((o) => o.value === activeTab.value)?.label || 'Atlet'
+})
+const toggleJenisDropdown = () => {
+  isJenisOpen.value = !isJenisOpen.value
+}
+const selectJenis = async (val: 'atlet' | 'pelatih' | 'tenaga-pendukung') => {
+  activeTab.value = val
+  isJenisOpen.value = false
+  if (showAddPesertaModal.value) await loadAvailablePeserta()
+}
+const getJenisDropdownPosition = () => {
+  const el = document.querySelector('[data-dropdown-trigger="jenis-turnamen"]') as HTMLElement | null
+  if (!el) return { top: '100px', left: '20px' }
+  const r = el.getBoundingClientRect()
+  return { top: `${r.bottom + 8}px`, left: `${r.left}px` }
+}
 
 // Computed
 const getTabCount = (tabKey: string) => {
@@ -422,10 +509,7 @@ const getTabCount = (tabKey: string) => {
   }
 }
 
-const getCurrentTabLabel = () => {
-  const tab = tabs.find((t) => t.key === activeTab.value)
-  return tab?.label || 'Peserta'
-}
+const getCurrentTabLabel = () => selectedJenisLabel.value
 
 const getCurrentPesertaList = () => {
   switch (activeTab.value) {
@@ -471,11 +555,9 @@ const openAddPesertaModal = async () => {
   await loadAvailablePeserta()
 }
 
+// kept for backward compatibility if used elsewhere
 const switchTab = async (tab: 'atlet' | 'pelatih' | 'tenaga-pendukung') => {
-  activeTab.value = tab
-  if (showAddPesertaModal.value) {
-    await loadAvailablePeserta()
-  }
+  await selectJenis(tab)
 }
 
 const loadAvailablePeserta = async () => {

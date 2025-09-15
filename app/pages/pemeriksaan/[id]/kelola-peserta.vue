@@ -224,7 +224,7 @@
                         d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                       />
                     </svg>
-                    <span class="font-medium">Update Status/Catatan</span>
+                    <span class="font-medium">Update Status</span>
                   </button>
                   <button
                     @click="
@@ -828,7 +828,7 @@ onMounted(async () => {
 // --- UI State: Filter Jenis ala home.vue ---
 const isJenisFilterOpen = ref(false)
 const jenisFilterOptions = [
-  { value: '', label: 'Semua Peserta' },
+  { value: '', label: 'Peserta' },
   { value: 'atlet', label: 'Atlet' },
   { value: 'pelatih', label: 'Pelatih' },
   { value: 'tenaga-pendukung', label: 'Tenaga Pendukung' },

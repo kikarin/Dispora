@@ -135,47 +135,51 @@
 
     <!-- Rencana Latihan -->
     <div>
-      <!-- FAB Create Rencana -->
-      <button
-        v-if="canManageRencana"
-        @click="router.push(`/program-latihan/${programId}/rencana/create`)"
-        class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-[#597BF9] text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-[#4c6ef5] transition-colors z-50 transform"
-      >
-        <svg
-          class="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M12 4v16m8-8H4"
-          />
-        </svg>
-      </button>
+<!-- FAB Actions -->
+<div
+  v-if="canManageRencana"
+  class="fixed bottom-24 left-1/2 -translate-x-1/2 flex items-center gap-4 z-50"
+>
+  <!-- FAB Create Rencana -->
+  <button
+    @click="router.push(`/program-latihan/${programId}/rencana/create`)"
+    class="bg-[#597BF9] text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-[#4c6ef5] transition-colors"
+  >
+    <svg
+      class="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M12 4v16m8-8H4"
+      />
+    </svg>
+  </button>
 
-      <!-- FAB Pemetaan Kelompok -->
-      <button
-        v-if="canManageRencana"
-        @click="navigateToPemetaanKelompok()"
-        class="fixed bottom-36 right-4 bg-green-500 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center hover:bg-green-600 transition-colors z-50 transform"
-      >
-        <svg
-          class="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-          />
-        </svg>
-      </button>
+  <!-- FAB Pemetaan Kelompok -->
+  <button
+    @click="navigateToPemetaanKelompok()"
+    class="bg-green-500 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-green-600 transition-colors"
+  >
+    <svg
+      class="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+      />
+    </svg>
+  </button>
+</div>
 
       <!-- Loading State -->
       <div v-if="loading" class="flex justify-center items-center py-8">
@@ -397,30 +401,6 @@
                       @click="
                         () => {
                           activeMenu = null
-                          editRencana(rencana.id)
-                        }
-                      "
-                      class="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700"
-                    >
-                      <svg
-                        class="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                        />
-                      </svg>
-                      <span class="font-medium">Edit</span>
-                    </button>
-                    <button
-                      @click="
-                        () => {
-                          activeMenu = null
                           navigateToPemetaanPeserta(rencana.id)
                         }
                       "
@@ -440,6 +420,30 @@
                         />
                       </svg>
                       <span class="font-medium">Pemetaan Peserta</span>
+                    </button>
+                    <button
+                      @click="
+                        () => {
+                          activeMenu = null
+                          editRencana(rencana.id)
+                        }
+                      "
+                      class="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                        />
+                      </svg>
+                      <span class="font-medium">Edit</span>
                     </button>
                     <button
                       @click="

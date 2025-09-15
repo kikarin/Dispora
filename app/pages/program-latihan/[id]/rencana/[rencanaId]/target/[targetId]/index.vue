@@ -191,7 +191,7 @@
                   />
                   <MinusIcon
                     v-else-if="peserta.trend === 'Stabil'"
-                    class="w-5 h-5 text-yellow-500"
+                    class="w-5 h-5 text-blue-500"
                   />
                   <ArrowTrendingDownIcon
                     v-else-if="

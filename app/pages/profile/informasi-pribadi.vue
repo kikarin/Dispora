@@ -25,8 +25,14 @@
       </div>
     </div>
 
+    <div v-if="loading" class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur">
+      <p class="text-sm text-gray-600">Memuat profil...</p>
+    </div>
+    <div v-else-if="error" class="bg-red-50 border border-red-200 text-red-700 rounded-2xl p-4">
+      {{ error }}
+    </div>
     <!-- Content -->
-    <div class="space-y-6">
+    <div v-else class="space-y-6">
       <!-- Information Section -->
       <div class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur">
         <h2 class="text-lg font-bold text-gray-800 mb-4">Information</h2>
@@ -117,15 +123,21 @@
           </div>
           <div class="flex justify-between items-start">
             <span class="text-sm font-medium text-gray-600">Foto</span>
-            <span class="text-sm text-gray-800 text-right">{{
-              profileData.foto || 'Tidak ada foto'
-            }}</span>
+            <div v-if="profileData.foto" class="flex items-center gap-2">
+              <button
+                @click="openImageModal(profileData.foto, 'Foto Profil')"
+                class="px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600"
+              >
+                Lihat
+              </button>
+            </div>
+            <span v-else class="text-sm text-gray-800 text-right">Tidak ada foto</span>
           </div>
         </div>
       </div>
 
       <!-- Data Ibu Kandung Section -->
-      <div class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur">
+      <div v-if="showParentSections" class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur">
         <h2 class="text-lg font-bold text-gray-800 mb-4">Data Ibu Kandung</h2>
         <div class="space-y-3">
           <div class="flex justify-between items-start">
@@ -174,7 +186,7 @@
       </div>
 
       <!-- Data Ayah Kandung Section -->
-      <div class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur">
+      <div v-if="showParentSections" class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur">
         <h2 class="text-lg font-bold text-gray-800 mb-4">Data Ayah Kandung</h2>
         <div class="space-y-3">
           <div class="flex justify-between items-start">
@@ -225,7 +237,7 @@
       </div>
 
       <!-- Data Wali Section -->
-      <div class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur">
+      <div v-if="showParentSections" class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur">
         <h2 class="text-lg font-bold text-gray-800 mb-4">Data Wali</h2>
         <div class="space-y-3">
           <div class="flex justify-between items-start">
@@ -311,9 +323,15 @@
               </div>
               <div class="flex justify-between items-start">
                 <span class="text-xs text-gray-500">File</span>
-                <span class="text-sm text-gray-800">{{
-                  sertifikat.file || '-'
-                }}</span>
+                <div v-if="sertifikat.file" class="flex items-center gap-2">
+                  <button
+                    @click="openFileModal(sertifikat.file, `Sertifikat: ${sertifikat.nama}`)"
+                    class="px-2 py-1 bg-green-500 text-white text-xs rounded hover:bg-green-600"
+                  >
+                    Lihat
+                  </button>
+                </div>
+                <span v-else class="text-sm text-gray-800">-</span>
               </div>
             </div>
           </div>
@@ -407,9 +425,15 @@
                   </div>
                   <div class="flex justify-between items-start">
                     <span class="text-xs text-gray-500">File</span>
-                    <span class="text-sm text-gray-800">{{
-                      dokumen.file || '-'
-                    }}</span>
+                    <div v-if="dokumen.file" class="flex items-center gap-2">
+                      <button
+                        @click="openFileModal(dokumen.file, `Dokumen: ${dokumen.jenis}`)"
+                        class="px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600"
+                      >
+                        Lihat
+                      </button>
+                    </div>
+                    <span v-else class="text-sm text-gray-800">-</span>
                   </div>
                 </div>
               </div>
@@ -420,9 +444,7 @@
 
       <!-- Data Kesehatan Section -->
       <div class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur">
-        <h2 class="text-lg font-bold text-gray-800 mb-4">
-          Data Kesehatan Atlet
-        </h2>
+        <h2 class="text-lg font-bold text-gray-800 mb-4">Data Kesehatan</h2>
         <div class="space-y-3">
           <div class="flex justify-between items-start">
             <span class="text-sm font-medium text-gray-600"
@@ -474,12 +496,30 @@
     <div class="h-20"></div>
 
     <!-- Bottom Navigation -->
+    
+    <!-- Modals -->
+    <ImageModal
+      :is-open="imageModal.isOpen"
+      :image-url="imageModal.url"
+      :title="imageModal.title"
+      @close="closeImageModal"
+    />
+    
+    <PdfModal
+      :is-open="pdfModal.isOpen"
+      :pdf-url="pdfModal.url"
+      :title="pdfModal.title"
+      @close="closePdfModal"
+    />
   </PageLayout>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import PageLayout from '~/components/PageLayout.vue'
+import ImageModal from '~/components/ImageModal.vue'
+import PdfModal from '~/components/PdfModal.vue'
+import { useProfil } from '../../../composables/useProfil'
 
 // Profile Data
 const profileData = ref({
@@ -563,5 +603,147 @@ const profileData = ref({
     riwayatPenyakit: '-',
     alergi: '-',
   },
+})
+
+const { profil, jenis, loading, error, fetchProfil } = useProfil()
+const showParentSections = computed(
+  () => (jenis.value || (profil.value as any)?.jenis) === 'atlet'
+)
+
+// Modal states
+const imageModal = ref({
+  isOpen: false,
+  url: '',
+  title: ''
+})
+
+const pdfModal = ref({
+  isOpen: false,
+  url: '',
+  title: ''
+})
+
+// Modal functions
+const openImageModal = (url: string, title: string) => {
+  imageModal.value = {
+    isOpen: true,
+    url,
+    title
+  }
+}
+
+const closeImageModal = () => {
+  imageModal.value.isOpen = false
+}
+
+const openPdfModal = (url: string, title: string) => {
+  pdfModal.value = {
+    isOpen: true,
+    url,
+    title
+  }
+}
+
+const closePdfModal = () => {
+  pdfModal.value.isOpen = false
+}
+
+// Utility function to detect file type
+const getFileType = (url: string): 'image' | 'pdf' | 'unknown' => {
+  if (!url) return 'unknown'
+  
+  const extension = url.split('.').pop()?.toLowerCase()
+  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg']
+  const pdfExtensions = ['pdf']
+  
+  if (imageExtensions.includes(extension || '')) return 'image'
+  if (pdfExtensions.includes(extension || '')) return 'pdf'
+  
+  // Check by URL pattern or content-type hints
+  if (url.includes('/media/') && (url.includes('jpg') || url.includes('png') || url.includes('webp'))) {
+    return 'image'
+  }
+  if (url.includes('.pdf') || url.includes('pdf')) {
+    return 'pdf'
+  }
+  
+  return 'unknown'
+}
+
+// Smart file opener - detects file type and opens appropriate modal
+const openFileModal = (url: string, title: string) => {
+  const fileType = getFileType(url)
+  
+  if (fileType === 'image') {
+    openImageModal(url, title)
+  } else if (fileType === 'pdf') {
+    openPdfModal(url, title)
+  } else {
+    // Default to PDF modal for unknown types
+    openPdfModal(url, title)
+  }
+}
+
+onMounted(async () => {
+  try {
+    await fetchProfil({ tipe: 'me' })
+    if (profil.value) {
+      profileData.value = {
+        nik: profil.value.nik || '-',
+        nama: profil.value.nama || '-',
+        jenisKelamin: profil.value.jenisKelamin || '-',
+        tempatLahir: profil.value.tempatLahir || '-',
+        tanggalLahir: profil.value.tanggalLahir || '-',
+        tanggalBergabung: profil.value.tanggalBergabung || '-',
+        lamaBergabung: profil.value.lamaBergabung || '-',
+        alamat: profil.value.alamat || '-',
+        kecamatan: profil.value.kecamatan || '-',
+        kelurahan: profil.value.kelurahan || '-',
+        noHP: profil.value.noHP || '-',
+        email: profil.value.email || '-',
+        status: profil.value.status || '-',
+        foto: (profil.value as any).foto || null,
+        ibu:
+          (profil.value as any).ibu || {
+            nama: null,
+            tempatLahir: null,
+            tanggalLahir: null,
+            noHP: null,
+            pekerjaan: null,
+            alamat: null,
+          },
+        ayah:
+          (profil.value as any).ayah || {
+            nama: null,
+            tempatLahir: null,
+            tanggalLahir: null,
+            noHP: null,
+            pekerjaan: null,
+            alamat: null,
+          },
+        wali:
+          (profil.value as any).wali || {
+            nama: null,
+            tempatLahir: null,
+            tanggalLahir: null,
+            noHP: null,
+            pekerjaan: null,
+            alamat: null,
+          },
+        sertifikat: (profil.value as any).sertifikat || [],
+        prestasi: (profil.value as any).prestasi || [],
+        dokumen: (profil.value as any).dokumen || [],
+        kesehatan:
+          (profil.value as any).kesehatan || {
+            tinggiBadan: null,
+            beratBadan: null,
+            penglihatan: null,
+            pendengaran: null,
+            riwayatPenyakit: null,
+            alergi: null,
+          },
+      } as any
+    }
+  } catch {}
 })
 </script>

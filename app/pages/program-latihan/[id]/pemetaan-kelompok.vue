@@ -118,13 +118,6 @@
                 </svg>
                 <span>{{ rencana.lokasi_latihan }}</span>
               </div>
-              <div class="flex items-center gap-4 text-xs text-gray-500">
-                <span>{{ rencana.jumlah_atlet }} Atlet</span>
-                <span>{{ rencana.jumlah_pelatih }} Pelatih</span>
-                <span
-                  >{{ rencana.jumlah_tenaga_pendukung }} Tenaga Pendukung</span
-                >
-              </div>
             </div>
           </div>
 
@@ -174,7 +167,9 @@
                       :data-dropdown-trigger="`trend-${rencana.rencana_id}-${target.target_latihan_id}`"
                       class="relative cursor-pointer rounded-lg bg-gray-50 px-3 py-2 pr-8 text-sm border border-gray-300 hover:border-[#597BF9] focus:border-[#597BF9]"
                     >
-                      <span>{{ getTrendLabel(target.trend) }}</span>
+<span :class="getTrendColor(target.trend)">
+  {{ getTrendLabel(target.trend) }}
+</span>
                       <div
                         class="pointer-events-none absolute inset-y-0 right-2 flex items-center"
                       >
@@ -216,23 +211,25 @@
                           "
                         >
                           <div class="p-1">
-                            <div
-                              v-for="trend in trendOptions"
-                              :key="trend.value"
-                              @click="
-                                selectTrend(
-                                  rencana.rencana_id,
-                                  target.target_latihan_id,
-                                  trend.value
-                                )
-                              "
-                              class="px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer rounded"
-                              :class="{
-                                'bg-gray-100': target.trend === trend.value,
-                              }"
-                            >
-                              {{ trend.label }}
-                            </div>
+<div
+  v-for="trend in trendOptions"
+  :key="trend.value"
+  @click="
+    selectTrend(
+      rencana.rencana_id,
+      target.target_latihan_id,
+      trend.value
+    )
+  "
+  class="px-3 py-2 text-sm hover:bg-gray-100 cursor-pointer rounded"
+  :class="[
+    getTrendColor(trend.value),
+    { 'bg-gray-100': target.trend === trend.value }
+  ]"
+>
+  {{ trend.label }}
+</div>
+
                           </div>
                         </div>
                       </transition>
@@ -310,7 +307,7 @@
             ></div>
             Menyimpan...
           </span>
-          <span v-else>Simpan Perubahan</span>
+          <span v-else>Simpan</span>
         </button>
       </div>
     </div>
@@ -343,6 +340,20 @@ const trendOptions = [
   { value: 'stabil', label: 'Stabil' },
   { value: 'turun', label: 'Turun' },
 ]
+
+const getTrendColor = (trend: string) => {
+  switch (trend) {
+    case 'naik':
+      return 'text-green-600 font-medium'
+    case 'stabil':
+      return 'text-blue-600 font-medium'
+    case 'turun':
+      return 'text-red-600 font-medium'
+    default:
+      return 'text-gray-600'
+  }
+}
+
 
 // Methods
 const formatDate = (dateString: string) => {
