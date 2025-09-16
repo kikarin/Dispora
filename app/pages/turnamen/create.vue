@@ -21,9 +21,7 @@
             />
           </svg>
         </button>
-        <h1 class="text-xl font-semibold text-gray-800">
-          Tambah Turnamen
-        </h1>
+        <h1 class="text-xl font-semibold text-gray-800">Tambah Turnamen</h1>
       </div>
     </div>
 

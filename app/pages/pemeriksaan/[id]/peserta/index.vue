@@ -148,9 +148,7 @@
                 <span
                   v-if="peserta.statusPemeriksaan"
                   class="inline-flex items-center py-1 rounded-full text-xs font-medium"
-                  :class="
-                    getStatusPemeriksaanClass(peserta.statusPemeriksaan)
-                  "
+                  :class="getStatusPemeriksaanClass(peserta.statusPemeriksaan)"
                 >
                   {{ peserta.statusPemeriksaan }}
                 </span>
@@ -253,9 +251,7 @@
                 <span
                   v-if="peserta.statusPemeriksaan"
                   class="inline-flex items-center py-1 rounded-full text-xs font-medium"
-                  :class="
-                    getStatusPemeriksaanClass(peserta.statusPemeriksaan)
-                  "
+                  :class="getStatusPemeriksaanClass(peserta.statusPemeriksaan)"
                 >
                   {{ peserta.statusPemeriksaan }}
                 </span>
@@ -358,9 +354,7 @@
                 <span
                   v-if="peserta.statusPemeriksaan"
                   class="inline-flex items-center py-1 rounded-full text-xs font-medium"
-                  :class="
-                    getStatusPemeriksaanClass(peserta.statusPemeriksaan)
-                  "
+                  :class="getStatusPemeriksaanClass(peserta.statusPemeriksaan)"
                 >
                   {{ peserta.statusPemeriksaan }}
                 </span>

@@ -21,7 +21,9 @@
             />
           </svg>
         </button>
-        <h1 class="text-xl font-semibold text-gray-800">Pemetaan Peserta Pemeriksaan</h1>
+        <h1 class="text-xl font-semibold text-gray-800">
+          Pemetaan Peserta Pemeriksaan
+        </h1>
       </div>
     </div>
 
@@ -166,11 +168,8 @@
                 {{ it.peserta.nama }}
               </h3>
               <div class="text-sm text-gray-500">
-                {{ it.peserta.jenis_kelamin }} •
-                {{ it.peserta.usia }} tahun
-                <span v-if="it.peserta.posisi"
-                  >• {{ it.peserta.posisi }}</span
-                >
+                {{ it.peserta.jenis_kelamin }} • {{ it.peserta.usia }} tahun
+                <span v-if="it.peserta.posisi">• {{ it.peserta.posisi }}</span>
                 <span v-if="it.peserta.jenis_pelatih"
                   >• {{ it.peserta.jenis_pelatih }}</span
                 >
@@ -218,16 +217,15 @@
                   </label>
                   <div class="relative">
                     <div
-                      @click="
-                        toggleTrendDropdown(
-                          it.id,
-                          p.id
-                        )
-                      "
+                      @click="toggleTrendDropdown(it.id, p.id)"
                       :data-dropdown-trigger="`trend-${it.id}-${p.id}`"
                       class="relative cursor-pointer rounded-lg bg-gray-50 px-3 py-2 pr-8 text-sm border border-gray-300 hover:border-[#597BF9] focus:border-[#597BF9]"
                     >
-                      <span :class="getTrendColor(getBindingNilai(it.id, p.id).trend)">
+                      <span
+                        :class="
+                          getTrendColor(getBindingNilai(it.id, p.id).trend)
+                        "
+                      >
                         {{ getTrendLabel(getBindingNilai(it.id, p.id).trend) }}
                       </span>
                       <div
@@ -258,33 +256,23 @@
                         leave-to-class="transform scale-95 opacity-0"
                       >
                         <div
-                          v-if="
-                            activeTrendDropdown ===
-                            `${it.id}-${p.id}`
-                          "
+                          v-if="activeTrendDropdown === `${it.id}-${p.id}`"
                           class="fixed rounded-lg bg-white shadow-lg border border-gray-200 z-[99999] w-32"
-                          :style="
-                            getTrendDropdownPosition(
-                              it.id,
-                              p.id
-                            )
-                          "
+                          :style="getTrendDropdownPosition(it.id, p.id)"
                         >
                           <div class="p-1">
                             <div
                               v-for="trend in trendOptions"
                               :key="trend.value"
-                              @click="
-                                selectTrend(
-                                  it.id,
-                                  p.id,
-                                  trend.value
-                                )
-                              "
+                              @click="selectTrend(it.id, p.id, trend.value)"
                               class="px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer rounded"
                               :class="[
                                 getTrendColor(trend.value),
-                                { 'bg-gray-100': getBindingNilai(it.id, p.id).trend === trend.value }
+                                {
+                                  'bg-gray-100':
+                                    getBindingNilai(it.id, p.id).trend ===
+                                    trend.value,
+                                },
                               ]"
                             >
                               {{ trend.label }}
@@ -412,8 +400,8 @@ const getTrendLabel = (trend: string) => {
 // Computed
 const selectedJenisPesertaLabel = computed(() => {
   return (
-    jenisPesertaOptions.find((opt) => opt.value === jenis.value)
-      ?.label || 'Atlet'
+    jenisPesertaOptions.find((opt) => opt.value === jenis.value)?.label ||
+    'Atlet'
   )
 })
 

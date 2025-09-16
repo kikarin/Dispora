@@ -161,7 +161,10 @@ export const useTurnamenForm = () => {
   }
 
   // Fetch atlet by cabor kategori
-  const fetchAtletByCaborKategori = async (caborKategoriId: number, search = '') => {
+  const fetchAtletByCaborKategori = async (
+    caborKategoriId: number,
+    search = ''
+  ) => {
     try {
       loading.value = true
       error.value = null
@@ -191,7 +194,10 @@ export const useTurnamenForm = () => {
   }
 
   // Fetch pelatih by cabor kategori
-  const fetchPelatihByCaborKategori = async (caborKategoriId: number, search = '') => {
+  const fetchPelatihByCaborKategori = async (
+    caborKategoriId: number,
+    search = ''
+  ) => {
     try {
       loading.value = true
       error.value = null
@@ -221,7 +227,10 @@ export const useTurnamenForm = () => {
   }
 
   // Fetch tenaga pendukung by cabor kategori
-  const fetchTenagaPendukungByCaborKategori = async (caborKategoriId: number, search = '') => {
+  const fetchTenagaPendukungByCaborKategori = async (
+    caborKategoriId: number,
+    search = ''
+  ) => {
     try {
       loading.value = true
       error.value = null

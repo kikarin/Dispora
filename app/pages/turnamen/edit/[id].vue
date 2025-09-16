@@ -21,9 +21,7 @@
             />
           </svg>
         </button>
-        <h1 class="text-xl font-semibold text-gray-800">
-          Edit Turnamen
-        </h1>
+        <h1 class="text-xl font-semibold text-gray-800">Edit Turnamen</h1>
       </div>
     </div>
 
@@ -118,12 +116,7 @@ import { useTurnamen } from '../../../../composables/useTurnamen'
 
 const router = useRouter()
 const route = useRoute()
-const {
-  loading,
-  error,
-  fetchTurnamenDetail,
-  updateTurnamen,
-} = useTurnamen()
+const { loading, error, fetchTurnamenDetail, updateTurnamen } = useTurnamen()
 
 const turnamenData = ref<any>(null)
 const submitting = ref(false)
@@ -144,8 +137,10 @@ const formData = computed(() => {
     hasil: turnamenData.value.hasil || '',
     evaluasi: turnamenData.value.evaluasi || '',
     atlet_ids: turnamenData.value.peserta?.atlet?.map((a: any) => a.id) || [],
-    pelatih_ids: turnamenData.value.peserta?.pelatih?.map((p: any) => p.id) || [],
-    tenaga_pendukung_ids: turnamenData.value.peserta?.tenaga_pendukung?.map((t: any) => t.id) || [],
+    pelatih_ids:
+      turnamenData.value.peserta?.pelatih?.map((p: any) => p.id) || [],
+    tenaga_pendukung_ids:
+      turnamenData.value.peserta?.tenaga_pendukung?.map((t: any) => t.id) || [],
   }
 })
 

@@ -539,7 +539,11 @@
 
     <!-- Click outside handler for dropdowns -->
     <div
-      v-if="isCaborKategoriDropdownOpen || isTingkatDropdownOpen || isJuaraDropdownOpen"
+      v-if="
+        isCaborKategoriDropdownOpen ||
+        isTingkatDropdownOpen ||
+        isJuaraDropdownOpen
+      "
       @click="closeAllDropdowns"
       class="fixed inset-0 z-30"
     ></div>
@@ -635,14 +639,18 @@ const isFormValid = computed(() => {
 
 // Selected options for dropdowns
 const selectedCaborKategori = computed(() => {
-  const item = caborKategoriList.value.find((c) => c.id === formData.value.cabor_kategori_id)
+  const item = caborKategoriList.value.find(
+    (c) => c.id === formData.value.cabor_kategori_id
+  )
   return item
     ? { value: item.id, label: `${item.cabor.nama} - ${item.nama}` }
     : { value: null, label: 'Pilih Cabor Kategori' }
 })
 
 const selectedTingkat = computed(() => {
-  const tingkat = tingkatList.value.find((t) => t.id === formData.value.tingkat_id)
+  const tingkat = tingkatList.value.find(
+    (t) => t.id === formData.value.tingkat_id
+  )
   return tingkat
     ? { value: tingkat.id, label: tingkat.nama }
     : { value: null, label: 'Pilih Tingkat' }
@@ -706,7 +714,9 @@ const selectJuara = (juara: any) => {
 
 // Position calculation functions
 const getCaborKategoriDropdownPosition = () => {
-  const trigger = document.querySelector('[data-dropdown-trigger="cabor-kategori"]')
+  const trigger = document.querySelector(
+    '[data-dropdown-trigger="cabor-kategori"]'
+  )
   if (trigger) {
     const rect = trigger.getBoundingClientRect()
     return {
@@ -793,7 +803,8 @@ const validateForm = (): boolean => {
     const endDate = new Date(formData.value.tanggal_selesai)
 
     if (startDate > endDate) {
-      errors.value.tanggal_selesai = 'Tanggal selesai harus setelah atau sama dengan tanggal mulai'
+      errors.value.tanggal_selesai =
+        'Tanggal selesai harus setelah atau sama dengan tanggal mulai'
       isValid = false
     }
   }

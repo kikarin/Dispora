@@ -5,12 +5,16 @@
     >
       <!-- Header -->
       <div>
-        <h1 class="absolute top-16 text-[30px] font-bold leading-tight text-gray-900">
+        <h1
+          class="absolute top-16 text-[30px] font-bold leading-tight text-gray-900"
+        >
           Dispora
         </h1>
-<p class="absolute top-26 mt-1 w-full max-w-xs break-words text-[14px] text-gray-500">
-  Silahkan masukkan email dan password Anda untuk melanjutkan
-</p>
+        <p
+          class="absolute top-26 mt-1 w-full max-w-xs break-words text-[14px] text-gray-500"
+        >
+          Silahkan masukkan email dan password Anda untuk melanjutkan
+        </p>
 
         <!-- Email -->
         <div class="mt-20 space-y-2">
@@ -132,7 +136,7 @@
           <span v-else>Log in</span>
         </button>
       </div>
-<div class="relative mt-4 min-h-[60px]">
+      <div class="relative mt-4 min-h-[60px]">
         <!-- Error Message (Improved) -->
         <Transition
           enter-active-class="duration-200 ease-out"
@@ -233,7 +237,7 @@
             </div>
           </div>
         </Transition>
-</div>
+      </div>
 
       <!-- Bottom section -->
       <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[450px]">
@@ -344,16 +348,14 @@ const handleLogin = async () => {
       password: password.value,
     })
 
-
     if (result.success) {
-  successMessage.value = result.message || 'Login berhasil!'
-  isDisabledAfterSuccess.value = true  
+      successMessage.value = result.message || 'Login berhasil!'
+      isDisabledAfterSuccess.value = true
 
-  setTimeout(() => {
-    router.push('/home')
-  }, 1000)
-}
-
+      setTimeout(() => {
+        router.push('/home')
+      }, 1000)
+    }
   } catch (error: any) {
     console.error('Login error:', error)
 

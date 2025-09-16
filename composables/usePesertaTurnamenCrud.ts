@@ -87,25 +87,30 @@ export const usePesertaTurnamenCrud = (turnamenId: number) => {
       }
     } catch (err: any) {
       console.error('Error fetching peserta turnamen:', err)
-      
+
       if (err.status === 401) {
         error.value = 'Sesi Anda telah berakhir. Silakan login kembali.'
         if (typeof window !== 'undefined') {
           window.location.href = '/login'
         }
       } else if (err.status === 403) {
-        error.value = 'Anda tidak memiliki izin untuk mengakses peserta turnamen.'
+        error.value =
+          'Anda tidak memiliki izin untuk mengakses peserta turnamen.'
       } else if (err.status === 404) {
         error.value = 'Turnamen tidak ditemukan.'
       } else {
-        error.value = err.data?.message || 'Gagal mengambil data peserta turnamen'
+        error.value =
+          err.data?.message || 'Gagal mengambil data peserta turnamen'
       }
     } finally {
       loading.value = false
     }
   }
 
-  const addPesertaToTurnamen = async (pesertaId: number, type: 'atlet' | 'pelatih' | 'tenaga-pendukung') => {
+  const addPesertaToTurnamen = async (
+    pesertaId: number,
+    type: 'atlet' | 'pelatih' | 'tenaga-pendukung'
+  ) => {
     try {
       loading.value = true
       error.value = null
@@ -133,14 +138,15 @@ export const usePesertaTurnamenCrud = (turnamenId: number) => {
       }
     } catch (err: any) {
       console.error('Error adding peserta to turnamen:', err)
-      
+
       if (err.status === 401) {
         error.value = 'Sesi Anda telah berakhir. Silakan login kembali.'
         if (typeof window !== 'undefined') {
           window.location.href = '/login'
         }
       } else if (err.status === 403) {
-        error.value = 'Anda tidak memiliki izin untuk menambahkan peserta turnamen.'
+        error.value =
+          'Anda tidak memiliki izin untuk menambahkan peserta turnamen.'
       } else if (err.status === 404) {
         error.value = 'Turnamen atau peserta tidak ditemukan.'
       } else if (err.status === 422) {
@@ -154,7 +160,10 @@ export const usePesertaTurnamenCrud = (turnamenId: number) => {
     }
   }
 
-  const removePesertaFromTurnamen = async (pesertaId: number, type: 'atlet' | 'pelatih' | 'tenaga-pendukung') => {
+  const removePesertaFromTurnamen = async (
+    pesertaId: number,
+    type: 'atlet' | 'pelatih' | 'tenaga-pendukung'
+  ) => {
     try {
       loading.value = true
       error.value = null
@@ -181,14 +190,15 @@ export const usePesertaTurnamenCrud = (turnamenId: number) => {
       }
     } catch (err: any) {
       console.error('Error removing peserta from turnamen:', err)
-      
+
       if (err.status === 401) {
         error.value = 'Sesi Anda telah berakhir. Silakan login kembali.'
         if (typeof window !== 'undefined') {
           window.location.href = '/login'
         }
       } else if (err.status === 403) {
-        error.value = 'Anda tidak memiliki izin untuk menghapus peserta turnamen.'
+        error.value =
+          'Anda tidak memiliki izin untuk menghapus peserta turnamen.'
       } else if (err.status === 404) {
         error.value = 'Peserta turnamen tidak ditemukan.'
       } else {
@@ -200,7 +210,10 @@ export const usePesertaTurnamenCrud = (turnamenId: number) => {
     }
   }
 
-  const fetchAvailablePeserta = async (type: 'atlet' | 'pelatih' | 'tenaga-pendukung', search = '') => {
+  const fetchAvailablePeserta = async (
+    type: 'atlet' | 'pelatih' | 'tenaga-pendukung',
+    search = ''
+  ) => {
     try {
       availableLoading.value = true
       availableError.value = null
@@ -223,7 +236,8 @@ export const usePesertaTurnamenCrud = (turnamenId: number) => {
       }
     } catch (err: any) {
       console.error('Error fetching available peserta:', err)
-      availableError.value = err.data?.message || 'Gagal mengambil data peserta tersedia'
+      availableError.value =
+        err.data?.message || 'Gagal mengambil data peserta tersedia'
       return []
     } finally {
       availableLoading.value = false

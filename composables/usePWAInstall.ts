@@ -43,13 +43,24 @@ export function usePWAInstall() {
   )
 
   async function install() {
+    console.log('Install button clicked')
+    console.log('deferredPrompt:', deferredPrompt.value)
+    console.log('canInstall:', canInstall.value)
+
     if (deferredPrompt.value) {
-      deferredPrompt.value.prompt()
-      const choice = await deferredPrompt.value.userChoice
-      if (choice.outcome === 'accepted') {
-        isInstalled.value = true
-        showPrompt.value = false
+      try {
+        deferredPrompt.value.prompt()
+        const choice = await deferredPrompt.value.userChoice
+        console.log('User choice:', choice)
+        if (choice.outcome === 'accepted') {
+          isInstalled.value = true
+          showPrompt.value = false
+        }
+      } catch (error) {
+        console.error('Install error:', error)
       }
+    } else {
+      console.log('No deferred prompt available')
     }
   }
 
@@ -58,6 +69,7 @@ export function usePWAInstall() {
   }
 
   const handler = (e: Event) => {
+    console.log('beforeinstallprompt event triggered')
     e.preventDefault()
     deferredPrompt.value = e as BeforeInstallPromptEvent
     showPrompt.value = true
@@ -83,5 +95,13 @@ export function usePWAInstall() {
     }
   })
 
-  return { canInstall, isIOS, isAndroid, isInStandalone, showPrompt, install, hide }
+  return {
+    canInstall,
+    isIOS,
+    isAndroid,
+    isInStandalone,
+    showPrompt,
+    install,
+    hide,
+  }
 }

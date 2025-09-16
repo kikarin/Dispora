@@ -74,7 +74,9 @@
     <div v-else>
       <!-- Filter Bar (search + jenis dropdown) -->
       <div class="mb-6 flex items-center gap-2">
-        <div class="flex items-center gap-2 rounded-2xl bg-white/80 px-3 py-2 backdrop-blur">
+        <div
+          class="flex items-center gap-2 rounded-2xl bg-white/80 px-3 py-2 backdrop-blur"
+        >
           <svg
             class="h-5 w-5 text-gray-400"
             fill="none"
@@ -102,7 +104,9 @@
             class="relative cursor-pointer rounded-xl bg-gradient-to-r from-[#EBEFFE] to-[#E0E7FF] px-4 py-3 pr-8 text-sm font-semibold text-[#597BF9] border-2 border-transparent hover:border-[#597BF9]/30 focus:border-[#597BF9] hover:shadow-md"
           >
             <span>{{ selectedJenisLabel }}</span>
-            <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+            <div
+              class="pointer-events-none absolute inset-y-0 right-3 flex items-center"
+            >
               <svg
                 class="h-4 w-4 text-[#597BF9] transition-transform duration-200"
                 :class="{ 'rotate-180': isJenisOpen }"
@@ -111,7 +115,11 @@
                 stroke-width="2"
                 viewBox="0 0 24 24"
               >
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
               </svg>
             </div>
           </div>
@@ -136,7 +144,8 @@
                     @click="selectJenis(opt.value)"
                     class="group flex items-center w-full px-3 py-2.5 text-sm font-medium text-gray-700 rounded-lg hover:bg-gradient-to-r hover:from-[#597BF9]/10 hover:to-[#4c6ef5]/10 hover:text-[#597BF9] cursor-pointer"
                     :class="{
-                      'bg-gradient-to-r from-[#597BF9]/20 to-[#4c6ef5]/20 text-[#597BF9]': activeTab === opt.value,
+                      'bg-gradient-to-r from-[#597BF9]/20 to-[#4c6ef5]/20 text-[#597BF9]':
+                        activeTab === opt.value,
                     }"
                   >
                     <span>{{ opt.label }}</span>
@@ -203,8 +212,12 @@
               <div class="flex items-center gap-4 mt-1 text-xs text-gray-600">
                 <span>{{ peserta.jenisKelamin }}</span>
                 <span v-if="peserta.posisi">{{ peserta.posisi }}</span>
-                <span v-else-if="peserta.jenisPelatih">{{ peserta.jenisPelatih }}</span>
-                <span v-else-if="peserta.jenisTenagaPendukung">{{ peserta.jenisTenagaPendukung }}</span>
+                <span v-else-if="peserta.jenisPelatih">{{
+                  peserta.jenisPelatih
+                }}</span>
+                <span v-else-if="peserta.jenisTenagaPendukung">{{
+                  peserta.jenisTenagaPendukung
+                }}</span>
               </div>
             </div>
 
@@ -289,7 +302,9 @@
       class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
       @click.self="showAddPesertaModal = false"
     >
-      <div class="bg-white rounded-2xl w-full max-w-md max-h-[80vh] overflow-hidden">
+      <div
+        class="bg-white rounded-2xl w-full max-w-md max-h-[80vh] overflow-hidden"
+      >
         <!-- Modal Header -->
         <div class="p-6 border-b border-gray-200">
           <div class="flex items-center justify-between">
@@ -330,8 +345,13 @@
           </div>
 
           <!-- Loading State -->
-          <div v-if="availableLoading" class="flex justify-center items-center py-8">
-            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#597BF9]"></div>
+          <div
+            v-if="availableLoading"
+            class="flex justify-center items-center py-8"
+          >
+            <div
+              class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#597BF9]"
+            ></div>
           </div>
 
           <!-- Error State -->
@@ -405,7 +425,10 @@
           </div>
 
           <!-- Empty State -->
-          <div v-if="getAvailablePesertaList().length === 0" class="text-center py-8">
+          <div
+            v-if="getAvailablePesertaList().length === 0"
+            class="text-center py-8"
+          >
             <div class="text-gray-400 mb-2">
               <svg
                 class="mx-auto h-8 w-8"
@@ -489,7 +512,9 @@ const selectJenis = async (val: 'atlet' | 'pelatih' | 'tenaga-pendukung') => {
   if (showAddPesertaModal.value) await loadAvailablePeserta()
 }
 const getJenisDropdownPosition = () => {
-  const el = document.querySelector('[data-dropdown-trigger="jenis-turnamen"]') as HTMLElement | null
+  const el = document.querySelector(
+    '[data-dropdown-trigger="jenis-turnamen"]'
+  ) as HTMLElement | null
   if (!el) return { top: '100px', left: '20px' }
   const r = el.getBoundingClientRect()
   return { top: `${r.bottom + 8}px`, left: `${r.left}px` }

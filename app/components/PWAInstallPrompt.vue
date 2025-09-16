@@ -49,7 +49,8 @@
 import { computed } from 'vue'
 import { usePWAInstall } from '../../composables/usePWAInstall'
 
-const { canInstall, isIOS, isAndroid, showPrompt, install, hide } = usePWAInstall()
+const { canInstall, isIOS, isAndroid, showPrompt, install, hide } =
+  usePWAInstall()
 const show = computed(() => showPrompt.value && canInstall.value)
 </script>
 

@@ -167,9 +167,9 @@
                       :data-dropdown-trigger="`trend-${rencana.rencana_id}-${target.target_latihan_id}`"
                       class="relative cursor-pointer rounded-lg bg-gray-50 px-3 py-2 pr-8 text-sm border border-gray-300 hover:border-[#597BF9] focus:border-[#597BF9]"
                     >
-<span :class="getTrendColor(target.trend)">
-  {{ getTrendLabel(target.trend) }}
-</span>
+                      <span :class="getTrendColor(target.trend)">
+                        {{ getTrendLabel(target.trend) }}
+                      </span>
                       <div
                         class="pointer-events-none absolute inset-y-0 right-2 flex items-center"
                       >
@@ -211,25 +211,24 @@
                           "
                         >
                           <div class="p-1">
-<div
-  v-for="trend in trendOptions"
-  :key="trend.value"
-  @click="
-    selectTrend(
-      rencana.rencana_id,
-      target.target_latihan_id,
-      trend.value
-    )
-  "
-  class="px-3 py-2 text-sm hover:bg-gray-100 cursor-pointer rounded"
-  :class="[
-    getTrendColor(trend.value),
-    { 'bg-gray-100': target.trend === trend.value }
-  ]"
->
-  {{ trend.label }}
-</div>
-
+                            <div
+                              v-for="trend in trendOptions"
+                              :key="trend.value"
+                              @click="
+                                selectTrend(
+                                  rencana.rencana_id,
+                                  target.target_latihan_id,
+                                  trend.value
+                                )
+                              "
+                              class="px-3 py-2 text-sm hover:bg-gray-100 cursor-pointer rounded"
+                              :class="[
+                                getTrendColor(trend.value),
+                                { 'bg-gray-100': target.trend === trend.value },
+                              ]"
+                            >
+                              {{ trend.label }}
+                            </div>
                           </div>
                         </div>
                       </transition>
@@ -353,7 +352,6 @@ const getTrendColor = (trend: string) => {
       return 'text-gray-600'
   }
 }
-
 
 // Methods
 const formatDate = (dateString: string) => {

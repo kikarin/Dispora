@@ -95,7 +95,9 @@ export const useProfil = () => {
   const loading = ref(false)
   const error = ref<string | null>(null)
 
-  const fetchProfil = async (opts?: { tipe?: 'me' | 'atlet' | 'pelatih' | 'tenaga-pendukung' }) => {
+  const fetchProfil = async (opts?: {
+    tipe?: 'me' | 'atlet' | 'pelatih' | 'tenaga-pendukung'
+  }) => {
     if (!isAuthenticated.value || !token.value) {
       error.value = 'Anda harus login terlebih dahulu.'
       if (typeof window !== 'undefined') {
@@ -144,7 +146,10 @@ export const useProfil = () => {
           window.location.href = '/login'
         }, 1500)
       }
-      error.value = err?.data?.message || err?.message || 'Terjadi kesalahan saat memuat profil'
+      error.value =
+        err?.data?.message ||
+        err?.message ||
+        'Terjadi kesalahan saat memuat profil'
       throw err
     } finally {
       loading.value = false
@@ -159,5 +164,3 @@ export const useProfil = () => {
     fetchProfil,
   }
 }
-
-

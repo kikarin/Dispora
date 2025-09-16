@@ -25,10 +25,16 @@
       </div>
     </div>
 
-    <div v-if="loading" class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur">
+    <div
+      v-if="loading"
+      class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur"
+    >
       <p class="text-sm text-gray-600">Memuat profil...</p>
     </div>
-    <div v-else-if="error" class="bg-red-50 border border-red-200 text-red-700 rounded-2xl p-4">
+    <div
+      v-else-if="error"
+      class="bg-red-50 border border-red-200 text-red-700 rounded-2xl p-4"
+    >
       {{ error }}
     </div>
     <!-- Content -->
@@ -131,13 +137,18 @@
                 Lihat
               </button>
             </div>
-            <span v-else class="text-sm text-gray-800 text-right">Tidak ada foto</span>
+            <span v-else class="text-sm text-gray-800 text-right"
+              >Tidak ada foto</span
+            >
           </div>
         </div>
       </div>
 
       <!-- Data Ibu Kandung Section -->
-      <div v-if="showParentSections" class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur">
+      <div
+        v-if="showParentSections"
+        class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur"
+      >
         <h2 class="text-lg font-bold text-gray-800 mb-4">Data Ibu Kandung</h2>
         <div class="space-y-3">
           <div class="flex justify-between items-start">
@@ -186,7 +197,10 @@
       </div>
 
       <!-- Data Ayah Kandung Section -->
-      <div v-if="showParentSections" class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur">
+      <div
+        v-if="showParentSections"
+        class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur"
+      >
         <h2 class="text-lg font-bold text-gray-800 mb-4">Data Ayah Kandung</h2>
         <div class="space-y-3">
           <div class="flex justify-between items-start">
@@ -237,7 +251,10 @@
       </div>
 
       <!-- Data Wali Section -->
-      <div v-if="showParentSections" class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur">
+      <div
+        v-if="showParentSections"
+        class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur"
+      >
         <h2 class="text-lg font-bold text-gray-800 mb-4">Data Wali</h2>
         <div class="space-y-3">
           <div class="flex justify-between items-start">
@@ -325,7 +342,12 @@
                 <span class="text-xs text-gray-500">File</span>
                 <div v-if="sertifikat.file" class="flex items-center gap-2">
                   <button
-                    @click="openFileModal(sertifikat.file, `Sertifikat: ${sertifikat.nama}`)"
+                    @click="
+                      openFileModal(
+                        sertifikat.file,
+                        `Sertifikat: ${sertifikat.nama}`
+                      )
+                    "
                     class="px-2 py-1 bg-green-500 text-white text-xs rounded hover:bg-green-600"
                   >
                     Lihat
@@ -427,7 +449,12 @@
                     <span class="text-xs text-gray-500">File</span>
                     <div v-if="dokumen.file" class="flex items-center gap-2">
                       <button
-                        @click="openFileModal(dokumen.file, `Dokumen: ${dokumen.jenis}`)"
+                        @click="
+                          openFileModal(
+                            dokumen.file,
+                            `Dokumen: ${dokumen.jenis}`
+                          )
+                        "
                         class="px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600"
                       >
                         Lihat
@@ -496,7 +523,7 @@
     <div class="h-20"></div>
 
     <!-- Bottom Navigation -->
-    
+
     <!-- Modals -->
     <ImageModal
       :is-open="imageModal.isOpen"
@@ -504,7 +531,7 @@
       :title="imageModal.title"
       @close="closeImageModal"
     />
-    
+
     <PdfModal
       :is-open="pdfModal.isOpen"
       :pdf-url="pdfModal.url"
@@ -614,13 +641,13 @@ const showParentSections = computed(
 const imageModal = ref({
   isOpen: false,
   url: '',
-  title: ''
+  title: '',
 })
 
 const pdfModal = ref({
   isOpen: false,
   url: '',
-  title: ''
+  title: '',
 })
 
 // Modal functions
@@ -628,7 +655,7 @@ const openImageModal = (url: string, title: string) => {
   imageModal.value = {
     isOpen: true,
     url,
-    title
+    title,
   }
 }
 
@@ -640,7 +667,7 @@ const openPdfModal = (url: string, title: string) => {
   pdfModal.value = {
     isOpen: true,
     url,
-    title
+    title,
   }
 }
 
@@ -651,29 +678,32 @@ const closePdfModal = () => {
 // Utility function to detect file type
 const getFileType = (url: string): 'image' | 'pdf' | 'unknown' => {
   if (!url) return 'unknown'
-  
+
   const extension = url.split('.').pop()?.toLowerCase()
   const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg']
   const pdfExtensions = ['pdf']
-  
+
   if (imageExtensions.includes(extension || '')) return 'image'
   if (pdfExtensions.includes(extension || '')) return 'pdf'
-  
+
   // Check by URL pattern or content-type hints
-  if (url.includes('/media/') && (url.includes('jpg') || url.includes('png') || url.includes('webp'))) {
+  if (
+    url.includes('/media/') &&
+    (url.includes('jpg') || url.includes('png') || url.includes('webp'))
+  ) {
     return 'image'
   }
   if (url.includes('.pdf') || url.includes('pdf')) {
     return 'pdf'
   }
-  
+
   return 'unknown'
 }
 
 // Smart file opener - detects file type and opens appropriate modal
 const openFileModal = (url: string, title: string) => {
   const fileType = getFileType(url)
-  
+
   if (fileType === 'image') {
     openImageModal(url, title)
   } else if (fileType === 'pdf') {
@@ -703,45 +733,41 @@ onMounted(async () => {
         email: profil.value.email || '-',
         status: profil.value.status || '-',
         foto: (profil.value as any).foto || null,
-        ibu:
-          (profil.value as any).ibu || {
-            nama: null,
-            tempatLahir: null,
-            tanggalLahir: null,
-            noHP: null,
-            pekerjaan: null,
-            alamat: null,
-          },
-        ayah:
-          (profil.value as any).ayah || {
-            nama: null,
-            tempatLahir: null,
-            tanggalLahir: null,
-            noHP: null,
-            pekerjaan: null,
-            alamat: null,
-          },
-        wali:
-          (profil.value as any).wali || {
-            nama: null,
-            tempatLahir: null,
-            tanggalLahir: null,
-            noHP: null,
-            pekerjaan: null,
-            alamat: null,
-          },
+        ibu: (profil.value as any).ibu || {
+          nama: null,
+          tempatLahir: null,
+          tanggalLahir: null,
+          noHP: null,
+          pekerjaan: null,
+          alamat: null,
+        },
+        ayah: (profil.value as any).ayah || {
+          nama: null,
+          tempatLahir: null,
+          tanggalLahir: null,
+          noHP: null,
+          pekerjaan: null,
+          alamat: null,
+        },
+        wali: (profil.value as any).wali || {
+          nama: null,
+          tempatLahir: null,
+          tanggalLahir: null,
+          noHP: null,
+          pekerjaan: null,
+          alamat: null,
+        },
         sertifikat: (profil.value as any).sertifikat || [],
         prestasi: (profil.value as any).prestasi || [],
         dokumen: (profil.value as any).dokumen || [],
-        kesehatan:
-          (profil.value as any).kesehatan || {
-            tinggiBadan: null,
-            beratBadan: null,
-            penglihatan: null,
-            pendengaran: null,
-            riwayatPenyakit: null,
-            alergi: null,
-          },
+        kesehatan: (profil.value as any).kesehatan || {
+          tinggiBadan: null,
+          beratBadan: null,
+          penglihatan: null,
+          pendengaran: null,
+          riwayatPenyakit: null,
+          alergi: null,
+        },
       } as any
     }
   } catch {}

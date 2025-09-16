@@ -6,7 +6,7 @@ declare const process: any
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  css: ['~/assets/css/main.css', '~/assets/css/components.pcss'],
+  css: ['~/assets/css/main.css'],
   modules: ['nuxt-auth-sanctum', 'nuxt-charts', '@nuxt/ui', '@vite-pwa/nuxt'],
 
   // Runtime config untuk API base URL
@@ -110,9 +110,16 @@ export default defineNuxtConfig({
           as: 'image',
           href: '/pwa-192x192.png',
         },
+        {
+          rel: 'manifest',
+          href: '/manifest.webmanifest',
+        },
       ],
       meta: [
-        { name: 'description', content: 'Dispora - Aplikasi Dispora berbasis PWA' },
+        {
+          name: 'description',
+          content: 'Dispora - Aplikasi Dispora berbasis PWA',
+        },
         { name: 'mobile-web-app-capable', content: 'yes' },
         { name: 'apple-mobile-web-app-capable', content: 'yes' },
         { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
@@ -123,7 +130,9 @@ export default defineNuxtConfig({
   pwa: {
     registerType: 'autoUpdate',
     includeAssets: ['favicon.ico', 'robots.txt'],
+    strategies: 'generateSW',
     manifest: {
+      id: '/',
       name: 'Dispora',
       short_name: 'Dispora',
       description: 'Aplikasi Dispora',
@@ -131,6 +140,8 @@ export default defineNuxtConfig({
       background_color: '#ffffff',
       display: 'standalone',
       start_url: '/',
+      scope: '/',
+      orientation: 'portrait',
       icons: [
         {
           src: '/pwa-192x192.png',
@@ -153,6 +164,7 @@ export default defineNuxtConfig({
     workbox: {
       navigateFallback: '/',
       globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+      globIgnores: ['**/node_modules/**/*', 'sw.js', 'workbox-*.js'],
       runtimeCaching: [
         // Google Fonts stylesheets
         {
