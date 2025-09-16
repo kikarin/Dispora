@@ -21,8 +21,10 @@
       <div class="relative flex h-full items-center justify-center">
         <img
           :src="logoUrl"
-          alt="Logo"
+          alt="Logo Dispora"
           class="h-16 w-16 animate-soft-pulse drop-shadow-[0_8px_24px_rgba(255,255,255,0.35)]"
+          loading="eager"
+          decoding="async"
         />
       </div>
     </div>

@@ -15,6 +15,11 @@ export function usePWAInstall() {
     return /iphone|ipad|ipod/i.test(navigator.userAgent)
   })
 
+  const isAndroid = computed(() => {
+    if (typeof navigator === 'undefined') return false
+    return /android/i.test(navigator.userAgent)
+  })
+
   const isInStandalone = computed(() => {
     // iOS
     // @ts-ignore
@@ -34,7 +39,7 @@ export function usePWAInstall() {
     () =>
       !isInstalled.value &&
       !isInStandalone.value &&
-      (deferredPrompt.value !== null || isIOS.value)
+      (deferredPrompt.value !== null || isIOS.value || isAndroid.value)
   )
 
   async function install() {
@@ -63,8 +68,8 @@ export function usePWAInstall() {
       window.addEventListener('beforeinstallprompt', handler as EventListener)
     }
 
-    // For iOS we cannot capture event; show a hint when not standalone
-    if (!isInStandalone.value && isIOS.value) {
+    // For iOS and Android we cannot capture event; show a hint when not standalone
+    if (!isInStandalone.value && (isIOS.value || isAndroid.value)) {
       showPrompt.value = true
     }
   })
@@ -78,5 +83,5 @@ export function usePWAInstall() {
     }
   })
 
-  return { canInstall, isIOS, isInStandalone, showPrompt, install, hide }
+  return { canInstall, isIOS, isAndroid, isInStandalone, showPrompt, install, hide }
 }

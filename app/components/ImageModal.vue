@@ -22,6 +22,8 @@
         :alt="title || 'Preview'"
         class="max-w-full max-h-full object-contain rounded-lg shadow-lg"
         style="max-height: calc(100vh - 120px);"
+        loading="lazy"
+        decoding="async"
       />
     </div>
     
