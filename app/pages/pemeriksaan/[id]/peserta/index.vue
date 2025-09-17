@@ -76,8 +76,37 @@
         <div
           v-for="peserta in atlet"
           :key="peserta.id"
-          class="bg-white/90 rounded-2xl p-4 backdrop-blur"
+          class="bg-white/90 rounded-2xl p-4 backdrop-blur relative"
         >
+          <!-- Menu titik tiga -->
+          <div class="absolute top-3 right-3">
+            <button
+              @click="toggleItemMenu(peserta.id)"
+              class="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              aria-label="Menu"
+            >
+              <svg
+                class="w-5 h-5 text-gray-500"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
+                />
+              </svg>
+            </button>
+            <div
+              v-if="activeItemMenu === peserta.id"
+              class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-200 z-[60]"
+            >
+              <button
+                @click="goToInformasiPribadi(peserta.id, 'atlet')"
+                class="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-t-xl"
+              >
+                Lihat Informasi Pribadi
+              </button>
+            </div>
+          </div>
           <div class="flex items-start gap-4">
             <!-- Foto Peserta -->
             <div class="flex-shrink-0 mt-1">
@@ -179,8 +208,37 @@
         <div
           v-for="peserta in pelatih"
           :key="peserta.id"
-          class="bg-white/90 rounded-2xl p-4 backdrop-blur"
+          class="bg-white/90 rounded-2xl p-4 backdrop-blur relative"
         >
+          <!-- Menu titik tiga -->
+          <div class="absolute top-3 right-3">
+            <button
+              @click="toggleItemMenu(peserta.id)"
+              class="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              aria-label="Menu"
+            >
+              <svg
+                class="w-5 h-5 text-gray-500"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
+                />
+              </svg>
+            </button>
+            <div
+              v-if="activeItemMenu === peserta.id"
+              class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-200 z-[60]"
+            >
+              <button
+                @click="goToInformasiPribadi(peserta.id, 'pelatih')"
+                class="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-t-xl"
+              >
+                Lihat Informasi Pribadi
+              </button>
+            </div>
+          </div>
           <div class="flex items-start gap-4">
             <!-- Foto Peserta -->
             <div class="flex-shrink-0 mt-1">
@@ -282,8 +340,37 @@
         <div
           v-for="peserta in tenagaPendukung"
           :key="peserta.id"
-          class="bg-white/90 rounded-2xl p-4 backdrop-blur"
+          class="bg-white/90 rounded-2xl p-4 backdrop-blur relative"
         >
+          <!-- Menu titik tiga -->
+          <div class="absolute top-3 right-3">
+            <button
+              @click="toggleItemMenu(peserta.id)"
+              class="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              aria-label="Menu"
+            >
+              <svg
+                class="w-5 h-5 text-gray-500"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
+                />
+              </svg>
+            </button>
+            <div
+              v-if="activeItemMenu === peserta.id"
+              class="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-200 z-[60]"
+            >
+              <button
+                @click="goToInformasiPribadi(peserta.id, 'tenaga-pendukung')"
+                class="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-t-xl"
+              >
+                Lihat Informasi Pribadi
+              </button>
+            </div>
+          </div>
           <div class="flex items-start gap-4">
             <!-- Foto Peserta -->
             <div class="flex-shrink-0 mt-1">
@@ -537,6 +624,18 @@ const getPesertaIdForNavigation = (peserta: any) => {
 const viewPemeriksaanPeserta = (pesertaId: number) => {
   console.log('Navigating to pemeriksaan peserta for:', pesertaId)
   router.push(`/pemeriksaan/${pemeriksaanId}/peserta/${pesertaId}`)
+}
+
+// Menu titik tiga per item
+const activeItemMenu = ref<number | null>(null)
+const toggleItemMenu = (id: number) => {
+  activeItemMenu.value = activeItemMenu.value === id ? null : id
+}
+const goToInformasiPribadi = (pesertaId: number, pesertaType: string) => {
+  activeItemMenu.value = null
+  router.push(
+    `/pemeriksaan/${pemeriksaanId}/peserta/${pesertaId}/informasi-pribadi?peserta_type=${pesertaType}`
+  )
 }
 
 onMounted(async () => {

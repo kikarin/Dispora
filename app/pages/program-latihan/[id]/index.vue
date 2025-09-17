@@ -425,6 +425,30 @@
                       @click="
                         () => {
                           activeMenu = null
+                          navigateToKehadiran(rencana.id)
+                        }
+                      "
+                      class="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      <span class="font-medium">Kelola Kehadiran</span>
+                    </button>
+                    <button
+                      @click="
+                        () => {
+                          activeMenu = null
                           editRencana(rencana.id)
                         }
                       "
@@ -740,6 +764,10 @@ const navigateToPemetaanPeserta = (rencanaId: number) => {
 
 const navigateToPemetaanKelompok = () => {
   router.push(`/program-latihan/${programId}/pemetaan-kelompok`)
+}
+
+const navigateToKehadiran = (rencanaId: number) => {
+  router.push(`/program-latihan/${programId}/rencana/${rencanaId}/kehadiran`)
 }
 
 const confirmDelete = (rencanaId: number) => {

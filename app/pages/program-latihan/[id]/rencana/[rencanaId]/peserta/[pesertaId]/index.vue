@@ -99,7 +99,7 @@
 
           <!-- Info Peserta -->
           <div class="flex-1">
-            <h2 class="text-lg font-bold text-gray-700 mb-1">
+            <h2 class="text-base font-bold text-gray-700 mb-1">
               {{ pesertaInfo.nama }}
             </h2>
             <div class="flex items-center gap-2 text-sm text-gray-600">
@@ -121,10 +121,10 @@
         >
           <div class="flex items-start justify-between">
             <div class="flex-1">
-              <h4 class="font-semibold text-gray-700 mb-2">
+              <h4 class="font-semibold text-base text-gray-700 mb-2">
                 {{ target.nama }}
               </h4>
-              <div class="flex items-center gap-4 text-sm text-gray-600">
+              <div class="flex items-center gap-4 text-xs text-gray-600">
                 <span>Target: {{ target.target }}</span>
                 <span>•</span>
                 <span>Nilai Terakhir: {{ target.nilaiTerakhir }}</span>

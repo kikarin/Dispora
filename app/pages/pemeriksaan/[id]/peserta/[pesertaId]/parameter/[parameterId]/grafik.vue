@@ -101,7 +101,7 @@
 
           <!-- Info Peserta -->
           <div class="flex-1">
-            <h2 class="text-lg font-bold text-gray-700 mb-1">
+            <h2 class="text-base font-bold text-gray-700 mb-1">
               {{ pesertaInfo.nama }}
             </h2>
             <div class="flex items-center gap-2 text-sm text-gray-600">
@@ -118,7 +118,7 @@
         v-if="parameterInfo"
         class="rounded-2xl bg-white/90 p-4 backdrop-blur mb-6"
       >
-        <h3 class="text-lg font-bold text-gray-700 mb-2">
+        <h3 class="text-base font-bold text-gray-700 mb-2">
           {{ parameterInfo.parameter }}
         </h3>
         <div class="flex items-center gap-4 text-sm text-gray-600">
@@ -139,7 +139,7 @@
         v-if="chartData && chartData.length > 0"
         class="rounded-2xl bg-white/90 p-6 backdrop-blur mb-6"
       >
-        <h4 class="text-lg font-semibold text-gray-700 mb-4">
+        <h4 class="text-base font-semibold text-gray-700 mb-4">
           Perkembangan Parameter
         </h4>
         <LineChart
@@ -190,7 +190,7 @@
 
       <!-- Detail Data Card -->
       <div class="rounded-2xl bg-white/90 p-6 backdrop-blur">
-        <h4 class="text-lg font-semibold text-gray-700 mb-4">Detail Data</h4>
+        <h4 class="text-base font-semibold text-gray-700 mb-4">Detail Data</h4>
         <div v-if="detailData && detailData.length > 0" class="overflow-x-auto">
           <table class="w-full text-sm">
             <thead>
