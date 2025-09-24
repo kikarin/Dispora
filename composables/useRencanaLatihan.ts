@@ -29,7 +29,7 @@ interface ApiResponse<T> {
 
 export const useRencanaLatihan = (programId: number) => {
   const config = useRuntimeConfig()
-  const baseURL = config.public.apiBase || 'http://localhost:8000/api'
+  const baseURL = config.public.apiBase || 'http://dispora.jaganet.id/api'
   const { getAuthHeaders, isAuthenticated, token, initAuth } = useAuth()
   // State
   const rencanaList = ref<RencanaLatihanItem[]>([])

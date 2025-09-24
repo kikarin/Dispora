@@ -45,7 +45,7 @@ interface ApiResponse<T> {
 
 export const useHome = () => {
   const config = useRuntimeConfig()
-  const baseURL = config.public.apiBase || 'http://localhost:8000/api'
+  const baseURL = config.public.apiBase || 'http://dispora.jaganet.id/api'
   const { getAuthHeaders, isAuthenticated, initAuth } = useAuth()
 
   if (process.client) {

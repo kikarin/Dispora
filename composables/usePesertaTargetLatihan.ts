@@ -57,7 +57,7 @@ export const usePesertaTargetLatihan = (
   pesertaType: string = 'atlet'
 ) => {
   const config = useRuntimeConfig()
-  const baseURL = config.public.apiBase || 'http://localhost:8000/api'
+  const baseURL = config.public.apiBase || 'http://dispora.jaganet.id/api'
   const { getAuthHeaders, isAuthenticated, initAuth } = useAuth()
 
   // Initialize auth on composable creation

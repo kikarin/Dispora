@@ -34,7 +34,7 @@ interface RefStatusItem {
 }
 
 export const usePemeriksaanPesertaCrud = () => {
-  let baseURL = 'http://localhost:8000/api'
+  let baseURL = 'http://dispora.jaganet.id/api'
   try {
     const config = useRuntimeConfig()
     baseURL = config.public.apiBase || baseURL

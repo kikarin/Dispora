@@ -8,7 +8,7 @@ const isLoading = ref(false)
 
 export const useAuth = () => {
   const config = useRuntimeConfig()
-  const baseURL = config.public.apiBase || 'http://localhost:8000/api'
+  const baseURL = config.public.apiBase || 'http://dispora.jaganet.id/api'
 
   const initAuth = () => {
     if (process.client) {

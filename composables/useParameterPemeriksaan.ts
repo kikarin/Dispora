@@ -73,7 +73,7 @@ interface ApiResponse<T> {
 
 export const useParameterPemeriksaan = (pemeriksaanId: number) => {
   const config = useRuntimeConfig()
-  const baseURL = config.public.apiBase || 'http://localhost:8000/api'
+  const baseURL = config.public.apiBase || 'http://dispora.jaganet.id/api'
   const { getAuthHeaders, isAuthenticated, initAuth } = useAuth()
 
   // State untuk list parameter

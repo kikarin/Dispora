@@ -39,11 +39,11 @@ interface ApiResponse<T> {
 
 export const usePemeriksaan = () => {
   // Get runtime config or use fallback
-  let baseURL = 'http://localhost:8000/api'
+  let baseURL = 'http://dispora.jaganet.id/api'
 
   try {
     const config = useRuntimeConfig()
-    baseURL = config.public.apiBase || 'http://localhost:8000/api'
+    baseURL = config.public.apiBase || 'http://dispora.jaganet.id/api'
   } catch (error) {
     console.warn('useRuntimeConfig not available, using fallback URL:', baseURL)
   }
