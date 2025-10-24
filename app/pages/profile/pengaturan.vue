@@ -498,7 +498,7 @@ const handleUpdateProfile = async () => {
       message: string
       data?: { user: any }
     }>('/settings/profile', {
-      baseURL: 'http://dispora.jaganet.id/api',
+      baseURL: 'http://dispora.summitbreak.com/api',
       method: 'PUT',
       headers: getAuthHeaders(),
       body: {
@@ -562,7 +562,7 @@ const handleChangePassword = async () => {
       status: string
       message: string
     }>('/settings/password', {
-      baseURL: 'http://dispora.jaganet.id/api',
+      baseURL: 'http://dispora.summitbreak.com/api',
       method: 'PUT',
       headers: getAuthHeaders(),
       body: {
@@ -607,7 +607,7 @@ const handleDeleteAccount = async () => {
       status: string
       message: string
     }>('/settings/account', {
-      baseURL: 'http://dispora.jaganet.id/api',
+      baseURL: 'http://dispora.summitbreak.com/api',
       method: 'DELETE',
       headers: getAuthHeaders(),
       body: {

@@ -314,7 +314,7 @@ const selected = ref<Record<string, boolean>>({})
 const kehadiran = ref<'Hadir' | 'Tidak Hadir' | 'Izin' | 'Sakit'>('Hadir')
 
 // baseURL & auth headers
-let baseURL = 'http://dispora.jaganet.id/api'
+let baseURL = 'http://dispora.summitbreak.com/api'
 try {
   const config = useRuntimeConfig()
   baseURL = config.public.apiBase || baseURL

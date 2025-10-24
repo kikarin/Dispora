@@ -42,7 +42,7 @@ interface ApiResponse<T> {
 
 export const usePesertaRencana = (rencanaId: number) => {
   const config = useRuntimeConfig()
-  const baseURL = config.public.apiBase || 'http://dispora.jaganet.id/api'
+  const baseURL = config.public.apiBase || 'http://dispora.summitbreak.com/api'
   const { getAuthHeaders, isAuthenticated, token, initAuth } = useAuth()
 
   // State

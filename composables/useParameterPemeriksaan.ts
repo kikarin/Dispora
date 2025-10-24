@@ -73,7 +73,7 @@ interface ApiResponse<T> {
 
 export const useParameterPemeriksaan = (pemeriksaanId: number) => {
   const config = useRuntimeConfig()
-  const baseURL = config.public.apiBase || 'http://dispora.jaganet.id/api'
+  const baseURL = config.public.apiBase || 'http://dispora.summitbreak.com/api'
   const { getAuthHeaders, isAuthenticated, initAuth } = useAuth()
 
   // State untuk list parameter

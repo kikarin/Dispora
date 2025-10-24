@@ -56,7 +56,7 @@ export const usePesertaPemeriksaanParameter = (
   pesertaType: string = 'atlet'
 ) => {
   const config = useRuntimeConfig()
-  const baseURL = config.public.apiBase || 'http://dispora.jaganet.id/api'
+  const baseURL = config.public.apiBase || 'http://dispora.summitbreak.com/api'
   const { getAuthHeaders, isAuthenticated, initAuth } = useAuth()
 
   // Initialize auth immediately

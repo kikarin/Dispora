@@ -12,13 +12,13 @@ export default defineNuxtConfig({
   // Runtime config untuk API base URL
   runtimeConfig: {
     public: {
-      apiBase: 'http://dispora.jaganet.id/api',
+      apiBase: 'http://dispora.summitbreak.com/api',
     },
   },
 
   // @ts-ignore
   sanctum: {
-    baseUrl: 'http://dispora.jaganet.id',
+    baseUrl: 'http://dispora.summitbreak.com',
     origin: 'http://localhost:3000',
   },
 

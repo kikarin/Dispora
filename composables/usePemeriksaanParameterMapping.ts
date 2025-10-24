@@ -33,7 +33,7 @@ interface ApiResponse<T> {
 }
 
 export const usePemeriksaanParameterMapping = () => {
-  let baseURL = 'http://dispora.jaganet.id/api'
+  let baseURL = 'http://dispora.summitbreak.com/api'
   try {
     const config = useRuntimeConfig()
     baseURL = config.public.apiBase || baseURL

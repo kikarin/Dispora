@@ -43,11 +43,11 @@ interface ApiResponse<T> {
 
 export const usePesertaTurnamenCrud = (turnamenId: number) => {
   // Get runtime config or use fallback
-  let baseURL = 'http://dispora.jaganet.id/api'
+  let baseURL = 'http://dispora.summitbreak.com/api'
 
   try {
     const config = useRuntimeConfig()
-    baseURL = config.public.apiBase || 'http://dispora.jaganet.id/api'
+    baseURL = config.public.apiBase || 'http://dispora.summitbreak.com/api'
   } catch (error) {
     console.warn('useRuntimeConfig not available, using fallback URL:', baseURL)
   }
