@@ -71,10 +71,10 @@ interface ApiResponse<T> {
 
 export const useTargetMapping = () => {
   // Get runtime config
-  let baseURL = 'http://dispora.summitbreak.com/api'
+  let baseURL = 'https://dispora.summitbreak.com//api'
   try {
     const config = useRuntimeConfig()
-    baseURL = config.public.apiBase || 'http://dispora.summitbreak.com/api'
+    baseURL = config.public.apiBase || 'https://dispora.summitbreak.com//api'
   } catch (error) {
     console.warn('useRuntimeConfig not available, using fallback URL:', baseURL)
   }

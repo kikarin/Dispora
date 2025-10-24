@@ -57,7 +57,7 @@ export const usePesertaTargetLatihan = (
   pesertaType: string = 'atlet'
 ) => {
   const config = useRuntimeConfig()
-  const baseURL = config.public.apiBase || 'http://dispora.summitbreak.com/api'
+  const baseURL = config.public.apiBase || 'https://dispora.summitbreak.com//api'
   const { getAuthHeaders, isAuthenticated, initAuth } = useAuth()
 
   // Initialize auth on composable creation

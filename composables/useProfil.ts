@@ -79,7 +79,7 @@ interface ProfilDataBase {
 }
 
 export const useProfil = () => {
-  let baseURL = 'http://dispora.summitbreak.com/api'
+  let baseURL = 'https://dispora.summitbreak.com//api'
   try {
     const config = useRuntimeConfig()
     baseURL = config.public.apiBase || baseURL

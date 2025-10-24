@@ -45,7 +45,7 @@ interface ApiResponse<T> {
 
 export const useHome = () => {
   const config = useRuntimeConfig()
-  const baseURL = config.public.apiBase || 'http://dispora.summitbreak.com/api'
+  const baseURL = config.public.apiBase || 'https://dispora.summitbreak.com//api'
   const { getAuthHeaders, isAuthenticated, initAuth } = useAuth()
 
   if (process.client) {
