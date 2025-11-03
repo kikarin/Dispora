@@ -19,7 +19,8 @@ export default defineNuxtConfig({
   // @ts-ignore
   sanctum: {
     baseUrl: 'https://dispora.summitbreak.com/',
-    origin: 'http://localhost:3000',
+    origin:
+      process.env.NUXT_PUBLIC_ORIGIN || 'http://localhost:3000',
   },
 
   // Debugging dan development

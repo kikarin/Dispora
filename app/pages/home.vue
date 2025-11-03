@@ -6,23 +6,19 @@
       <div class="mb-6 text-left ml-1">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-4">
-            <!-- Profile Icon -->
+            <!-- Profile Avatar -->
             <div
-              class="w-12 h-12 rounded-full bg-gradient-to-br from-[#597BF9]/20 to-[#4c6ef5]/30 flex items-center justify-center"
+              class="w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center text-gray-600 font-bold"
+              :class="{ 'cursor-pointer': !!profilePhotoUrl }"
+              @click="profilePhotoUrl && openImageModal(profilePhotoUrl, user?.name || 'Foto Profil')"
             >
-              <svg
-                class="w-8 h-8 text-[#597BF9]"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
+              <img
+                v-if="profilePhotoUrl"
+                :src="profilePhotoUrl"
+                alt="Foto Profil"
+                class="w-full h-full object-cover"
+              />
+              <span v-else>{{ userInitials }}</span>
             </div>
 
             <!-- Profile Info -->
@@ -84,7 +80,7 @@
       <!-- Enhanced Search Bar with glassmorphism -->
       <div class="relative">
         <div
-          class="flex flex-col gap-3 rounded-2xl bg-white/60 p-4 backdrop-blur-md border border-white/30 sm:flex-row sm:items-center"
+          class="flex items-center gap-3 rounded-2xl bg-white/60 p-4 backdrop-blur-md border border-white/30"
         >
           <!-- Search Icon + Input with focus effects -->
           <div class="flex flex-1 items-center gap-3 group">
@@ -114,7 +110,7 @@
           </div>
 
           <!-- Enhanced Custom Select Dropdown -->
-          <div class="relative" style="position: relative; z-index: 9999">
+          <div class="relative flex-shrink-0" style="position: relative; z-index: 9999">
             <div
               @click="toggleDropdown"
               data-dropdown-trigger="program"
@@ -655,6 +651,13 @@
       @click="closeAllDropdowns"
       class="fixed inset-0 z-30"
     ></div>
+    <!-- Image Modal -->
+    <ImageModal
+      :is-open="imageModal.isOpen"
+      :image-url="imageModal.url"
+      :title="imageModal.title"
+      @close="closeImageModal"
+    />
   </PageLayout>
 </template>
 
@@ -664,9 +667,12 @@ import { useRouter } from 'vue-router'
 import PageLayout from '~/components/PageLayout.vue'
 import { useAuth } from '../../composables/useAuth'
 import { useHome } from '../../composables/useHome'
+import { useProfil } from '../../composables/useProfil'
+import ImageModal from '~/components/ImageModal.vue'
 
 const router = useRouter()
 const { user, initAuth } = useAuth()
+const { profil, fetchProfil } = useProfil()
 
 // Use home composable
 const {
@@ -696,6 +702,34 @@ const userRole = computed(() => {
   console.log('userRole computed - user.value:', user.value)
   return user.value?.current_role?.name || 'Atlet'
 })
+
+// Initials untuk placeholder avatar
+const userInitials = computed(() => {
+  const name = user.value?.name || ''
+  if (!name) return 'P'
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w: string) => w.charAt(0).toUpperCase())
+    .join('')
+})
+
+// Foto profil URL dari API profil
+const profilePhotoUrl = computed(() => {
+  const url = (profil.value as any)?.foto as string | null
+  if (!url) return null
+  return url
+})
+
+// Modal image
+const imageModal = ref({ isOpen: false, url: '', title: '' })
+const openImageModal = (url: string, title: string) => {
+  imageModal.value = { isOpen: true, url, title }
+}
+const closeImageModal = () => {
+  imageModal.value.isOpen = false
+}
 
 // Dropdown state management
 const isDropdownOpen = ref(false)
@@ -917,7 +951,7 @@ const handleEscapeKey = (event: KeyboardEvent) => {
 }
 
 // Debounce search
-let searchTimeout: NodeJS.Timeout
+let searchTimeout: ReturnType<typeof setTimeout>
 watch(searchQuery, () => {
   clearTimeout(searchTimeout)
   searchTimeout = setTimeout(() => {
@@ -931,6 +965,11 @@ onMounted(async () => {
 
   // Initialize auth from localStorage
   initAuth()
+
+  // Fetch profil untuk mendapatkan foto avatar
+  try {
+    await fetchProfil({ tipe: 'me' })
+  } catch {}
 
   // Fetch home data
   await fetchHomeData()
@@ -1057,3 +1096,4 @@ button:active {
   cursor: grabbing !important;
 }
 </style>
+

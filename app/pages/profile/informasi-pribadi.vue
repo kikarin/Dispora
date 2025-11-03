@@ -25,6 +25,27 @@
       </div>
     </div>
 
+    <!-- Avatar Atas -->
+    <div class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur mb-6 flex items-center gap-4">
+      <div
+        class="w-20 h-20 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center text-gray-600 text-xl font-bold flex-shrink-0"
+        :class="{ 'cursor-pointer': !!profilePhotoUrl }"
+        @click="profilePhotoUrl && openImageModal(profilePhotoUrl, profileData.nama || 'Foto Profil')"
+      >
+        <img
+          v-if="profilePhotoUrl"
+          :src="profilePhotoUrl"
+          alt="Foto Profil"
+          class="w-full h-full object-cover"
+        />
+        <span v-else>{{ profileInitials }}</span>
+      </div>
+      <div class="min-w-0">
+        <p class="text-base font-semibold text-gray-800 truncate">{{ profileData.nama || '-' }}</p>
+        <p class="text-sm text-gray-600 truncate">{{ profileData.email || '-' }}</p>
+      </div>
+    </div>
+
     <div
       v-if="loading"
       class="bg-white/90 rounded-2xl p-6 shadow-sm backdrop-blur"
@@ -127,20 +148,7 @@
               {{ profileData.status }}
             </span>
           </div>
-          <div class="flex justify-between items-start">
-            <span class="text-sm font-medium text-gray-600">Foto</span>
-            <div v-if="profileData.foto" class="flex items-center gap-2">
-              <button
-                @click="openImageModal(profileData.foto, 'Foto Profil')"
-                class="px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600"
-              >
-                Lihat
-              </button>
-            </div>
-            <span v-else class="text-sm text-gray-800 text-right"
-              >Tidak ada foto</span
-            >
-          </div>
+          <!-- Foto dipindah ke Avatar Atas -->
         </div>
       </div>
 
@@ -314,13 +322,7 @@
             class="p-4 bg-gray-50 rounded-xl border border-gray-200"
           >
             <div class="flex items-center gap-2 mb-3">
-              <div
-                class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"
-              >
-                <span class="text-sm font-bold text-blue-600">{{
-                  index + 1
-                }}</span>
-              </div>
+
               <h3 class="font-semibold text-gray-800 text-sm">
                 {{ sertifikat.nama }}
               </h3>
@@ -372,13 +374,6 @@
             class="p-4 bg-gray-50 rounded-xl border border-gray-200"
           >
             <div class="flex items-center gap-2 mb-3">
-              <div
-                class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center"
-              >
-                <span class="text-sm font-bold text-yellow-600">{{
-                  index + 1
-                }}</span>
-              </div>
               <div class="flex-1">
                 <h3 class="font-semibold text-gray-800 text-sm">
                   {{ prestasi.namaEvent }}
@@ -427,13 +422,6 @@
             class="p-4 bg-gray-50 rounded-xl border border-gray-200"
           >
             <div class="flex items-start gap-3">
-              <div
-                class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-              >
-                <span class="text-sm font-bold text-green-600">{{
-                  index + 1
-                }}</span>
-              </div>
               <div class="flex-1">
                 <h3 class="font-semibold text-gray-800 text-sm mb-2">
                   {{ dokumen.jenis }}
@@ -636,6 +624,25 @@ const { profil, jenis, loading, error, fetchProfil } = useProfil()
 const showParentSections = computed(
   () => (jenis.value || (profil.value as any)?.jenis) === 'atlet'
 )
+
+// Avatar helpers
+const profilePhotoUrl = computed(() => {
+  const url = (profileData.value as any)?.foto as string | null
+  if (!url) return null
+  const type = getFileType(url)
+  return type === 'image' ? url : null
+})
+
+const profileInitials = computed(() => {
+  const name = profileData.value?.nama || ''
+  if (!name) return 'P'
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w: string) => w.charAt(0).toUpperCase())
+    .join('')
+})
 
 // Modal states
 const imageModal = ref({

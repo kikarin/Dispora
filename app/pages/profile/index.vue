@@ -10,9 +10,17 @@
       <div v-if="user" class="bg-white/90 rounded-2xl backdrop-blur p-4 mb-4">
         <div class="flex items-center gap-3">
           <div
-            class="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg"
+            class="w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center text-gray-600 font-bold text-lg"
+            :class="{ 'cursor-pointer': !!profilePhotoUrl }"
+            @click="profilePhotoUrl && openImageModal(profilePhotoUrl, user?.name || 'Foto Profil')"
           >
-            {{ userInitials }}
+            <img
+              v-if="profilePhotoUrl"
+              :src="profilePhotoUrl"
+              alt="Foto Profil"
+              class="w-full h-full object-cover"
+            />
+            <span v-else>{{ userInitials }}</span>
           </div>
           <div class="flex-1">
             <h3 class="font-semibold text-gray-800">{{ user.name }}</h3>
@@ -227,6 +235,13 @@
         </div>
       </div>
     </div>
+    <!-- Image Modal -->
+    <ImageModal
+      :is-open="imageModal.isOpen"
+      :image-url="imageModal.url"
+      :title="imageModal.title"
+      @close="closeImageModal"
+    />
   </PageLayout>
 </template>
 
@@ -235,9 +250,12 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import PageLayout from '~/components/PageLayout.vue'
 import { useAuth } from '../../../composables/useAuth'
+import { useProfil } from '../../../composables/useProfil'
+import ImageModal from '~/components/ImageModal.vue'
 
 const router = useRouter()
 const { user, logout, isAuthenticated, initAuth } = useAuth()
+const { profil, fetchProfil } = useProfil()
 
 const isLoggingOut = ref(false)
 const showLogoutConfirm = ref(false)
@@ -259,6 +277,9 @@ onMounted(() => {
 
   // Initialize auth from localStorage
   initAuth()
+
+  // Fetch profil untuk foto
+  fetchProfil({ tipe: 'me' }).catch(() => {})
 
   console.log('Current auth state:', {
     user: user.value?.name || 'No user',
@@ -307,5 +328,22 @@ const confirmLogout = async () => {
   } finally {
     isLoggingOut.value = false
   }
+}
+
+// Foto profil URL
+const profilePhotoUrl = computed(() => {
+  const url = (profil.value as any)?.foto as string | null
+  if (!url) return null
+  // Sederhana: pakai langsung, diasumsikan URL image valid dari API
+  return url
+})
+
+// Modal image
+const imageModal = ref({ isOpen: false, url: '', title: '' })
+const openImageModal = (url: string, title: string) => {
+  imageModal.value = { isOpen: true, url, title }
+}
+const closeImageModal = () => {
+  imageModal.value.isOpen = false
 }
 </script>
